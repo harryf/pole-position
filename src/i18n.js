@@ -43,7 +43,7 @@
     },
     guide: {
       heading: "Guide",
-      tab_pipeline: "First application", tab_salary: "Salary", tab_negotiate: "Negotiate",
+      tab_pipeline: "First application", tab_employers: "Employers", tab_salary: "Salary", tab_career: "Career paths", tab_negotiate: "Negotiate", tab_motorsport: "Motorsport",
       pipeline_html: `
         <h4>Your plan in 6 steps</h4>
         <ol>
@@ -84,6 +84,72 @@
         </ol>
         <h4>Your strongest levers</h4>
         <p>AGVS + Mercedes HV/EV certification · Merbag reference (largest MB workshop in CH) · AMG experience · DE + EN.</p>`,
+      employers_html: `
+        <h4>Employers to watch (Zürich, ≤30 min)</h4>
+        <p class="muted tiny">Tap an employer to open their own jobs page — postings move fast, the careers page stays current.</p>
+        <h4>Premium &amp; sports brands — his target</h4>
+        <ul>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG</b></a> — Porsche, Audi, VW, Bentley. Porsche Academy → Certified Master Technician. Branches 5–25 min (Letzigrund, Altstetten, Wallisellen). <i>Hiring Porsche mechatronics now.</i></li>
+          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Porsche &amp; Audi specialist with its own Motorsport &amp; Classic divisions. Höri, ~20 min. The most motorsport-flavoured daily workshop.</li>
+        </ul>
+        <h4>Large dealer groups — most openings, structured training</h4>
+        <ul>
+          <li><a href="https://jobs.emilfrey.ch" target="_blank" rel="noopener"><b>Emil Frey Group</b></a> — Toyota, Lexus, Jaguar, Land Rover and more. Multi-brand academy; also the route into Emil Frey Racing.</li>
+          <li><a href="https://hedinautomotive.ch/stellen/" target="_blank" rel="noopener"><b>Hedin Automotive</b></a> — BMW &amp; MINI. Factory master-technician training, annualised flexible hours.</li>
+          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=binelli" target="_blank" rel="noopener"><b>Binelli Group</b></a> — BMW, MINI, Maserati. Modern, highly digitised workshops, ~12–15 min.</li>
+          <li><a href="https://thwilly.ch/karriere" target="_blank" rel="noopener"><b>Th. Willy AG</b></a> — Ford (largest in CH), MG, CUPRA. Large family group, Schlieren ~10 min.</li>
+        </ul>
+        <h4>Staying with Mercedes — lowest friction</h4>
+        <ul>
+          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=merbag" target="_blank" rel="noopener"><b>Merbag</b></a> — Mercedes-Benz / AMG. Internal move across teams or sites; he already knows the workshop and tools (Xentry, WIS).</li>
+        </ul>
+        <h4>Motorsport</h4>
+        <ul>
+          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Sauber / Audi F1</b></a> — Formula One factory in Hinwil, ~35 min. Trainee race-team mechanic track for career-starters. See the Motorsport tab.</li>
+          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Ferrari 296 GT3 in DTM &amp; GTWC, Safenwil. Speculative application via the dealer group.</li>
+        </ul>
+        <p class="muted tiny">Public-fleet option: Kanton Zürich workshop, Urdorf (~12 min) — stable hours, posted on jobs.ch.</p>`,
+      career_html: `
+        <h4>Where this trade can take you</h4>
+        <p>The Swiss system is built to climb in steps. Pay rises fastest in the first five years (20–30%), then flattens if you stay purely on the tools — which is where these routes come in.</p>
+        <ul>
+          <li><b>First job:</b> ~CHF 5'000–5'600 / mo (≈ 65–73k incl. 13th). HV cert + a premium brand push you toward the top of the band.</li>
+          <li><b>5 years on the tools:</b> ~CHF 6'300–6'800 / mo (≈ 82–88k) with brand &amp; HV certifications and a Master-Technician track.</li>
+        </ul>
+        <h4>The routes</h4>
+        <ul>
+          <li><b>★ Automobildiagnostiker (eidg. Fachausweis)</b> — the highest-leverage next step. The workshop's fault-finder, often deputy lead. Admission: EFZ + 2 yrs experience; his HV cert already covers a prerequisite. 2–3 yrs part-time, ~CHF 12–17k fees, Confederation refunds ~50%. Pay ~CHF 6'000/mo, ~7–8k as deputy lead.</li>
+          <li><b>Werkstattleiter</b> — run the workshop &amp; team. Usually via diagnostics + a few years. ~CHF 8'000–12'000/mo.</li>
+          <li><b>Betriebsleiter (HFP, eidg. Diplom)</b> — run a whole garage. Top of the trade ladder. ~CHF 10'000–14'000/mo.</li>
+          <li><b>Engineering — dipl. Techniker HF / Bachelor FH</b> — importers, makers, R&amp;D, motorsport engineering. HF ~3 yrs (no Berufsmatura); FH needs Berufsmatura first. ~CHF 6'500–8'500+/mo.</li>
+          <li><b>Serviceberater (eidg. FA)</b> — customer-facing track if he enjoys the people side.</li>
+        </ul>
+        <h4>A sensible sequence</h4>
+        <ol>
+          <li><b>Years 0–2:</b> bank experience at a strong brand, earn near the top of the entry band.</li>
+          <li><b>~Year 2:</b> start the Diagnostiker course — he hits the experience bar, HV covers a prerequisite, the state pays half. The clear first move.</li>
+          <li><b>Years 3–5:</b> qualify → diagnostician / deputy workshop lead, pay toward CHF 7–8k.</li>
+          <li><b>Then pick the ceiling:</b> leadership (highest pay, management) or engineering (design/motorsport, more study).</li>
+        </ol>
+        <p class="muted tiny">Sources: AGVS / mechaniker.ch, lohncheck.ch, autoberufe.ch, SBFI (federal 50% refund). Gross, incl. 13th, Zürich-area bands — a guide, not a promise.</p>`,
+      motorsport_html: `
+        <h4>The Swiss motorsport route</h4>
+        <p>Yes — there is a Formula One team on his doorstep, and it hires people at exactly his stage. A year or two here opens doors almost nothing else can; the trade is heavy travel and long days for rare experience and CV value.</p>
+        <h4>★ Audi F1 / Sauber — Hinwil (~35 min)</h4>
+        <p>For 2026 the Sauber factory becomes the <b>Audi F1</b> works team. Chassis build and race operations run from Hinwil. Two trainee tracks fit him now:</p>
+        <ul>
+          <li><b>Trainee / Future Race Team Mechanic — Car Assembly</b> &amp; <b>Sub-Assembly.</b> Built for career-starters: EFZ + max 1–2 yrs experience. Chassis assembly, driver seat-fits, prototype turning/milling, show-car builds.</li>
+        </ul>
+        <p>Their asks vs Ben: completed mechanical EFZ ✓ · career-starter ✓ · manual dexterity / careful / independent ✓ · good technical understanding (engine, gearbox, diagnostics) ✓ · fluent English, German native ✓ · willing to travel worldwide &amp; irregular hours — <i>worth confirming he's up for it</i>.</p>
+        <h4>Other Swiss teams</h4>
+        <ul>
+          <li><b>Emil Frey Racing — Safenwil (~45 min):</b> Ferrari 296 GT3 in DTM &amp; GTWC. No.2 Mechanic roles. His AMG engine + manual-gearbox overhauls translate straight to GT3 drivetrain work.</li>
+          <li><b>Sportec AG — Höri (~20 min):</b> Porsche GT, custom suspension &amp; classics. The motorsport flavour with a daily commute and no global travel. <i>Hiring now — apply by 13 Jul 2026.</i></li>
+          <li><b>Jenzer Motorsport — Lyss / FACH Auto Tech — Sattel:</b> F4 single-seaters and Porsche Cup cars (EU passport / travel needed).</li>
+        </ul>
+        <h4>How to stand out</h4>
+        <p>Build a short visual technical portfolio (AMG cylinder heads, gearbox rebuilds, an Xentry diagnostic workflow). Lead with the AMG depth, your scout-leader teamwork, and English. Expect a practical bench test — they watch <i>how</i> you work: calm, systematic, clean.</p>
+        <p class="muted tiny">All Sauber/Audi roles: sauber-group.com/corporate/jobs. Reviews note long days &amp; heavy travel — normal for F1; the learning is exceptional.</p>`,
     },
     lead: {
       new: "New lead", edit: "Lead",
@@ -204,7 +270,7 @@
     },
     guide: {
       heading: "Guide",
-      tab_pipeline: "Erste Bewerbung", tab_salary: "Lohn", tab_negotiate: "Verhandeln",
+      tab_pipeline: "Erste Bewerbung", tab_employers: "Arbeitgeber", tab_salary: "Lohn", tab_career: "Karriereweg", tab_negotiate: "Verhandeln", tab_motorsport: "Motorsport",
       pipeline_html: `
         <h4>Dein Plan in 6 Schritten</h4>
         <ol>
@@ -245,6 +311,72 @@
         </ol>
         <h4>Deine stärksten Hebel</h4>
         <p>AGVS + Mercedes HV/EV-Zertifizierung · Merbag-Referenz (grösste MB-Werkstatt der CH) · AMG-Erfahrung · DE + EN.</p>`,
+      employers_html: `
+        <h4>Arbeitgeber im Blick (Zürich, ≤30 Min)</h4>
+        <p class="muted tiny">Tipp auf einen Arbeitgeber, um seine eigene Stellenseite zu öffnen — Inserate ändern schnell, die Karriereseite bleibt aktuell.</p>
+        <h4>Premium- &amp; Sportmarken — sein Ziel</h4>
+        <ul>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG</b></a> — Porsche, Audi, VW, Bentley. Porsche Academy → Certified Master Technician. Standorte 5–25 Min (Letzigrund, Altstetten, Wallisellen). <i>Sucht jetzt Porsche-Mechatroniker.</i></li>
+          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Porsche- &amp; Audi-Spezialist mit eigenen Motorsport- &amp; Classic-Abteilungen. Höri, ~20 Min. Die motorsportlichste Tageswerkstatt.</li>
+        </ul>
+        <h4>Grosse Händlergruppen — am meisten offene Stellen, strukturierte Ausbildung</h4>
+        <ul>
+          <li><a href="https://jobs.emilfrey.ch" target="_blank" rel="noopener"><b>Emil Frey Gruppe</b></a> — Toyota, Lexus, Jaguar, Land Rover u.a. Multi-Brand-Academy; auch der Weg zu Emil Frey Racing.</li>
+          <li><a href="https://hedinautomotive.ch/stellen/" target="_blank" rel="noopener"><b>Hedin Automotive</b></a> — BMW &amp; MINI. Werks-Master-Technician-Ausbildung, Jahresarbeitszeit.</li>
+          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=binelli" target="_blank" rel="noopener"><b>Binelli Gruppe</b></a> — BMW, MINI, Maserati. Moderne, stark digitalisierte Werkstätten, ~12–15 Min.</li>
+          <li><a href="https://thwilly.ch/karriere" target="_blank" rel="noopener"><b>Th. Willy AG</b></a> — Ford (grösster der CH), MG, CUPRA. Grosse Familiengruppe, Schlieren ~10 Min.</li>
+        </ul>
+        <h4>Bei Mercedes bleiben — geringste Reibung</h4>
+        <ul>
+          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=merbag" target="_blank" rel="noopener"><b>Merbag</b></a> — Mercedes-Benz / AMG. Interner Wechsel über Teams oder Standorte; er kennt Werkstatt und Tools (Xentry, WIS) bereits.</li>
+        </ul>
+        <h4>Motorsport</h4>
+        <ul>
+          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Sauber / Audi F1</b></a> — Formel-1-Fabrik in Hinwil, ~35 Min. Trainee-Rennmechaniker-Track für Einsteiger. Siehe Tab Motorsport.</li>
+          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Ferrari 296 GT3 in DTM &amp; GTWC, Safenwil. Spontanbewerbung über die Händlergruppe.</li>
+        </ul>
+        <p class="muted tiny">Option öffentlicher Fuhrpark: Werkstatt Kanton Zürich, Urdorf (~12 Min) — geregelte Stunden, auf jobs.ch ausgeschrieben.</p>`,
+      career_html: `
+        <h4>Wohin dich dieser Beruf bringen kann</h4>
+        <p>Das Schweizer System ist auf Aufstieg in Etappen gebaut. Der Lohn steigt in den ersten fünf Jahren am schnellsten (20–30%), flacht dann ab, wenn du rein an den Tools bleibst — genau dafür gibt es diese Wege.</p>
+        <ul>
+          <li><b>Erster Job:</b> ~CHF 5'000–5'600 / Mt (≈ 65–73k inkl. 13.). HV-Zert. + Premium-Marke schieben dich an den oberen Rand des Bandes.</li>
+          <li><b>5 Jahre an den Tools:</b> ~CHF 6'300–6'800 / Mt (≈ 82–88k) mit Marken- &amp; HV-Zertifizierungen und Master-Technician-Track.</li>
+        </ul>
+        <h4>Die Wege</h4>
+        <ul>
+          <li><b>★ Automobildiagnostiker (eidg. Fachausweis)</b> — der hebelstärkste nächste Schritt. Der Fehlersucher der Werkstatt, oft Stv. Werkstattleiter. Zulassung: EFZ + 2 Jahre Erfahrung; seine HV-Zert. deckt eine Voraussetzung bereits. 2–3 Jahre berufsbegleitend, ~CHF 12–17k Gebühren, Bund erstattet ~50%. Lohn ~CHF 6'000/Mt, ~7–8k als Stv.</li>
+          <li><b>Werkstattleiter</b> — Werkstatt &amp; Team führen. Meist über Diagnostik + ein paar Jahre. ~CHF 8'000–12'000/Mt.</li>
+          <li><b>Betriebsleiter (HFP, eidg. Diplom)</b> — eine ganze Garage führen. Spitze der Berufsleiter. ~CHF 10'000–14'000/Mt.</li>
+          <li><b>Ingenieurweg — dipl. Techniker HF / Bachelor FH</b> — Importeure, Hersteller, F&amp;E, Motorsport-Engineering. HF ~3 Jahre (keine Berufsmatura); FH braucht zuerst Berufsmatura. ~CHF 6'500–8'500+/Mt.</li>
+          <li><b>Serviceberater (eidg. FA)</b> — kundennaher Track, falls ihm die Menschen-Seite liegt.</li>
+        </ul>
+        <h4>Eine sinnvolle Reihenfolge</h4>
+        <ol>
+          <li><b>Jahre 0–2:</b> Erfahrung bei einer starken Marke sammeln, nahe am oberen Einstiegsband verdienen.</li>
+          <li><b>~Jahr 2:</b> Diagnostiker-Kurs starten — er erreicht die Erfahrungs-Hürde, HV deckt eine Voraussetzung, der Bund zahlt die Hälfte. Der klare erste Zug.</li>
+          <li><b>Jahre 3–5:</b> abschliessen → Diagnostiker / Stv. Werkstattleiter, Lohn Richtung CHF 7–8k.</li>
+          <li><b>Dann das Dach wählen:</b> Führung (höchster Lohn, Management) oder Engineering (Konstruktion/Motorsport, mehr Studium).</li>
+        </ol>
+        <p class="muted tiny">Quellen: AGVS / mechaniker.ch, lohncheck.ch, autoberufe.ch, SBFI (50% Bundesbeitrag). Brutto, inkl. 13., Zürich-Bänder — ein Anhaltspunkt, kein Versprechen.</p>`,
+      motorsport_html: `
+        <h4>Der Schweizer Motorsport-Weg</h4>
+        <p>Ja — es gibt ein Formel-1-Team vor seiner Haustür, und es stellt Leute genau auf seiner Stufe ein. Ein, zwei Jahre hier öffnen Türen wie kaum etwas sonst; der Deal ist viel Reiserei und lange Tage für seltene Erfahrung und CV-Wert.</p>
+        <h4>★ Audi F1 / Sauber — Hinwil (~35 Min)</h4>
+        <p>Ab 2026 wird die Sauber-Fabrik zum <b>Audi-F1</b>-Werksteam. Chassisbau und Renneinsatz laufen ab Hinwil. Zwei Trainee-Tracks passen ihm jetzt:</p>
+        <ul>
+          <li><b>Trainee / Future Race Team Mechanic — Car Assembly</b> &amp; <b>Sub-Assembly.</b> Für Einsteiger gebaut: EFZ + max. 1–2 Jahre Erfahrung. Chassis-Montage, Fahrer-Sitzanpassung, Prototyp-Dreh-/Fräsarbeit, Show-Car-Bau.</li>
+        </ul>
+        <p>Ihre Anforderungen vs. Ben: abgeschlossene mechanische EFZ ✓ · Einsteiger ✓ · geschickt / sorgfältig / selbstständig ✓ · gutes technisches Verständnis (Motor, Getriebe, Diagnose) ✓ · fliessend Englisch, Deutsch Muttersprache ✓ · bereit für weltweite Reisen &amp; unregelmässige Stunden — <i>noch zu bestätigen</i>.</p>
+        <h4>Weitere Schweizer Teams</h4>
+        <ul>
+          <li><b>Emil Frey Racing — Safenwil (~45 Min):</b> Ferrari 296 GT3 in DTM &amp; GTWC. No.2-Mechaniker-Rollen. Seine AMG-Motoren- + Handschaltgetriebe-Revisionen übertragen sich direkt auf GT3-Antrieb.</li>
+          <li><b>Sportec AG — Höri (~20 Min):</b> Porsche GT, Custom-Fahrwerk &amp; Classics. Der Motorsport-Touch mit Tagespendeln und ohne globale Reisen. <i>Sucht jetzt — Bewerbung bis 13. Juli 2026.</i></li>
+          <li><b>Jenzer Motorsport — Lyss / FACH Auto Tech — Sattel:</b> F4-Monoposto und Porsche-Cup-Autos (EU-Pass / Reisebereitschaft nötig).</li>
+        </ul>
+        <h4>Wie er auffällt</h4>
+        <p>Ein kurzes visuelles technisches Portfolio bauen (AMG-Zylinderköpfe, Getriebe-Revisionen, ein Xentry-Diagnose-Ablauf). Mit der AMG-Tiefe, der Pfadi-Teamführung und Englisch führen. Rechne mit einem praktischen Bench-Test — sie schauen, <i>wie</i> du arbeitest: ruhig, systematisch, sauber.</p>
+        <p class="muted tiny">Alle Sauber/Audi-Stellen: sauber-group.com/corporate/jobs. Bewertungen nennen lange Tage &amp; viel Reisen — bei F1 normal; das Lernen ist aussergewöhnlich.</p>`,
     },
     lead: {
       new: "Neuer Lead", edit: "Lead",

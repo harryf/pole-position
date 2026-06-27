@@ -3,6 +3,28 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.5.0 — 2026-06-27
+
+Populates the app from Benjamin's real job-market research (June 2026).
+
+- **Board pre-loaded with real open positions**: the seed leads are now the actual researched
+  vacancies within ~30 min of home, closest first — AMAG Porsche Zürich/Altstetten/Schlieren,
+  Sauber/Audi F1 trainee (Hinwil), Sportec (apply by 13 Jul), Emil Frey, Eugster, Kanton Zürich,
+  Seegarage Müller, Karl Graf, Porsche Zug (already applied → "Applied" stage) and Emil Frey Racing.
+  **Job titles are kept in German on purpose**; each lead carries the employer's link, commute time,
+  a realistic salary target and a next action.
+- **Three new Guide sections** (translated EN + DE):
+  - **Employers** — the premium groups worth watching (AMAG, Sportec, Emil Frey, Hedin, Binelli,
+    Th. Willy, Merbag) plus the motorsport employers, each linking to its own jobs page so he can
+    check live openings himself.
+  - **Career paths** — first-job band (~CHF 65–73k), 5-year outlook (~82–88k) and the Swiss ladder
+    with the **Automobildiagnostiker (eidg. Fachausweis)** route highlighted as the best-subsidised
+    next step, ending in a sensible 0→5-year sequence.
+  - **Motorsport** — the Audi F1 / Sauber trainee track, Emil Frey Racing (Ferrari 296 GT3) and
+    Sportec, with how his AMG + HV profile maps to each and how to stand out.
+- **import.example.json refreshed** with the full set of real positions + tasks, so an
+  already-installed phone can pull them in via Menu → Import (seed only fills a fresh install).
+
 ## v1.4.0 — 2026-06-27
 
 Makes the installed PWA reliably pick up updates.

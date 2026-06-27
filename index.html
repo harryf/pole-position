@@ -226,7 +226,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/i18n.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.4.0";
+const APP_VERSION = "1.5.0";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -250,18 +250,32 @@ function seed(){
   // STABLE deterministic ids: identical on every device, so a first-time sync merges
   // the seed instead of duplicating it (the v1.2.0 duplicate bug). Never use S.uid() here.
   const t0=S.nowISO(); const mk=(id,o)=>Object.assign({id,updatedAt:t0,deleted:false},o);
-  const porsche=mk('seed-lead-porsche',{company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Service technician',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / mo (target)",source:'Porsche careers',favourite:true,priority:5,stage:'researching',nextAction:'Tailor dossier to Porsche (highlight HV cert.)',nextDue:isoIn(5),contacts:[],notes:'Dream employer, right on the doorstep. AMG + HV are the levers.'});
-  const amg=mk('seed-lead-amg',{company:'Mercedes-AMG',role:'High-performance mechatronics / AMG',link:'',location:'CH / DE',salary:'',source:'Network',favourite:true,priority:4,stage:'researching',nextAction:'Ask Merbag colleagues for AMG contacts',nextDue:isoIn(6),contacts:[],notes:'Plays directly to your SLS/G63/E63/C63 experience.'});
-  const kessel=mk('seed-lead-kessel',{company:'Kessel AG — Ferrari / Maserati',role:'Sports-car mechatronics',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Check open positions',nextDue:'',contacts:[],notes:'Sports-car segment.'});
+  // Real open positions from the June 2026 research (job titles kept in German, closest first).
+  const leads=[
+    mk('seed-lead-amag-porsche-zh',{company:'AMAG — Porsche Zentrum Zürich',role:'Automobil-Mechatroniker Porsche (m/w/d) 80–100%',link:'https://jobs.amag-group.ch',location:'Zürich (Letzigrund/Ueberlandstr.) — ~10 Min',salary:"CHF 5'500–6'500 / Mt (Ziel)",source:'AMAG careers',favourite:true,priority:5,stage:'researching',nextAction:'Dossier auf Porsche zuschneiden (HV-Zert. zuoberst)',nextDue:isoIn(5),contacts:[],notes:'Premium-Sportwagen vor der Haustür. HV + AMG sind die Hebel. AMAG erlaubt Direktbewerbung (WhatsApp).'}),
+    mk('seed-lead-amag-altstetten',{company:'AMAG — Altstetten',role:'Automobil-Mechatroniker/-in oder Diagnostiker/-in 80–100%',link:'https://jobs.amag-group.ch',location:'Zürich Altstetten — ~5 Min',salary:'',source:'AMAG careers',favourite:true,priority:5,stage:'researching',nextAction:'Bewerben — nächste Stelle, kürzester Weg',nextDue:isoIn(6),contacts:[],notes:'Direkt vor der Tür. Mechatroniker ODER Diagnostiker — beides passt.'}),
+    mk('seed-lead-amag-porsche-schlieren',{company:'AMAG — Porsche Schlieren',role:'Automobil-Diagnostiker Porsche (m/w/d) 80–100%',link:'https://www.jobs.ch/de/stellenangebote/?term=porsche',location:'Schlieren — ~10 Min',salary:'',source:'jobs.ch',favourite:false,priority:4,stage:'researching',nextAction:'Offene Stelle prüfen, Diagnostik-Stint hervorheben',nextDue:'',contacts:[],notes:'Spielt auf den 4-Monats-Diagnostik-Stint + Xentry.'}),
+    mk('seed-lead-sauber-f1',{company:'Sauber / Audi F1 — Hinwil',role:'Trainee / Future Race Team Mechanic (Car Assembly)',link:'https://sauber-group.com/corporate/jobs',location:'Hinwil, ZH — ~35 Min',salary:"CHF 5'000–5'500 / Mt (Einstieg)",source:'sauber-group.com',favourite:true,priority:5,stage:'researching',nextAction:'Diese Woche bewerben — F1 rekrutiert vor August',nextDue:isoIn(4),contacts:[],notes:'Formel 1 vor der Haustür, fast perfekter Fit für Einsteiger. Siehe Guide → Motorsport.'}),
+    mk('seed-lead-sportec',{company:'Sportec AG — Höri',role:'Automobil-Mechatroniker*in 100%',link:'https://sportec.ch/de/jobs',location:'Höri, ZH — ~20 Min',salary:"CHF 5'000–6'650 / Mt",source:'Sportec / jobs.ch',favourite:true,priority:4,stage:'researching',nextAction:'Bewerben VOR Frist 13. Juli 2026',nextDue:'2026-07-12',contacts:[],notes:'Porsche/Audi + eigene Motorsport- & Classic-Abteilung. Frist 13.07.2026!'}),
+    mk('seed-lead-emilfrey-zh',{company:'Emil Frey AG — Zürich',role:'Automobil-Fachmann / Mechatroniker (Kia, Subaru, Suzuki)',link:'https://jobs.emilfrey.ch',location:'Zürich — ~10 Min',salary:'',source:'Emil Frey careers',favourite:false,priority:3,stage:'researching',nextAction:'Offene Stellen + Spontanbewerbung prüfen',nextDue:'',contacts:[],notes:'Multi-Brand-Academy; auch der Weg zu Emil Frey Racing.'}),
+    mk('seed-lead-emilfrey-diag',{company:'Emil Frey Gruppe — Au-Wädenswil',role:'Automobil-Diagnostiker/-in Mercedes-Benz',link:'https://jobs.emilfrey.ch',location:'Au-Wädenswil — ~20 Min',salary:'',source:'Emil Frey careers',favourite:false,priority:3,stage:'researching',nextAction:'Prüfen — Mercedes-Diagnostik passt direkt',nextDue:'',contacts:[],notes:'Mercedes-Wissen + Diagnostik-Stint = direkter Fit.'}),
+    mk('seed-lead-eugster',{company:'Garage H.U. Eugster AG',role:'Automobil-Mechatroniker',link:'https://www.jobs.ch',location:'Zürich — ~10 Min',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Inserat prüfen',nextDue:'',contacts:[],notes:'Stadtgarage, Mechatroniker-Stelle kürzlich ausgeschrieben.'}),
+    mk('seed-lead-kanton-zh',{company:'Kanton Zürich (Fuhrpark)',role:'Automobilmechatroniker/-in 100%',link:'https://www.jobs.ch',location:'Urdorf — ~12 Min',salary:'',source:'jobs.ch',favourite:false,priority:2,stage:'researching',nextAction:'Als stabile Option vormerken',nextDue:'',contacts:[],notes:'Öffentlicher Fuhrpark — geregelte Stunden, stabile Stelle.'}),
+    mk('seed-lead-seegarage',{company:'Seegarage Müller AG',role:'Automobilmechatroniker 80–100%',link:'https://www.jobs.ch',location:'Horgen — ~22 Min',salary:'',source:'jobs.ch',favourite:false,priority:2,stage:'researching',nextAction:'Inserat prüfen',nextDue:'',contacts:[],notes:'Etablierte Garage am See.'}),
+    mk('seed-lead-karlgraf',{company:'Karl Graf Automobile AG',role:'Diagnostiker 60–100%',link:'https://www.jobs.ch',location:'Mettmenstetten — ~28 Min',salary:'',source:'jobs.ch',favourite:false,priority:2,stage:'researching',nextAction:'Prüfen — spielt auf Diagnostik',nextDue:'',contacts:[],notes:'Diagnostiker-Stelle, passt zum Diagnostik-Stint.'}),
+    mk('seed-lead-porsche-zug',{company:'Porsche Zentrum Zug (Risch AG)',role:'Automobil-Mechatroniker (m/w/d)',link:'https://dealer.porsche.com/ch/zug',location:'Rotkreuz, ZG — ~35 Min',salary:"CHF 5'000–6'650 / Mt",source:'Porsche Zug',favourite:false,priority:4,stage:'applied',nextAction:'Bewerbung warm halten — nachfassen',nextDue:isoIn(7),contacts:[],notes:'Bereits beworben. Hochmargiges Porsche-Zentrum in Zug.'}),
+    mk('seed-lead-emilfreyracing',{company:'Emil Frey Racing',role:'No. 2 Mechanic (Rennmechaniker) — Ferrari 296 GT3',link:'https://emilfreyracing.com',location:'Safenwil, AG — ~45 Min',salary:'€42k–60k (CHF-äquiv.)',source:'emilfreyracing.com',favourite:false,priority:3,stage:'researching',nextAction:'Spontanbewerbung — AMG + Getriebe-Erfahrung betonen',nextDue:'',contacts:[],notes:'GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt.'}),
+  ];
   return {
-    leads:[porsche,amg,kessel],
+    leads,
     tasks:[
       mk('seed-task-cv',{title:'Finalise CV (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Use the Porsche version as the base. Keep AGVS + Mercedes HV/EV cert at the top.'}),
       mk('seed-task-ref',{title:'Ask Merbag team lead for a reference letter',category:'network',due:isoIn(6),priority:'high',done:false,notes:''}),
+      mk('seed-task-portfolio',{title:'Build a short technical portfolio (AMG, gearbox, Xentry)',category:'setup',due:isoIn(10),priority:'med',done:false,recurring:false,notes:'Photos / descriptions of AMG cylinder heads, gearbox rebuilds, an Xentry diagnostic workflow. Key for Porsche & motorsport applications.'}),
       mk('seed-task-linkedin',{title:'Set up LinkedIn profile (HV/EV visible)',category:'setup',due:isoIn(8),priority:'med',done:false,notes:''}),
       mk('seed-task-hv',{title:'Collect HV certificates as PDF',category:'admin',due:isoIn(3),priority:'med',done:false,notes:''}),
     ],
-    contacts:[ mk('seed-contact-merbag',{name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.',helpsWith:['seed-lead-amg']}) ],
+    contacts:[ mk('seed-contact-merbag',{name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.',helpsWith:['seed-lead-emilfrey-diag']}) ],
     debriefs:[],
     settings:{theme:'drift',dailyGoal:3,name:'Ben',lang:'en',knownDevices:[],updatedAt:t0},
     meta:{xp:0,streak:0,bestStreak:0,lastActiveDay:''},
@@ -488,7 +502,7 @@ function openContact(id){
   if(!isNew) $('#delContact').onclick=()=>{ if(!confirm(t('confirm.delete_contact'))) return; c.deleted=true; touch(c); save(); render(); closeSheet(); toast(t('toast.deleted')); };
 }
 
-const GUIDE_TABS=[['pipeline','guide.tab_pipeline','guide.pipeline_html'],['salary','guide.tab_salary','guide.salary_html'],['negotiate','guide.tab_negotiate','guide.negotiate_html']];
+const GUIDE_TABS=[['pipeline','guide.tab_pipeline','guide.pipeline_html'],['employers','guide.tab_employers','guide.employers_html'],['salary','guide.tab_salary','guide.salary_html'],['career','guide.tab_career','guide.career_html'],['negotiate','guide.tab_negotiate','guide.negotiate_html'],['motorsport','guide.tab_motorsport','guide.motorsport_html']];
 function renderGuide(){
   $('#guideTabs').innerHTML=GUIDE_TABS.map(([k,lab])=>`<button class="${k===guideTab?'on':''}" data-gtab="${k}">${t(lab)}</button>`).join('');
   const cur=GUIDE_TABS.find(g=>g[0]===guideTab); $('#guideBody').innerHTML=t(cur[2]);

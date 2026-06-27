@@ -1,8 +1,8 @@
 ---
 project: ben-jobs
 effort: E3
-phase: complete
-progress: 84/84
+phase: verify
+progress: 93/93
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -367,3 +367,27 @@ run **Menu → 🧹 Clean up duplicates** once on each to collapse them.
 running an older version won't auto-pull 1.4.0 (its old code lacks the fix) — get it onto 1.4.0 once
 via a cold launch (fully close the PWA + reopen) or remove+re-add to home screen; updates are
 automatic thereafter.
+
+### v1.5.0 Verification (populate from research) — `node tests/run.mjs` → 33/33
+
+Populated the app from Benjamin's June-2026 research (5 docx/md files under `input/`): 13 real open
+positions onto the Board (German titles), three new EN+DE guide sections, refreshed import file.
+
+- **ISC-85**: Board seeded with 13 real positions, closest-first, German titles intact — live `localStorage` state shows 13 leads (`AMAG — Porsche Zentrum Zürich … Emil Frey Racing`), umlauts render. ✓
+- **ISC-86**: Already-applied position (Porsche Zug) sits in the **applied** stage — live `appliedStage:["Porsche Zentrum Zug (Risch AG)"]`. ✓
+- **ISC-87**: Guide shows 6 tabs in order (First application · Employers · Salary · Career paths · Negotiate · Motorsport) — live DOM + screenshot. ✓
+- **ISC-88**: Employers section renders **per-employer jobs-page links** — live 9 `<a>` links; four careers roots return HTTP 200 (AMAG, Emil Frey, Sportec, Sauber/Audi). ✓
+- **ISC-89**: Career-paths + Motorsport sections render rich content (2009 / 1970 chars EN). ✓
+- **ISC-90**: DE locale renders all three new sections, labels translated (Arbeitgeber/Karriereweg/Motorsport), **no ß** — live + test "de locale uses no ß". ✓
+- **ISC-91**: en/de key parity holds with the 6 new keys — tests "en and de have identical key sets" + "all dynamic key families (…guide) resolve in both locales". ✓
+- **ISC-92**: Anti: no console errors after load + tab switching — live `read_console_messages(onlyErrors)` → none. ✓
+- **ISC-93**: APP_VERSION + SW VERSION "1.5.0", CHANGELOG entry. ✓ (Deploy/tag pending Harry's go.)
+
+**Decisions (v1.5.0):**
+- *Title-language split is structural, not manual:* job titles live as free-text `lead.role` data (seed + `import.example.json`), never as i18n keys — so they **cannot** be translated; guides are i18n strings → translated. Enforced by where the data lives.
+- *Careers-root links over expiring postings:* employer links point at careers-page roots (jobs.amag-group.ch, jobs.emilfrey.ch, sportec.ch/de/jobs, sauber-group.com/corporate/jobs, …), which stay current as individual postings expire — matching the research's own sourcing choice.
+- *Seed-vs-import duplication:* `import` blind-appends by design (add-what-you-find). A fresh install seeds the 13, so importing the example too would double them. Mitigated by (a) the `_howto` note (it ADDS; run cleanup) and (b) `Menu → 🧹 Clean up duplicates` (dedupe by company+role). Not re-architected to upsert — append is the intended semantic. (Surfaced by advisor; its `--auto-state` loaded the wrong project's ISA — noted, not blocking.)
+
+**Note for Harry — getting these onto Ben's phone:** changing `seed()` only affects a *fresh* install.
+Ben's existing install keeps its current data, so to load the 13 positions there: **Menu → Import →
+`import.example.json`** (then **Menu → 🧹** if anything doubles up).

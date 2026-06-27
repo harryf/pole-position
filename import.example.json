@@ -1,35 +1,173 @@
 {
   "_format": "pole-position-import@1",
-  "_howto": "Drop jobs you find here as `leads`, and general to-dos as `tasks`. In the app: Menu → Import → choose this file. Fields marked (optional) can be omitted. Stages: researching | resume | cover | applied | contacted | interviewing | offer | closed.",
+  "_howto": "Real open positions from the June 2026 research, ready to import. In the app: Menu → Import → choose this file. It ADDS these leads + tasks to whatever you already have (run Menu → 🧹 Clean up duplicates afterwards if needed). Job titles are kept in German on purpose. Stages: researching | resume | cover | applied | contacted | interviewing | offer | closed.",
 
   "leads": [
     {
-      "company": "Porsche Zentrum Schlieren",
-      "role": "Automobilmechatroniker / Servicetechniker",
-      "link": "https://www.porsche.com/swiss/de/aboutporsche/jobs/",
-      "location": "Schlieren, ZH",
-      "salary": "CHF 5'300–5'800 / Monat (Ziel)",
-      "source": "Porsche Schweiz Karriere",
+      "company": "AMAG — Porsche Zentrum Zürich",
+      "role": "Automobil-Mechatroniker Porsche (m/w/d) 80–100%",
+      "link": "https://jobs.amag-group.ch",
+      "location": "Zürich (Letzigrund/Ueberlandstr.) — ~10 Min",
+      "salary": "CHF 5'500–6'500 / Mt (Ziel)",
+      "source": "AMAG careers",
       "favourite": true,
       "priority": 5,
-      "contacts": ["Merbag Teamleiter (Referenz)"],
       "stage": "researching",
-      "nextAction": "Bewerbungsdossier auf Porsche zuschneiden (HV-Zertifizierung hervorheben)",
-      "nextDue": "2026-07-04",
-      "notes": "Traum-Arbeitgeber. Direkt vor der Haustür. AMG-Erfahrung + HV-Zert. als Hebel."
+      "nextAction": "Dossier auf Porsche zuschneiden (HV-Zert. zuoberst)",
+      "nextDue": "2026-07-02",
+      "notes": "Premium-Sportwagen vor der Haustür. HV + AMG sind die Hebel. AMAG erlaubt Direktbewerbung (WhatsApp)."
     },
     {
-      "company": "Kessel AG (Ferrari / Maserati Zürich)",
-      "role": "Automobilmechatroniker Sportwagen",
-      "link": "",
-      "location": "Volketswil, ZH",
-      "salary": "",
-      "source": "jobs.ch Suche",
+      "company": "AMAG — Altstetten",
+      "role": "Automobil-Mechatroniker/-in oder Diagnostiker/-in 80–100%",
+      "link": "https://jobs.amag-group.ch",
+      "location": "Zürich Altstetten — ~5 Min",
+      "source": "AMAG careers",
+      "favourite": true,
+      "priority": 5,
+      "stage": "researching",
+      "nextAction": "Bewerben — kürzester Weg",
+      "nextDue": "2026-07-03",
+      "notes": "Direkt vor der Tür. Mechatroniker ODER Diagnostiker — beides passt."
+    },
+    {
+      "company": "AMAG — Porsche Schlieren",
+      "role": "Automobil-Diagnostiker Porsche (m/w/d) 80–100%",
+      "link": "https://www.jobs.ch/de/stellenangebote/?term=porsche",
+      "location": "Schlieren — ~10 Min",
+      "source": "jobs.ch",
+      "favourite": false,
+      "priority": 4,
+      "stage": "researching",
+      "nextAction": "Offene Stelle prüfen, Diagnostik-Stint hervorheben",
+      "notes": "Spielt auf den 4-Monats-Diagnostik-Stint + Xentry."
+    },
+    {
+      "company": "Sauber / Audi F1 — Hinwil",
+      "role": "Trainee / Future Race Team Mechanic (Car Assembly)",
+      "link": "https://sauber-group.com/corporate/jobs",
+      "location": "Hinwil, ZH — ~35 Min",
+      "salary": "CHF 5'000–5'500 / Mt (Einstieg)",
+      "source": "sauber-group.com",
+      "favourite": true,
+      "priority": 5,
+      "stage": "researching",
+      "nextAction": "Diese Woche bewerben — F1 rekrutiert vor August",
+      "nextDue": "2026-07-01",
+      "notes": "Formel 1 vor der Haustür, fast perfekter Fit für Einsteiger. Siehe Guide → Motorsport."
+    },
+    {
+      "company": "Sportec AG — Höri",
+      "role": "Automobil-Mechatroniker*in 100%",
+      "link": "https://sportec.ch/de/jobs",
+      "location": "Höri, ZH — ~20 Min",
+      "salary": "CHF 5'000–6'650 / Mt",
+      "source": "Sportec / jobs.ch",
+      "favourite": true,
+      "priority": 4,
+      "stage": "researching",
+      "nextAction": "Bewerben VOR Frist 13. Juli 2026",
+      "nextDue": "2026-07-12",
+      "notes": "Porsche/Audi + eigene Motorsport- & Classic-Abteilung. Frist 13.07.2026!"
+    },
+    {
+      "company": "Emil Frey AG — Zürich",
+      "role": "Automobil-Fachmann / Mechatroniker (Kia, Subaru, Suzuki)",
+      "link": "https://jobs.emilfrey.ch",
+      "location": "Zürich — ~10 Min",
+      "source": "Emil Frey careers",
       "favourite": false,
       "priority": 3,
       "stage": "researching",
-      "nextAction": "Offene Stellen prüfen",
-      "notes": "Sportwagen-Segment, passt zum Profil."
+      "nextAction": "Offene Stellen + Spontanbewerbung prüfen",
+      "notes": "Multi-Brand-Academy; auch der Weg zu Emil Frey Racing."
+    },
+    {
+      "company": "Emil Frey Gruppe — Au-Wädenswil",
+      "role": "Automobil-Diagnostiker/-in Mercedes-Benz",
+      "link": "https://jobs.emilfrey.ch",
+      "location": "Au-Wädenswil — ~20 Min",
+      "source": "Emil Frey careers",
+      "favourite": false,
+      "priority": 3,
+      "stage": "researching",
+      "nextAction": "Prüfen — Mercedes-Diagnostik passt direkt",
+      "notes": "Mercedes-Wissen + Diagnostik-Stint = direkter Fit."
+    },
+    {
+      "company": "Garage H.U. Eugster AG",
+      "role": "Automobil-Mechatroniker",
+      "link": "https://www.jobs.ch",
+      "location": "Zürich — ~10 Min",
+      "source": "jobs.ch",
+      "favourite": false,
+      "priority": 3,
+      "stage": "researching",
+      "nextAction": "Inserat prüfen",
+      "notes": "Stadtgarage, Mechatroniker-Stelle kürzlich ausgeschrieben."
+    },
+    {
+      "company": "Kanton Zürich (Fuhrpark)",
+      "role": "Automobilmechatroniker/-in 100%",
+      "link": "https://www.jobs.ch",
+      "location": "Urdorf — ~12 Min",
+      "source": "jobs.ch",
+      "favourite": false,
+      "priority": 2,
+      "stage": "researching",
+      "nextAction": "Als stabile Option vormerken",
+      "notes": "Öffentlicher Fuhrpark — geregelte Stunden, stabile Stelle."
+    },
+    {
+      "company": "Seegarage Müller AG",
+      "role": "Automobilmechatroniker 80–100%",
+      "link": "https://www.jobs.ch",
+      "location": "Horgen — ~22 Min",
+      "source": "jobs.ch",
+      "favourite": false,
+      "priority": 2,
+      "stage": "researching",
+      "nextAction": "Inserat prüfen",
+      "notes": "Etablierte Garage am See."
+    },
+    {
+      "company": "Karl Graf Automobile AG",
+      "role": "Diagnostiker 60–100%",
+      "link": "https://www.jobs.ch",
+      "location": "Mettmenstetten — ~28 Min",
+      "source": "jobs.ch",
+      "favourite": false,
+      "priority": 2,
+      "stage": "researching",
+      "nextAction": "Prüfen — spielt auf Diagnostik",
+      "notes": "Diagnostiker-Stelle, passt zum Diagnostik-Stint."
+    },
+    {
+      "company": "Porsche Zentrum Zug (Risch AG)",
+      "role": "Automobil-Mechatroniker (m/w/d)",
+      "link": "https://dealer.porsche.com/ch/zug",
+      "location": "Rotkreuz, ZG — ~35 Min",
+      "salary": "CHF 5'000–6'650 / Mt",
+      "source": "Porsche Zug",
+      "favourite": false,
+      "priority": 4,
+      "stage": "applied",
+      "nextAction": "Bewerbung warm halten — nachfassen",
+      "nextDue": "2026-07-04",
+      "notes": "Bereits beworben. Hochmargiges Porsche-Zentrum in Zug."
+    },
+    {
+      "company": "Emil Frey Racing",
+      "role": "No. 2 Mechanic (Rennmechaniker) — Ferrari 296 GT3",
+      "link": "https://emilfreyracing.com",
+      "location": "Safenwil, AG — ~45 Min",
+      "salary": "€42k–60k (CHF-äquiv.)",
+      "source": "emilfreyracing.com",
+      "favourite": false,
+      "priority": 3,
+      "stage": "researching",
+      "nextAction": "Spontanbewerbung — AMG + Getriebe-Erfahrung betonen",
+      "notes": "GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt."
     }
   ],
 
@@ -39,7 +177,7 @@
       "category": "setup",
       "due": "2026-07-01",
       "priority": "high",
-      "notes": "Porsche-Version existiert bereits als Basis."
+      "notes": "Porsche-Version als Basis. AGVS + Mercedes HV/EV-Zert. zuoberst."
     },
     {
       "title": "Referenzschreiben vom Merbag-Teamleiter anfragen",
@@ -48,17 +186,23 @@
       "priority": "high"
     },
     {
-      "title": "3 Merbag-Kollegen nach Porsche-/Premium-Kontakten fragen",
-      "category": "network",
-      "due": "2026-07-05",
-      "priority": "med"
+      "title": "Technisches Portfolio bauen (AMG, Getriebe, Xentry)",
+      "category": "setup",
+      "due": "2026-07-07",
+      "priority": "med",
+      "notes": "Fotos / Beschriebe von AMG-Zylinderköpfen, Getriebe-Revisionen, Xentry-Diagnose-Ablauf. Wichtig für Porsche & Motorsport."
     },
     {
       "title": "LinkedIn-Profil aufsetzen (HV/EV-Zertifizierung sichtbar)",
       "category": "setup",
       "due": "2026-07-07",
-      "priority": "med",
-      "recurring": false
+      "priority": "med"
+    },
+    {
+      "title": "HV-Zertifikate als PDF sammeln",
+      "category": "admin",
+      "due": "2026-06-30",
+      "priority": "med"
     }
   ]
 }
