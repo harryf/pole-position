@@ -1,8 +1,8 @@
 ---
 project: ben-jobs
 effort: E3
-phase: verify
-progress: 38/41
+phase: complete
+progress: 41/41
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -242,6 +242,13 @@ the authoritative responsive check.
 - **ISC-39/40** (import format + seed): `import.example.json` schema + `ingest()`; first open shows Merbag/Porsche/AMG/HV (recognition). ✓
 - **ISC-41** (theme + responsive + no-motion): dark JDM/drift theme both viewports; intrinsic-width probe at 390 → nav/cockpit/statchips/actions overflow = 0; no autoplay/flash. ✓
 
-**Live deploy ISC-6/7/8 (Pages/release/tests CI):** workflow files valid; first green Actions run is
-**[DEFERRED-VERIFY]** until the repo is pushed to `github.com/harryf/pole-position` — follow-up gated
-on Harry's go-ahead for the public push.
+**Live deploy ISC-6/7/8 — VERIFIED.** Pushed to `github.com/harryf/pole-position` (public). Actions:
+Deploy=success, Tests=success (15/15 in CI), Release v1.0.0 cut. Live probe of
+`https://harryf.github.io/pole-position/` → HTTP 200, wordmark + `APP_VERSION "1.0.0"` present, all
+assets 200. Real-Chrome live render (MCP): 8 board columns, 3 seeded leads, 2 favourites starred
+(★Porsche first), PP_SYNC/Peer/QRCode/jsQR all loaded, **service worker controlling the page**
+(installable + offline). ✓
+
+**Remaining real-device DEFERRED-VERIFY (not blockers, need Ben's hardware):** install-to-home-screen
+on his iPhone + Windows laptop; one live two-device PeerJS pair. Follow-up: walk Ben through install &
+first sync.
