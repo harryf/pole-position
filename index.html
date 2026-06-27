@@ -63,6 +63,10 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
 .row{display:flex;gap:10px;align-items:center}
 .pill{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.help{border-color:rgba(31,224,200,.45);color:var(--accent)}
+.chkrow{display:flex;align-items:center;gap:9px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.chkrow:last-child{border-bottom:0}.chkrow input{width:auto;flex:0 0 auto;margin:0}
+.helpbox{max-height:200px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:2px 11px;margin-top:2px}
 .btn{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:9px 13px;font-weight:600}
 .btn.go{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06121a;border:0}
 .btn.danger{border-color:rgba(255,90,110,.5);color:var(--bad)}
@@ -222,7 +226,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/i18n.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.2.0";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -236,25 +240,26 @@ const XP = {task:10, advance:15, debrief:20, lead:5};
 
 let state = load();
 function load(){ try{ const raw=localStorage.getItem(KEY); if(raw) return migrate(JSON.parse(raw)); }catch(e){} return seed(); }
-function migrate(s){ s.settings=s.settings||{}; if(!s.settings.lang) s.settings.lang='en'; s.debriefs=s.debriefs||[]; s.contacts=s.contacts||[]; return s; }
+function migrate(s){ s.settings=s.settings||{}; if(!s.settings.lang) s.settings.lang='en'; s.debriefs=s.debriefs||[]; s.contacts=s.contacts||[]; s.tasks=s.tasks||[]; (s.contacts||[]).forEach(c=>{ if(!Array.isArray(c.helpsWith)) c.helpsWith=[]; }); return s; }
+function helpersForLead(id){ return S.live(state.contacts).filter(c=>(c.helpsWith||[]).includes(id)); }
+function helpCount(c){ return (c.helpsWith||[]).filter(id=>state.leads.some(l=>l.id===id&&!l.deleted)).length; }
 function save(){ state.settings.updatedAt=S.nowISO(); localStorage.setItem(KEY, JSON.stringify(state)); if(!_applyingRemote) broadcast(); }
 function touch(r){ r.updatedAt=S.nowISO(); return r; }
 
 function seed(){
   const t0=S.nowISO(); const mk=o=>Object.assign({id:S.uid(),updatedAt:t0,deleted:false},o);
+  const porsche=mk({company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Service technician',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / mo (target)",source:'Porsche careers',favourite:true,priority:5,stage:'researching',nextAction:'Tailor dossier to Porsche (highlight HV cert.)',nextDue:isoIn(5),contacts:[],notes:'Dream employer, right on the doorstep. AMG + HV are the levers.'});
+  const amg=mk({company:'Mercedes-AMG',role:'High-performance mechatronics / AMG',link:'',location:'CH / DE',salary:'',source:'Network',favourite:true,priority:4,stage:'researching',nextAction:'Ask Merbag colleagues for AMG contacts',nextDue:isoIn(6),contacts:[],notes:'Plays directly to your SLS/G63/E63/C63 experience.'});
+  const kessel=mk({company:'Kessel AG — Ferrari / Maserati',role:'Sports-car mechatronics',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Check open positions',nextDue:'',contacts:[],notes:'Sports-car segment.'});
   return {
-    leads:[
-      mk({company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Service technician',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / mo (target)",source:'Porsche careers',favourite:true,priority:5,stage:'researching',nextAction:'Tailor dossier to Porsche (highlight HV cert.)',nextDue:isoIn(5),contacts:[],notes:'Dream employer, right on the doorstep. AMG + HV are the levers.'}),
-      mk({company:'Mercedes-AMG',role:'High-performance mechatronics / AMG',link:'',location:'CH / DE',salary:'',source:'Network',favourite:true,priority:4,stage:'researching',nextAction:'Ask Merbag colleagues for AMG contacts',nextDue:isoIn(6),contacts:[],notes:'Plays directly to your SLS/G63/E63/C63 experience.'}),
-      mk({company:'Kessel AG — Ferrari / Maserati',role:'Sports-car mechatronics',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Check open positions',nextDue:'',contacts:[],notes:'Sports-car segment.'}),
-    ],
+    leads:[porsche,amg,kessel],
     tasks:[
-      mk({title:'Finalise CV (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Use the Porsche version as the base.'}),
-      mk({title:'Ask Merbag team lead for a reference letter',category:'network',due:isoIn(6),priority:'high',done:false}),
-      mk({title:'Set up LinkedIn profile (HV/EV visible)',category:'setup',due:isoIn(8),priority:'med',done:false}),
-      mk({title:'Collect HV certificates as PDF',category:'admin',due:isoIn(3),priority:'med',done:false}),
+      mk({title:'Finalise CV (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Use the Porsche version as the base. Keep AGVS + Mercedes HV/EV cert at the top.'}),
+      mk({title:'Ask Merbag team lead for a reference letter',category:'network',due:isoIn(6),priority:'high',done:false,notes:''}),
+      mk({title:'Set up LinkedIn profile (HV/EV visible)',category:'setup',due:isoIn(8),priority:'med',done:false,notes:''}),
+      mk({title:'Collect HV certificates as PDF',category:'admin',due:isoIn(3),priority:'med',done:false,notes:''}),
     ],
-    contacts:[ mk({name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.'}) ],
+    contacts:[ mk({name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.',helpsWith:[amg.id]}) ],
     debriefs:[],
     settings:{theme:'drift',dailyGoal:3,name:'Ben',lang:'en',updatedAt:t0},
     meta:{xp:0,streak:0,bestStreak:0,lastActiveDay:''},
@@ -322,8 +327,8 @@ function renderFocus(){
   const wrap=$('#nextList');
   if(!items.length){ wrap.innerHTML=`<div class="empty">${t('focus.empty')}</div>`; return; }
   wrap.innerHTML=items.slice(0,12).map(it=>{const d=dueInfo(it.due);
-    return `<div class="action ${d.cls==='over'?'over':''}"><button class="check" data-done="${it.kind}:${it.id}">✓</button>
-      <div class="meta"><div class="ttl">${esc(it.ttl)}</div><div class="from">${it.kind==='lead'?'📋 ':'✓ '}${esc(it.from)}</div></div>
+    return `<div class="action ${d.cls==='over'?'over':''}"><button class="check" data-check="${it.kind}:${it.id}">✓</button>
+      <div class="meta" data-openitem="${it.kind}:${it.id}" style="cursor:pointer"><div class="ttl">${esc(it.ttl)}</div><div class="from">${it.kind==='lead'?'📋 ':'✓ '}${esc(it.from)}</div></div>
       ${it.due?`<span class="due ${d.cls}">${d.txt}</span>`:''}</div>`;}).join('');
 }
 function dueInfo(due){ if(!due) return {cls:'',txt:''};
@@ -344,7 +349,7 @@ function leadCard(l){ const col=stageColor(l.stage);
   const opts=STAGE_KEYS.map(k=>`<option value="${k}" ${k===l.stage?'selected':''}>${t('stages.'+k+'.label')}</option>`).join('');
   return `<div class="lead ${l.favourite?'fav':''}" draggable="true" data-id="${l.id}" style="border-left-color:${col}">
     <div class="co">${l.favourite?'<span class="flagstar">★</span>':''}${esc(l.company)}</div><div class="ro">${esc(l.role||'')}</div>
-    <div class="lr"><span class="stg" style="background:${col}22;color:${col}">${t('stages.'+l.stage+'.label')}</span>${l.location?`<span class="pill">${esc(l.location)}</span>`:''}</div>
+    <div class="lr"><span class="stg" style="background:${col}22;color:${col}">${t('stages.'+l.stage+'.label')}</span>${l.location?`<span class="pill">${esc(l.location)}</span>`:''}${(()=>{const n=helpersForLead(l.id).length;return n?`<span class="pill help" title="${esc(t('board.help',{n}))}">🤝 ${n}</span>`:'';})()}</div>
     <div class="lr"><select class="mv" data-move="${l.id}">${opts}</select><button class="btn sm" data-open="${l.id}">${t('board.open')}</button></div></div>`;
 }
 function renderTasks(){
@@ -355,15 +360,16 @@ function renderTasks(){
   tl.innerHTML=ts.map(x=>{const d=dueInfo(x.due),pc={high:'var(--bad)',med:'var(--warn)',low:'var(--muted)'}[x.priority]||'var(--muted)';
     return `<div class="item ${x.done?'done':''}"><button class="check" data-tdone="${x.id}">${x.done?'✓':''}</button>
       <div class="body" data-tedit="${x.id}"><div class="it-ttl">${esc(x.title)}</div>
-        <div class="it-sub"><span class="catpill" style="color:${pc}">${t('cats.'+x.category).toUpperCase()}</span>${x.due?' · '+d.txt:''}${x.recurring?' · ↻':''}</div></div>
+        <div class="it-sub"><span class="catpill" style="color:${pc}">${t('cats.'+x.category).toUpperCase()}</span>${x.due?' · '+d.txt:''}${x.recurring?' · ↻':''}${x.notes?' · 📝':''}</div></div>
       <span class="chev" data-tedit="${x.id}">›</span></div>`;}).join('');
 }
 function renderContacts(){
   const cl=$('#contactList'), cs=S.live(state.contacts);
   if(!cs.length){ cl.innerHTML=`<div class="empty">${t('network.empty')}</div>`; return; }
-  cl.innerHTML=cs.map(c=>`<div class="item"><div class="body" data-cedit="${c.id}">
+  cl.innerHTML=cs.map(c=>{const hc=helpCount(c);
+    return `<div class="item"><div class="body" data-cedit="${c.id}">
     <div class="it-ttl">${esc(c.name)} ${c.company?`<span class="muted tiny">· ${esc(c.company)}</span>`:''}</div>
-    <div class="it-sub">${esc(c.relationship||'')}${c.notes?' — '+esc(c.notes):''}</div></div><span class="chev" data-cedit="${c.id}">›</span></div>`).join('');
+    <div class="it-sub">${esc(c.relationship||'')}${c.notes?' — '+esc(c.notes):''}${hc?` · <span class="pill help">${t('network.helps_count',{n:hc})}</span>`:''}</div></div><span class="chev" data-cedit="${c.id}">›</span></div>`;}).join('');
 }
 function wireBoard(){
   $$('.lead').forEach(card=>{
@@ -390,7 +396,7 @@ window.closeSheet=closeSheet;
 
 function openLead(id){
   const l = id ? state.leads.find(x=>x.id===id) : touch({id:S.uid(),company:'',role:'',link:'',location:'',salary:'',source:'',favourite:false,priority:3,stage:'researching',nextAction:'',nextDue:'',contacts:[],notes:'',deleted:false});
-  const isNew=!id, dbs=state.debriefs.filter(d=>!d.deleted&&d.leadId===l.id);
+  const isNew=!id, dbs=state.debriefs.filter(d=>!d.deleted&&d.leadId===l.id), contacts=S.live(state.contacts);
   openSheet(`
     <h3>${isNew?t('lead.new'):t('lead.edit')}</h3>
     <div class="grid2"><div><label class="fld">${t('lead.company')}</label><input id="f_company" value="${attr(l.company)}"></div>
@@ -407,6 +413,8 @@ function openLead(id){
     <div style="margin-top:14px;display:flex;gap:8px;align-items:center"><h3 style="font-size:15px;margin:0">${t('lead.debriefs_h')}</h3>
       <button class="btn sm" id="addDebrief" style="margin-left:auto">${t('lead.add_debrief')}</button></div>
     ${dbs.length?dbs.map(debriefCard).join(''):`<p class="muted tiny">${t('lead.debrief_hint')}</p>`}
+    <h3 style="font-size:15px;margin:14px 0 4px">🤝 ${t('lead.helpers_h')}</h3>
+    ${isNew?`<p class="muted tiny">${t('lead.helpers_newhint')}</p>`:(contacts.length?`<div class="helpbox" id="l_helpers">${contacts.map(c=>`<label class="chkrow"><input type="checkbox" class="lhelp" data-cid="${c.id}" ${(c.helpsWith||[]).includes(l.id)?'checked':''}><span>${esc(c.name)} ${c.company?`<span class="muted tiny">· ${esc(c.company)}</span>`:''}</span></label>`).join('')}</div>`:`<p class="muted tiny">${t('lead.helpers_none')}</p>`)}
     <div class="row" style="margin-top:18px"><button class="btn go" id="saveLead" style="flex:1">${t('lead.save')}</button>
       ${isNew?'':`<button class="btn danger" id="delLead">${t('lead.delete')}</button>`}</div>`);
   $('#addDebrief').onclick=()=>{ persistLead(l); openDebrief(l.id); };
@@ -418,6 +426,7 @@ function persistLead(l,awardNew){ const g=id=>$('#'+id); const existed=state.lea
   l.location=g('f_location').value.trim(); l.salary=g('f_salary').value.trim(); l.stage=g('f_stage').value;
   l.priority=+g('f_priority').value||3; l.favourite=g('f_fav').checked; l.nextAction=g('f_next').value.trim();
   l.nextDue=g('f_nextDue').value; l.notes=g('f_notes').value.trim(); touch(l);
+  const hb=$('#l_helpers'); if(hb){ $$('.lhelp',hb).forEach(chk=>{ const c=state.contacts.find(x=>x.id===chk.dataset.cid); if(!c) return; c.helpsWith=c.helpsWith||[]; const has=c.helpsWith.includes(l.id); if(chk.checked&&!has){ c.helpsWith.push(l.id); touch(c); } else if(!chk.checked&&has){ c.helpsWith=c.helpsWith.filter(x=>x!==l.id); touch(c); } }); }
   if(!existed){ state.leads.push(l); if(awardNew) award('lead'); } save(); render();
 }
 function debriefCard(d){ return `<div class="debrief"><div class="muted tiny">${new Date(d.date).toLocaleDateString(I.getLang()==='de'?'de-CH':'en-GB')}</div>
@@ -442,25 +451,29 @@ function openTask(id){
       <div><label class="fld">${t('task.priority')}</label><select id="t_pri">${['high','med','low'].map(p=>`<option value="${p}" ${p===x.priority?'selected':''}>${p}</option>`).join('')}</select></div></div>
     <div class="grid2"><div><label class="fld">${t('task.due')}</label><input id="t_due" type="date" value="${attr(x.due)}"></div>
       <div><label class="fld"><input type="checkbox" id="t_rec" ${x.recurring?'checked':''} style="width:auto;margin-right:6px">${t('task.recurring')}</label></div></div>
+    <label class="fld">${t('task.notes')}</label><textarea id="t_notes">${esc(x.notes||'')}</textarea>
     <div class="row" style="margin-top:16px"><button class="btn go" id="saveTask" style="flex:1">${t('task.save')}</button>
       ${isNew?'':`<button class="btn danger" id="delTask">${t('task.delete')}</button>`}</div>`);
   $('#saveTask').onclick=()=>{ x.title=$('#t_title').value.trim(); if(!x.title){toast(t('task.title_missing'));return;}
-    x.category=$('#t_cat').value; x.priority=$('#t_pri').value; x.due=$('#t_due').value; x.recurring=$('#t_rec').checked;
+    x.category=$('#t_cat').value; x.priority=$('#t_pri').value; x.due=$('#t_due').value; x.recurring=$('#t_rec').checked; x.notes=$('#t_notes').value.trim();
     touch(x); if(!state.tasks.some(y=>y.id===x.id)) state.tasks.push(x); save(); render(); closeSheet(); toast(t('toast.saved')); };
   if(!isNew) $('#delTask').onclick=()=>{ if(!confirm(t('confirm.delete_task'))) return; x.deleted=true; touch(x); save(); render(); closeSheet(); toast(t('toast.deleted')); };
 }
 function openContact(id){
-  const c = id ? state.contacts.find(y=>y.id===id) : {id:S.uid(),name:'',company:'',relationship:'',intro:'',notes:'',deleted:false};
-  const isNew=!id;
+  const c = id ? state.contacts.find(y=>y.id===id) : {id:S.uid(),name:'',company:'',relationship:'',intro:'',notes:'',helpsWith:[],deleted:false};
+  const isNew=!id, leads=S.live(state.leads), hw=c.helpsWith||[];
   openSheet(`<h3>${isNew?t('contact.new'):t('contact.edit')}</h3>
     <div class="grid2"><div><label class="fld">${t('contact.name')}</label><input id="c_name" value="${attr(c.name)}"></div>
       <div><label class="fld">${t('contact.company')}</label><input id="c_co" value="${attr(c.company)}"></div></div>
     <label class="fld">${t('contact.relationship')}</label><input id="c_rel" value="${attr(c.relationship)}" placeholder="${t('contact.rel_ph')}">
     <label class="fld">${t('contact.notes')}</label><textarea id="c_notes">${esc(c.notes||'')}</textarea>
+    <label class="fld">${t('contact.helps_h')}</label>
+    ${leads.length?`<div class="helpbox" id="c_helps">${leads.map(l=>`<label class="chkrow"><input type="checkbox" class="helpchk" data-lead="${l.id}" ${hw.includes(l.id)?'checked':''}><span>${esc(l.company)} ${l.role?`<span class="muted tiny">· ${esc(l.role)}</span>`:''}</span></label>`).join('')}</div>`:`<p class="muted tiny">${t('contact.helps_none')}</p>`}
     <div class="row" style="margin-top:16px"><button class="btn go" id="saveContact" style="flex:1">${t('contact.save')}</button>
       ${isNew?'':`<button class="btn danger" id="delContact">${t('contact.delete')}</button>`}</div>`);
   $('#saveContact').onclick=()=>{ c.name=$('#c_name').value.trim(); if(!c.name){toast(t('contact.name_missing'));return;}
     c.company=$('#c_co').value.trim(); c.relationship=$('#c_rel').value.trim(); c.notes=$('#c_notes').value.trim();
+    c.helpsWith=$$('#c_helps .helpchk').filter(i=>i.checked).map(i=>i.dataset.lead);
     touch(c); if(!state.contacts.some(y=>y.id===c.id)) state.contacts.push(c); save(); render(); closeSheet(); toast(t('toast.saved')); };
   if(!isNew) $('#delContact').onclick=()=>{ if(!confirm(t('confirm.delete_contact'))) return; c.deleted=true; touch(c); save(); render(); closeSheet(); toast(t('toast.deleted')); };
 }
@@ -576,8 +589,9 @@ function toast(msg){ let el=$('#toast'); if(!el){ el=document.createElement('div
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
-  const d=e.target.closest('[data-done]'); if(d){ const[k,id]=d.dataset.done.split(':');
+  const ck=e.target.closest('[data-check]'); if(ck){ const[k,id]=ck.dataset.check.split(':');
     if(k==='task'){ const x=state.tasks.find(y=>y.id===id); if(x&&!x.done){x.done=true;touch(x);award('task');save();render();toast(t('toast.task_done',{xp:XP.task}));} } else { openLead(id); } return; }
+  const oi=e.target.closest('[data-openitem]'); if(oi){ const[k,id]=oi.dataset.openitem.split(':'); if(k==='task') openTask(id); else openLead(id); return; }
   const td=e.target.closest('[data-tdone]'); if(td){ const x=state.tasks.find(y=>y.id===td.dataset.tdone); if(x){x.done=!x.done;touch(x);if(x.done)award('task');save();render();} return; }
   const te=e.target.closest('[data-tedit]'); if(te){ openTask(te.dataset.tedit); return; }
   const ce=e.target.closest('[data-cedit]'); if(ce){ openContact(ce.dataset.cedit); return; }

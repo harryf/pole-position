@@ -3,6 +3,20 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.2.0 — 2026-06-27
+
+Network ↔ jobs relationships, tappable Focus items, and task notes.
+
+- **Network ↔ job links**: a contact can be marked as able to help with one or more jobs. Edit the
+  link from either side — checkboxes in the contact editor ("which jobs can this person help with?")
+  or in the job detail ("who in your network can help here?"). The board card shows a 🤝 badge with
+  the helper count, and the Network list shows how many jobs each contact supports. Stored on the
+  contact record (syncs via last-write-wins); deleted leads are ignored.
+- **Tappable Focus items**: tapping a next-action now opens the underlying task or job (so you can see
+  details / notes); the ✓ still completes a task in one tap.
+- **Task notes**: tasks now have a notes field in the editor, with a 📝 indicator in the list.
+- Seeded link: the Merbag reference is pre-linked to the Mercedes-AMG lead as a live example.
+
 ## v1.1.0 — 2026-06-27
 
 Internationalisation, install guide, live sync UX, and safer deletes.

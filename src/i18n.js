@@ -22,7 +22,7 @@
       empty: "All done. 🏁 Time to hunt new leads.",
     },
     due: { today: "today", over: "{n}d over", in: "in {n}d" },
-    board: { heading: "Application pipeline", open: "Open" },
+    board: { heading: "Application pipeline", open: "Open", help: "{n} in your network can help" },
     stages: {
       researching: { label: "Researching", tip: "Find roles that fit. Save the link, company & why. Favour premium/sport — that's where your AMG + HV experience shines." },
       resume: { label: "Resume Ready", tip: "Tailor your CV to THIS role. AGVS + MB HV/EV certification and Merbag first. DE + EN ready." },
@@ -39,6 +39,7 @@
       heading: "Network — contacts & referrals",
       sub: "Your Merbag network is gold. A referral beats any cold application.",
       empty: "No contacts yet. Capture your Merbag network with +.",
+      helps_count: "🤝 {n} jobs",
     },
     guide: {
       heading: "Guide",
@@ -93,6 +94,9 @@
       debrief_hint: "After each interview: jot it down while it's fresh. (Tip: the iPhone keyboard mic dictates.)",
       save: "Save", delete: "Delete",
       d_good: "✓ Good:", d_better: "△ Better:", d_follow: "→ Follow-up:",
+      helpers_h: "Who in your network can help here?",
+      helpers_none: "No contacts yet — add people under Network.",
+      helpers_newhint: "Save the lead first, then link contacts who can help.",
     },
     debrief: {
       title: "Interview debrief",
@@ -102,11 +106,13 @@
     },
     task: {
       new: "New task", edit: "Task", title: "Title", category: "Category", priority: "Priority",
-      due: "Due", recurring: "Recurring", save: "Save", delete: "Delete", title_missing: "Title missing",
+      due: "Due", recurring: "Recurring", notes: "Notes", save: "Save", delete: "Delete", title_missing: "Title missing",
     },
     contact: {
       new: "New contact", edit: "Contact", name: "Name", company: "Company", relationship: "Relationship",
       rel_ph: "e.g. trainer, colleague, referral", notes: "Notes", save: "Save", delete: "Delete", name_missing: "Name missing",
+      helps_h: "Which jobs can this person help with?",
+      helps_none: "No leads yet — add jobs on the Board.",
     },
     menu: {
       title: "Menu", language: "Language", theme: "Theme", goal: "Daily goal (actions)",
@@ -163,7 +169,7 @@
       empty: "Alles erledigt. 🏁 Zeit, neue Leads zu jagen.",
     },
     due: { today: "heute", over: "{n}d über", in: "in {n}d" },
-    board: { heading: "Bewerbungs-Pipeline", open: "Öffnen" },
+    board: { heading: "Bewerbungs-Pipeline", open: "Öffnen", help: "{n} aus deinem Netzwerk können helfen" },
     stages: {
       researching: { label: "Recherche", tip: "Passende Stellen finden. Link, Firma & Warum speichern. Premium/Sport bevorzugen — da glänzt deine AMG- + HV-Erfahrung." },
       resume: { label: "CV bereit", tip: "CV auf DIESE Stelle zuschneiden. AGVS + MB HV/EV-Zertifizierung und Merbag zuerst. DE + EN bereit." },
@@ -180,6 +186,7 @@
       heading: "Netzwerk — Kontakte & Empfehlungen",
       sub: "Dein Merbag-Netzwerk ist Gold wert. Eine Empfehlung schlägt jede Kaltbewerbung.",
       empty: "Noch keine Kontakte. Mit + dein Merbag-Netzwerk erfassen.",
+      helps_count: "🤝 {n} Jobs",
     },
     guide: {
       heading: "Guide",
@@ -234,6 +241,9 @@
       debrief_hint: "Nach jedem Interview: kurz festhalten, solange es frisch ist. (Tipp: Mikrofon-Taste der iPhone-Tastatur zum Diktieren.)",
       save: "Speichern", delete: "Löschen",
       d_good: "✓ Gut:", d_better: "△ Besser:", d_follow: "→ Follow-up:",
+      helpers_h: "Wer aus deinem Netzwerk kann hier helfen?",
+      helpers_none: "Noch keine Kontakte — unter Netzwerk hinzufügen.",
+      helpers_newhint: "Lead zuerst speichern, dann helfende Kontakte verknüpfen.",
     },
     debrief: {
       title: "Interview-Debrief",
@@ -243,11 +253,13 @@
     },
     task: {
       new: "Neue Aufgabe", edit: "Aufgabe", title: "Titel", category: "Kategorie", priority: "Priorität",
-      due: "Fällig", recurring: "Wiederkehrend", save: "Speichern", delete: "Löschen", title_missing: "Titel fehlt",
+      due: "Fällig", recurring: "Wiederkehrend", notes: "Notizen", save: "Speichern", delete: "Löschen", title_missing: "Titel fehlt",
     },
     contact: {
       new: "Neuer Kontakt", edit: "Kontakt", name: "Name", company: "Firma", relationship: "Beziehung",
       rel_ph: "z.B. Ausbildner, Kollege, Empfehlung", notes: "Notizen", save: "Speichern", delete: "Löschen", name_missing: "Name fehlt",
+      helps_h: "Bei welchen Jobs kann diese Person helfen?",
+      helps_none: "Noch keine Leads — auf dem Board hinzufügen.",
     },
     menu: {
       title: "Menü", language: "Sprache", theme: "Theme", goal: "Tagesziel (Aktionen)",

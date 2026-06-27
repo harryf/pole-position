@@ -6,7 +6,7 @@
    ========================================================================= */
 
 // Bump on every release. MUST match the in-app APP_VERSION constant in index.html.
-const VERSION = "1.1.0";
+const VERSION = "1.2.0";
 const CACHE = "pole-position-v" + VERSION;
 
 // Full offline shell. Relative URLs so it works on the /pole-position/ subpath.

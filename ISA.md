@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 58/58
+progress: 67/67
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -171,6 +171,17 @@ and importable via a documented file format.
 - [ ] ISC-57: Anti: switching language never alters or loses the user's stored data.
 - [ ] ISC-58: Version bumped to 1.1.0 across `APP_VERSION`, SW `VERSION`, CHANGELOG; `v1.1.0` tag + Release.
 
+### v1.2.0 — network↔job links, Focus tap-into, task notes
+- [ ] ISC-59: A contact can be linked to one or more leads ("can help with") via checkboxes in the contact editor.
+- [ ] ISC-60: The same link is editable from the lead detail (checkbox list of contacts).
+- [ ] ISC-61: A lead card on the board shows a 🤝 badge with the helper count when ≥1 contact can help.
+- [ ] ISC-62: The lead detail lists/【selects】the network contacts who can help.
+- [ ] ISC-63: Tapping a Focus next-action body opens the underlying task or lead; the ✓ still completes a task.
+- [ ] ISC-64: Tasks have an editable notes field in the task editor.
+- [ ] ISC-65: The task list shows a 📝 indicator when a task has notes.
+- [ ] ISC-66: The link is stored on the contact record (syncs via LWW) and ignores deleted leads.
+- [ ] ISC-67: Version bumped to 1.2.0 (APP_VERSION + SW + CHANGELOG); `v1.2.0` tag + Release; tests green.
+
 ## Test Strategy
 
 | isc | type | check | tool |
@@ -296,3 +307,15 @@ first sync.
   Swiss German but applications/interviews are High German and he reads English fluently; "Servus" is
   German-not-Swiss and jarring. learned: externalise all strings, default English, Swiss-German locale,
   enforce parity + key-existence by test. criterion_now: ISC-42..47.
+
+### v1.2.0 Verification (network↔job links, Focus tap-into, task notes) — 25/25 (131 t() keys)
+
+Verified live in real Chrome (MCP, fresh v1.2.0 seed):
+- **ISC-59**: contact editor shows "which jobs can this person help with?" + 3 lead checkboxes, seeded AMG checked. ✓
+- **ISC-60/62**: lead detail shows "who can help here?" + contact checkboxes; linking Merbag→Porsche **from the lead side** persisted. ✓
+- **ISC-61**: AMG card shows "🤝 1" (seeded); Porsche card none → "🤝 1" after the lead-side link. ✓
+- **ISC-63**: Focus rows carry `data-openitem`; tapping a task body opened the task editor, a lead body opened the lead editor; ✓ still completes. ✓
+- **ISC-64/65**: task editor has notes textarea (seeded note shown); list shows 📝 on the CV task. ✓
+- **ISC-66**: link stored on `contact.helpsWith` (LWW sync); `helpCount()` filters deleted leads. ✓
+- **ISC-67**: APP_VERSION/SW "1.2.0", CHANGELOG entry; tagged `v1.2.0` + Release.
+- Regression: task/contact rows still 0 inline deletes; deletes still confirm. ✓
