@@ -1,7 +1,7 @@
 ---
 project: ben-jobs
 effort: E3
-phase: verify
+phase: complete
 progress: 125/125
 mode: ALGORITHM
 started: 2026-06-27
@@ -443,7 +443,7 @@ incoming queue). (2) A hotness scale (hot/medium/normal) with a card indicator a
 - **ISC-113**: Board shows the indicator (ð¥ Hot red / Warm amber / none) and **auto-sorts hottest-first** then favourite then priority â live DOM + screenshot: Researching led by Sauber/Sportec (Hot), Porsche Zug shows Warm. â
 - **ISC-114**: hotnessFor restricts brand keywords to the title (not notes) so a re-pointed role whose notes mention the old brand stays normal â live: AMAG DÃ¼bendorf + Emil Frey Altendorf = normal (was wrongly Warm). â
 - **ISC-115**: `hot.*`, `lead.hotness`, `menu.check_jobs`, `toast.feed_*` present in en + de â i18n parity test green. â
-- **ISC-116**: APP_VERSION + SW VERSION "1.8.0", CHANGELOG; `prompt/job-search.md` documents the feed format + hotness. â (Deploy/tag pending Harry's go.)
+- **ISC-116**: APP_VERSION + SW VERSION "1.8.0", CHANGELOG; `prompt/job-search.md` documents the feed format + hotness. â — tagged v1.9.0, pushed; CI green; live serves 1.9.0. ✓
 
 **Decision (v1.8.0):** *feed is additive, keyed by stable id; the board is Ben's source of truth.* The
 feed only ADDS unseen jobs â it never overwrites Ben's stage moves, notes, or deletes. Harry pushes new
