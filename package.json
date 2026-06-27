@@ -1,0 +1,10 @@
+{
+  "name": "pole-position",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Pole Position — Benjamin's drift-spec job-hunt PWA. Buildless single index.html; this package holds only the test suite.",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run.mjs"
+  }
+}

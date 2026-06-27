@@ -1,0 +1,227 @@
+---
+project: ben-jobs
+effort: E3
+phase: build
+progress: 0/41
+mode: ALGORITHM
+started: 2026-06-27
+updated: 2026-06-27
+---
+
+# ISA — APEX: Benjamin's Job-Hunt Co-Pilot
+
+> Working title "APEX" (the racing line through a corner — the fastest path through). Final
+> name/aesthetic pending Harry's decision. This ISA is the spec; it drives the build and verifies it.
+
+## Problem
+
+Benjamin Madani (20) finishes his Automobilmechatroniker EFZ at Merbag (Switzerland's largest
+Mercedes-Benz workshop) in **August 2026** and is starting the hunt for his first real full-time
+job — premium/sport automotive (he applied to Porsche; loves drift cars; trained on AMG/EV). He is
+disciplined when there's a concrete goal but goes slack without one, and this is his first time
+navigating a professional job search (CV, cover letters, applications, follow-up, interviews,
+salary negotiation, working a personal network). He has an **iPhone** (at work) and a **Windows
+laptop** (at home). He has no single place that tells him *the one thing to do next*, holds his
+leads and their stages, captures interview debriefs, or keeps momentum between applications — which
+is exactly where first-time hunters stall.
+
+## Vision
+
+Benjamin opens APEX on his phone between jobs in the workshop and it greets him like a car
+dashboard — dark, performance-themed, a rev-counter showing today's momentum. It shows the **single
+next move**: "Send Porsche follow-up email" with the button right there. He taps it done, the needle
+climbs, his streak holds. At home on the laptop the same data is a **pit-wall board**: every
+application as a car moving through the grid — Researching → Applied → Interviewing → Offer — his
+favourite employers flagged, his Mercedes contacts attached, salary targets visible. After an
+interview the app prompts a quick debrief he dictates with his thumb. **The euphoric surprise: a job
+hunt — the thing that feels like formless anxiety — becomes a game with a clear next lap, themed
+like the world he already loves, and it follows him from workshop to home without him thinking about
+sync.**
+
+## Out of Scope
+
+- **No backend/server we have to run for the app to work** — it is a static PWA on GitHub Pages;
+  all his data lives on his devices (localStorage/IndexedDB), never on a server we operate.
+- **No real-time job-board scraping inside the app** — leads come in via an import file (Harry
+  curates searches and drops them in). The app manages leads; it does not crawl job sites.
+- **No account / login / cloud database.** Privacy by architecture: his job data never leaves his
+  devices except by his explicit export or his own peer sync.
+- **No guaranteed background push on iOS in v1** unless we add a tiny push service (decision pending)
+  — see Constraints. v1 ships local reminders + a Today agenda + app badge.
+- **No automatic resume/cover-letter generation this round** — the app tracks readiness, it is not
+  a document generator (could be a later lap).
+- Not a generic productivity app — every surface is bent toward *get Benjamin hired*.
+
+## Principles
+
+- **One glance, then one tap.** The phone always answers "what do I do right now?" before anything
+  else. Momentum is the product.
+- **Colour + text, never colour alone.** Stages and priorities carry a label, not just a hue
+  (accessibility + glanceability).
+- **His world, not lorem ipsum.** Seeded with Merbag, his real skills, his target employers, his
+  Mercedes network — recognition is what makes it land.
+- **Never trap his data.** Everything round-trips through a plain, re-importable file.
+- **Transport-agnostic sync.** The data model (per-record last-write-wins + timestamps + tombstones)
+  is correct independent of how bytes move — PeerJS today, file/QR fallback always, cloud later.
+- **Guide, don't nag.** Good-practice guidance is embedded where the decision happens (per stage),
+  not buried in a help page.
+- **Buildless and durable.** One `index.html`, no build step, runs by double-click and on Pages —
+  it must still work in two years with zero maintenance.
+
+## Constraints
+
+- **Single self-contained `index.html`**, no build step (mirrors the proven Technicolour Planner
+  architecture); persistence via `localStorage`/IndexedDB; vendored libs in `vendor/` (PeerJS, QR).
+- **PWA**: `manifest.webmanifest` + `service-worker.js` + icons; installable on iOS Safari (Add to
+  Home Screen) and Windows (Edge/Chrome install). Offline-capable after first load.
+- **Deploy**: GitHub Pages from `github.com/harryf/<repo>`, `.github/workflows/deploy.yml` on push to
+  main; `release.yml` cuts a GitHub Release on `v*` tags; `tests.yml` runs jsdom+Chrome tests.
+- **Auto-update**: SW `VERSION` constant bumped per release; cache-first; in-app "new version" banner
+  on `controllerchange`, no surprise reload (exact mechanism proven in the inspiration app).
+- **iOS reality (hard limits):** background Web Push requires a home-screen install AND a server with
+  VAPID keys to send — a static site cannot push by itself. Web Speech *recognition* is unreliable on
+  iOS Safari, but native keyboard dictation works in any `<textarea>` (the debrief path).
+- TypeScript/bun for any generators and the test harness; no Python.
+- No secrets in the repo; no third-party calls at runtime except the chosen sync broker.
+
+## Goal
+
+Deliver a single-file, installable PWA — deployed to GitHub Pages under `github.com/harryf` with
+versioning, CHANGELOG, and clean auto-update — that gives Benjamin (1) a **mobile-first Focus view**
+surfacing today's next actions with a gamified momentum/streak gauge, (2) a **desktop Board view**:
+a Kanban of job applications across well-practised stages with favourite-employer prioritisation,
+attached Mercedes contacts, and salary targets, (3) a **general task list** separate from
+application-specific work, (4) **post-interview debriefs** (thumb-dictatable, stored as structured
+JSON for later LLM analysis), (5) embedded **first-job + salary-negotiation guidance** seeded with
+**real Swiss salary research** for his role, and (6) **bi-directional phone↔laptop sync** via a
+transport-agnostic layer (PeerJS/WebRTC primary, file/QR fallback), all seeded with his real profile
+and importable via a documented file format.
+
+## Criteria
+
+### Shell, PWA, deploy, auto-update
+- [ ] ISC-1: `index.html` opens with no server and no build step (file:// and http).
+- [ ] ISC-2: `manifest.webmanifest` present; app is installable on iOS (Add to Home Screen) and Windows.
+- [ ] ISC-3: `service-worker.js` precaches the shell and serves cache-first (offline after first load).
+- [ ] ISC-4: A `VERSION` constant exists in-app and matches the SW cache version string.
+- [ ] ISC-5: On a new deployed version, an in-app "Update available" banner appears (no surprise auto-reload).
+- [ ] ISC-6: `.github/workflows/deploy.yml` publishes the repo root to GitHub Pages on push to main.
+- [ ] ISC-7: `.github/workflows/release.yml` cuts a GitHub Release on a `v*` tag.
+- [ ] ISC-8: `.github/workflows/tests.yml` runs the jsdom+Chrome suite on push and PR.
+- [ ] ISC-9: `CHANGELOG.md` exists and records v-numbered entries.
+- [ ] ISC-10: Anti: the SW never hard-reloads the page out from under the user.
+
+### Data model, persistence, sync
+- [ ] ISC-11: All state persists across reloads (localStorage/IndexedDB).
+- [ ] ISC-12: "Export" downloads a complete JSON snapshot; "Import" restores it (round-trip lossless).
+- [ ] ISC-13: Every record carries `id`, `updatedAt`, and a soft-delete `deleted` tombstone for merge.
+- [ ] ISC-14: A merge function resolves two snapshots by per-record last-write-wins + tombstones (unit-tested).
+- [ ] ISC-15: PeerJS live sync: two browsers with the same pairing code exchange and merge state both directions.
+- [ ] ISC-16: Fallback sync: a QR/file handoff transfers state when peers aren't both online.
+- [ ] ISC-17: Anti: no job data is transmitted anywhere without an explicit user action (pair or export).
+
+### Leads / Kanban board (desktop)
+- [ ] ISC-18: A lead has: company, role, link, location, salary range, source, favourite-priority, contacts, dates, notes.
+- [ ] ISC-19: Board renders columns for stages: Researching, Resume Ready, Cover Letter Ready, Applied, Contacted, Interviewing, Offer/Negotiation, Closed.
+- [ ] ISC-20: A lead can be moved between stages (drag on desktop, control on mobile) and the stage persists.
+- [ ] ISC-21: Each stage shows embedded good-practice guidance for that step.
+- [ ] ISC-22: Favourite/priority employers are visually flagged and sort to the top.
+- [ ] ISC-23: Clicking a lead opens a detail panel: all fields editable, contacts, debriefs, next action.
+- [ ] ISC-24: Each lead card shows a stage colour AND a stage text label (redundant encoding).
+- [ ] ISC-25: A lead's "next action" + due date is settable and feeds the Focus view.
+
+### Focus view (mobile) + tasks + gamification
+- [ ] ISC-26: Mobile-first Focus view lists today's + overdue + upcoming next actions across all leads and tasks.
+- [ ] ISC-27: A general task list exists, separate from leads (title, category, due, priority, done, recurring).
+- [ ] ISC-28: Completing a task or advancing a lead awards points (XP) that persist.
+- [ ] ISC-29: A daily streak increments on any progress day and resets after a gap.
+- [ ] ISC-30: A tachometer/rev-counter gauge visualises today's momentum toward a daily goal.
+- [ ] ISC-31: Level/milestone thresholds exist and surface a reward state when crossed.
+
+### Contacts, debriefs, guidance, salary
+- [ ] ISC-32: A contact has name, company, relationship, how-introduced, notes; attachable to leads (Mercedes network).
+- [ ] ISC-33: After an interview, the app prompts a debrief: what went well / what to improve / follow-ups.
+- [ ] ISC-34: The debrief input is a `<textarea>` that accepts iOS native dictation (thumb voice entry).
+- [ ] ISC-35: Debriefs are stored as structured JSON (per lead, timestamped) and included in export for LLM analysis.
+- [ ] ISC-36: An embedded guidance section covers first-job good practice (application, follow-up, interview prep).
+- [ ] ISC-37: An embedded salary-negotiation tips section is present.
+- [ ] ISC-38: A salary-expectations section is seeded with real Swiss data for Automobilmechatroniker EFZ / premium segment.
+
+### Import + seed + theme
+- [ ] ISC-39: A documented import file format adds leads AND general tasks in bulk (schema + example in repo).
+- [ ] ISC-40: First open is seeded with Benjamin's real profile (Merbag, skills, target employers) — not placeholder text.
+- [ ] ISC-41: The theme is a dark automotive/performance aesthetic (chosen brand lane), responsive phone↔laptop; Anti: no flashing/autoplay.
+
+## Test Strategy
+
+| isc | type | check | tool |
+|-----|------|-------|------|
+| ISC-1,2,3 | functional | open via file:// and http; install prompt; offline reload | Interceptor |
+| ISC-4,5,9 | code/version | grep VERSION in index.html + SW + CHANGELOG match | Grep/Read |
+| ISC-6,7,8 | ci | workflow files present + valid YAML; first Actions run green | Read/gh |
+| ISC-11,12 | persistence | reload + export→import round-trip equality | Interceptor/unit |
+| ISC-13,14 | merge | unit test: two snapshots merge LWW + tombstone correctly | bun/node test |
+| ISC-15,16 | sync | two browser contexts pair + converge; QR/file handoff | Interceptor |
+| ISC-18..25 | board | seed leads render; drag stage; detail edit; favourite sort | Interceptor |
+| ISC-26..31 | focus/game | next-action list; complete→XP/streak/needle move | Interceptor |
+| ISC-32..35 | contacts/debrief | attach contact; debrief saved as JSON in export | Interceptor/Read |
+| ISC-36..38 | content | guidance + negotiation + salary sections present, real numbers | Read |
+| ISC-39 | import | import sample file → leads+tasks appear | Interceptor |
+| ISC-40,41 | seed/theme | his real employers visible first open; dark theme; no motion | Interceptor |
+
+## Features
+
+| name | satisfies | depends_on | parallelizable |
+|------|-----------|------------|----------------|
+| Shell + data model + persistence + seed | ISC-1,2,3,11,40 | — | no |
+| PWA + SW + auto-update banner | ISC-2,3,4,5,10 | shell | no |
+| Deploy + release + tests CI | ISC-6,7,8,9 | shell | yes |
+| Sync layer (LWW merge) + PeerJS + QR fallback | ISC-13,14,15,16,17 | data model | yes |
+| Export/import + import file format | ISC-12,39 | data model | yes |
+| Board view (Kanban + stages + guidance + favourites) | ISC-18..25 | shell | no |
+| Focus view + tasks + gamification | ISC-26..31 | shell | no |
+| Contacts + debriefs | ISC-32..35 | board | no |
+| Guidance + negotiation + salary content | ISC-36,37,38 | shell | yes |
+| Theme + responsive + identity | ISC-41 | shell | no |
+
+## Decisions
+
+- 2026-06-27: **Ceremony streamlined (show-your-math), mirroring the sibling Technicolour Planner
+  ISA.** This is real external project work in `~/Code/personal`, not PAI-system work. Per Algorithm
+  doctrine "never let ceremony eat the budget": focused 41-ISC ISA (not the E3 soft target padded
+  out), thinking capabilities (FirstPrinciples on iOS platform limits, SystemsThinking on momentum
+  leverage, ApertureOscillation tactical-vs-strategic, IterativeDepth on feature surface) applied
+  inline rather than as separate ceremony skill calls; voice curls skipped (Pulse not assumed up in
+  this install). Budget goes to the plan, the honest constraints, and the build.
+- 2026-06-27: **Delegation: Research delegated (background salary research agent); Forge deferred to
+  BUILD.** Salary research is genuinely parallel read-only work → backgrounded now. Forge (GPT-5.4)
+  to be invoked during the BUILD of `index.html` per the E3 coding auto-include. Single-author for
+  the coherent UX/colour judgment across one file (same rationale as the sibling project).
+- 2026-06-27: **One responsive app, two views — not two apps.** "Focus" (mobile, next-action +
+  momentum) and "Board" (desktop, Kanban planning) share one data model and one `index.html`,
+  adapting by viewport. Simpler to sync, simpler to ship, one source of truth.
+- 2026-06-27: **Transport-agnostic sync chosen over PeerJS-coupled sync.** WebRTC P2P only works
+  when both peers are online simultaneously; a phone+laptop rarely are. Modelling state as
+  per-record LWW + tombstones makes PeerJS, QR/file, and a future cloud relay all correct against the
+  same merge function — de-risks the riskiest assumption.
+- 2026-06-27: **LOCKED Harry decisions.** (1) Sync = PeerJS live + QR/file fallback (no server).
+  (2) Reminders = none in v1 (revisit push later). (3) Aesthetic = JDM/Drift — dark slate base,
+  neon teal + magenta livery, tyre-smoke gradients, arcade-racer energy. (4) Repo =
+  `github.com/harryf/pole-position` (public) → `harryf.github.io/pole-position`. App name "Pole
+  Position" (working APEX dropped).
+- 2026-06-27: **Forge unavailable (codex CLI not installed) → single-author build confirmed.**
+  Show-your-math: the value is one coherent JDM/drift UX judgment across a single `index.html`;
+  the sibling Technicolour Planner shipped the same way. Merge logic isolated in `src/sync.js`
+  for node-side unit testing without a browser.
+- 2026-06-27: **Salary research landed (background agent).** Zürich GAV legal floor for 4-year EFZ
+  = CHF 5,000/mo ×13 (~CHF 65k); market entry midpoint ~CHF 66k; ANCHOR ASK CHF 5,500/mo (~CHF
+  71.5k), walk-floor CHF 5,300, lead every conversation with the AGVS+MB HV/EV certification.
+  Seeds ISC-38. Sources: AGVS-ZH GAV wage sheet (signed 2025-11-06), jobs.ch, lohnanalyse.ch.
+
+## Changelog
+
+(append at LEARN if structural understanding evolves)
+
+## Verification
+
+(populated at VERIFY — live-probe each user-facing ISC via Interceptor; unit-test the merge function)

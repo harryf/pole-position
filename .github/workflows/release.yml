@@ -1,0 +1,27 @@
+name: Release
+
+# Cuts a GitHub Release whenever a v* tag is pushed (git tag v1.0.0 && git push --tags).
+# Release notes auto-generated from commits; keep CHANGELOG.md as the human record.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" \
+            --title "${GITHUB_REF_NAME}" \
+            --generate-notes

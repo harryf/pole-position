@@ -1,0 +1,21 @@
+name: Tests
+
+# Runs the sync-merge unit suite on every push to main and every pull request.
+# Pure Node — no browser needed for the convergence/merge guarantees.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Run tests
+        run: node tests/run.mjs
