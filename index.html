@@ -262,7 +262,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/seed-data.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.11.2";
+const APP_VERSION = "1.11.3";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -619,6 +619,18 @@ function ingest(data){
 // peers, and a received change that alters local state is gossiped onward so a hub
 // topology converges. Merge is LWW + tombstones (settings excluded → stay per-device).
 let peer=null, conns={}, _applyingRemote=false, _peerStarting=false;
+// ICE servers: STUN finds a direct path; TURN RELAYS the connection when two devices
+// can't reach each other directly (restrictive Wi-Fi / "client isolation" / strict NAT) —
+// without a TURN relay those pairs silently fail to connect even on the same network.
+// Free public relay (best-effort; a dedicated TURN is more reliable for heavy use).
+const ICE_SERVERS=[
+  {urls:'stun:stun.l.google.com:19302'},
+  {urls:'stun:stun1.l.google.com:19302'},
+  {urls:'turn:openrelay.metered.ca:80',username:'openrelayproject',credential:'openrelayproject'},
+  {urls:'turn:openrelay.metered.ca:443',username:'openrelayproject',credential:'openrelayproject'},
+  {urls:'turn:openrelay.metered.ca:443?transport=tcp',username:'openrelayproject',credential:'openrelayproject'},
+];
+const _connRetry={}; // id -> {n, t} retry bookkeeping
 function deviceLabelFromUA(){
   const ua=navigator.userAgent;
   const plat=/iphone/i.test(ua)?'iPhone':/ipad/i.test(ua)?'iPad':/android/i.test(ua)?'Android':/(macintosh|mac os)/i.test(ua)?'Mac':/windows/i.test(ua)?'Windows PC':/linux/i.test(ua)?'Linux':'Device';
@@ -637,15 +649,34 @@ function rememberDevice(id,name){ const k=state.settings.knownDevices=state.sett
 function startPeer(cb){
   if(peer && !peer.destroyed){ if(peer.open) cb&&cb(); return; }
   if(_peerStarting){ return; } _peerStarting=true;
-  try{ peer=new Peer(state.settings.deviceId); }catch(e){ _peerStarting=false; return; }
-  peer.on('open',()=>{ _peerStarting=false; (state.settings.knownDevices||[]).forEach(d=>connectTo(d.id)); updateConnUI(); cb&&cb(); });
+  try{ peer=new Peer(state.settings.deviceId, {config:{iceServers:ICE_SERVERS}}); }catch(e){ _peerStarting=false; return; }
+  peer.on('open',()=>{ _peerStarting=false; (state.settings.knownDevices||[]).forEach(d=>ensureConnected(d.id)); updateConnUI(); cb&&cb(); });
   peer.on('connection',c=>wireConn(c));
   peer.on('disconnected',()=>{ try{ peer.reconnect(); }catch(e){} });
-  peer.on('error',e=>{ _peerStarting=false; if(e&&e.type==='unavailable-id'){ setTimeout(()=>{ try{peer.destroy();}catch(_){} peer=null; startPeer(cb); },4000); } });
+  peer.on('error',e=>{ _peerStarting=false; const ty=e&&e.type;
+    if(ty==='unavailable-id'){ setTimeout(()=>{ try{peer.destroy();}catch(_){} peer=null; startPeer(cb); },4000); return; }
+    // 'peer-unavailable' = the other device isn't reachable yet; ensureConnected keeps retrying,
+    // so don't toast on every attempt. Genuine broker/network errors ARE surfaced.
+    if(ty==='peer-unavailable') return;
+    if(ty==='network'||ty==='server-error'||ty==='socket-error'||ty==='socket-closed') toast(t('sync.broker_fail'));
+  });
+}
+// Connect to a peer and KEEP RETRYING until it's up (the other device may register a moment
+// later, suspend/resume on iOS, or need a relay path). One self-rescheduling loop per id.
+function ensureConnected(id){
+  if(!id||id===state.settings.deviceId) return;
+  const st=_connRetry[id]||(_connRetry[id]={n:0,t:0});
+  if(st.t){ clearTimeout(st.t); st.t=0; }            // collapse duplicate callers into one loop
+  if(conns[id]&&conns[id].open){ delete _connRetry[id]; return; } // already connected
+  if(st.n>=10){ delete _connRetry[id]; if(!openConns().length) toast(t('sync.status_failed')); if($('#deviceList')) renderDeviceList(); return; }
+  st.n++;
+  if(peer && peer.open) connectTo(id); else startPeer();
+  if($('#deviceList')) renderDeviceList();
+  st.t=setTimeout(()=>ensureConnected(id), 2200);
 }
 function connectTo(id){ if(!id||id===state.settings.deviceId) return; if(conns[id]&&conns[id].open) return; try{ const c=peer&&peer.connect(id,{reliable:true}); if(c) wireConn(c); }catch(e){} }
 function wireConn(c){
-  c.on('open',()=>{ conns[c.peer]=c; try{ c.send({type:'hello', id:state.settings.deviceId, name:state.settings.deviceName, payload:syncPayload()}); }catch(e){} updateConnUI(); });
+  c.on('open',()=>{ conns[c.peer]=c; if(_connRetry[c.peer]){ clearTimeout(_connRetry[c.peer].t); delete _connRetry[c.peer]; } try{ c.send({type:'hello', id:state.settings.deviceId, name:state.settings.deviceName, payload:syncPayload()}); }catch(e){} updateConnUI(); });
   c.on('data',d=>{
     if(!d) return;
     if(d.type==='hello'||d.type==='state'){
@@ -666,19 +697,21 @@ function addDevice(code){ code=(code||'').trim(); if(!code) return toast(t('sync
   // peer.on('open') connects every known device, so remembering first guarantees
   // the connection once the broker is up; connectTo now covers the already-open case.
   rememberDevice(code, code); toast(t('toast.device_added'));
-  // Connect exactly once: if the broker is already up, now; otherwise peer.on('open')
-  // connects every known device (we just remembered this one). Avoids the double
-  // DataConnection that startPeer-cb + trailing connectTo would open on the open path.
-  if(peer && peer.open) connectTo(code); else startPeer();
+  // Keep retrying until the connection opens (the other device may not be reachable the
+  // instant we add it; ensureConnected also starts the peer if needed and surfaces failure).
+  ensureConnected(code);
   setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },300); }
 function renderDeviceList(){
   const el=$('#deviceList'); if(!el) return; const k=state.settings.knownDevices||[];
   if(!k.length){ el.innerHTML=`<p class="muted tiny">${t('sync.none_known')}</p>`; return; }
-  el.innerHTML=k.map(d=>{ const on=conns[d.id]&&conns[d.id].open;
+  el.innerHTML=k.map(d=>{ const on=conns[d.id]&&conns[d.id].open; const connecting=!on && !!_connRetry[d.id];
+    const col=on?'var(--good)':connecting?'var(--warn)':'var(--muted)', txt=on?t('sync.online'):connecting?t('sync.connecting'):t('sync.offline');
     return `<div class="item"><div class="body"><div class="it-ttl">${esc(d.name)}</div>
-      <div class="it-sub"><span style="color:${on?'var(--good)':'var(--muted)'}">● ${on?t('sync.online'):t('sync.offline')}</span></div></div>
+      <div class="it-sub"><span style="color:${col}">● ${txt}</span></div></div>
+      ${on?'':`<button class="btn sm" data-retry="${esc(d.id)}" title="${attr(t('sync.connecting'))}">↻</button>`}
       <button class="btn sm" data-forget="${esc(d.id)}">${t('sync.forget')}</button></div>`;}).join('');
   $$('[data-forget]',el).forEach(b=>b.onclick=()=>{ if(confirm(t('confirm.forget'))) forgetDevice(b.dataset.forget); });
+  $$('[data-retry]',el).forEach(b=>b.onclick=()=>{ ensureConnected(b.dataset.retry); toast(t('sync.connecting')); });
 }
 function openSync(){
   startPeer();

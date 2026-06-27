@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 148/148
+progress: 154/154
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -550,6 +550,35 @@ the reliable path for an installed iPhone (iOS won't open an installed PWA from 
   double-tap guarded); and a scanned/linked pair id is validated to the `pp-…` shape on both branches
   so junk can't enter `knownDevices`. Pairing re-verified live (two browsers still pair bidirectionally).
   ✓
+
+### v1.11.3 Verification (pairing connects on real devices + never silent) — `node tests/run.mjs` → 66/66
+
+Reproduced (two browser origins): pairing to an unreachable peer **added the device but left a silent
+grey dot** — no retry, no error (exactly Ben's real-device report: laptop QR, phone scans, added, no
+green dot). Root cause: PeerJS config had **no TURN relay** (same-Wi-Fi devices behind client-isolation/
+strict-NAT can't connect directly), **one-shot connect** (no retry), and **swallowed** `peer-unavailable`.
+
+- **ISC-149**: Peer config now includes STUN **and TURN** (`iceServers` with a relay) so a blocked
+  direct path is relayed — live: code present; happy-path pair still connects (green dot). ✓ The relay
+  path itself is **[DEFERRED-VERIFY]** (loopback uses host candidates) — proven only on Ben's two real
+  networks. Follow-up: on-device retest.
+- **ISC-150**: `ensureConnected(id)` retries (~10 attempts / ~22 s, single loop per id), then stops —
+  live: dead-peer pair retried then gave up. ✓
+- **ISC-151**: A connecting device shows **● Connecting…** (amber) — live: mid-retry row read
+  "● Connecting…", `color:var(--warn)`. ✓
+- **ISC-152**: On give-up it shows **● offline** + a **↻ retry** button + a "Connection failed" toast
+  (no silent grey dot) — live: final row "● offline", toast "Connection failed. Use export/import." ✓
+- **ISC-153**: Anti: no regression — a reachable peer still connects bidirectionally (green "● connected"
+  on both, state synced). ✓ Live: B→A pair connected, device row "● connected".
+- **ISC-154**: `peer.on('error')` now surfaces broker/network errors (`network`/`server-error`/
+  `socket-*` → toast) while `peer-unavailable` stays quiet (the retry loop owns that). ✓ No console errors.
+
+**Decision (v1.11.3):** *the silent grey dot was three missing things — a TURN relay, a retry, and any
+error surfacing.* TURN is the most likely real fix (same-Wi-Fi devices frequently can't connect directly
+without a relay); retry + visible status guarantee that if it STILL can't connect on Ben's hardware, he
+sees "Connecting…/offline + Connection failed" and can tell us, instead of a silent dot. Free public TURN
+is best-effort; if it proves flaky a dedicated TURN server is the durable fix. Changes are confined to
+`index.html` (connection logic) — the parallel Guide-content edit (i18n.js) is untouched.
 
 **Decision (v1.11.0):** *the in-app scanner is the load-bearing path for an installed iPhone; the link is
 a desktop/Android convenience.* iOS never routes an external `https://…` link to an installed home-screen

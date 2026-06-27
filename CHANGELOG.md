@@ -3,6 +3,24 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.11.3 — 2026-06-27
+
+Makes device pairing actually connect across real devices — and never fail silently.
+
+- **Why it was needed:** scanning the QR added the device but the green "connected" dot never
+  appeared. Two devices on the same Wi-Fi often can't reach each other directly (router "client
+  isolation" / strict NAT), and the app had **no TURN relay**, **no connection retry**, and
+  **swallowed the error** — so it looked added but silently never connected.
+- **TURN relay added:** the WebRTC config now includes STUN **and** TURN servers, so when a direct
+  path is blocked the connection is **relayed** instead of silently failing. (Free public relay —
+  best-effort; a dedicated TURN server is more reliable for heavy use.)
+- **Keeps retrying:** adding/scanning a device now retries the connection (~10 attempts over ~20 s)
+  instead of giving up after one shot — covering the other device registering a moment later or an
+  iPhone resuming from sleep.
+- **You can see what's happening:** a paired device now shows **● Connecting…** (amber) while it tries,
+  **● connected** (green) when live, or **● offline** with a **↻ retry** button — and a clear
+  "Connection failed" message if it genuinely can't reach the other device. No more silent grey dot.
+
 ## v1.11.2 — 2026-06-27
 
 Adds the motorsport employers to the Guide → Employers directory, with locations.
