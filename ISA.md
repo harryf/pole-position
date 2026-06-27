@@ -1,8 +1,8 @@
 ---
 project: ben-jobs
 effort: E3
-phase: build
-progress: 0/41
+phase: verify
+progress: 38/41
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -224,4 +224,24 @@ and importable via a documented file format.
 
 ## Verification
 
-(populated at VERIFY — live-probe each user-facing ISC via Interceptor; unit-test the merge function)
+**Tooling note:** Interceptor CLI is not installed in this environment (and agent-browser/Playwright
+are banned), so live verification used real Chrome two ways: (a) headless `--screenshot` for pixels,
+(b) the claude-in-chrome MCP for live DOM measurement. A macOS minimum-window-width clamp makes
+headless `--window-size=390` crop a wider layout (false "clipping"); the MCP intrinsic-width probe is
+the authoritative responsive check.
+
+- **ISC-1** (no server/build): app renders from `file://`-style static serving (bun static server), JS executes. ✓
+- **ISC-3/4/5/10** (SW + version + update banner): `service-worker.js` precache+cache-first; `controllerchange`→banner; `APP_VERSION`==SW `VERSION`=="1.0.0". Code-verified; live SW behaviour confirmed by the cache serving stale shells in headless (proves it caches). ✓ (real-device install DEFERRED-VERIFY → follow-up: install on Ben's iPhone/laptop.)
+- **ISC-11/12** (persist + export/import): localStorage load/save; export blob + import round-trip wired. ✓ (code-verified)
+- **ISC-13/14** (LWW merge + tombstones): `node tests/run.mjs` → **15/15 pass** (LWW, tombstone, union, commutative, idempotent, state-merge, XP/streak max). ✓
+- **ISC-15/16/17** (PeerJS + QR + file fallback; no silent egress): `Peer`,`QRCode`,`jsQR` globals loaded (MCP probe); host/join + QR + export/import wired; transmit only on explicit pair/export. ✓ (two-device live pair DEFERRED-VERIFY → follow-up: pair phone+laptop once.)
+- **ISC-18..25** (board): desktop screenshot shows 8 stage columns, per-stage guidance, Porsche+AMG favourites gold-starred & sorted to top, location pills, move dropdown + Öffnen, drag wired. ✓
+- **ISC-26..31** (focus + tasks + game): 600px screenshot shows tacho 0/3, XP/Lvl/streak/open-leads chips, next-action list w/ due badges; XP/streak/level fns + award() wired. ✓
+- **ISC-32..35** (contacts + debriefs): Merbag contact seeded; debrief modal (well/improve/followups) stores JSON in `debriefs[]` (in export). ✓ (code-verified)
+- **ISC-36/37/38** (guide + salary + negotiate): Guide tabs render real Zürich numbers (GAV 5'000 floor, 5'500 anchor) + 6 negotiation rules. ✓
+- **ISC-39/40** (import format + seed): `import.example.json` schema + `ingest()`; first open shows Merbag/Porsche/AMG/HV (recognition). ✓
+- **ISC-41** (theme + responsive + no-motion): dark JDM/drift theme both viewports; intrinsic-width probe at 390 → nav/cockpit/statchips/actions overflow = 0; no autoplay/flash. ✓
+
+**Live deploy ISC-6/7/8 (Pages/release/tests CI):** workflow files valid; first green Actions run is
+**[DEFERRED-VERIFY]** until the repo is pushed to `github.com/harryf/pole-position` — follow-up gated
+on Harry's go-ahead for the public push.
