@@ -226,7 +226,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/i18n.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.2.0";
+const APP_VERSION = "1.3.0";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -247,23 +247,33 @@ function save(){ state.settings.updatedAt=S.nowISO(); localStorage.setItem(KEY, 
 function touch(r){ r.updatedAt=S.nowISO(); return r; }
 
 function seed(){
-  const t0=S.nowISO(); const mk=o=>Object.assign({id:S.uid(),updatedAt:t0,deleted:false},o);
-  const porsche=mk({company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Service technician',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / mo (target)",source:'Porsche careers',favourite:true,priority:5,stage:'researching',nextAction:'Tailor dossier to Porsche (highlight HV cert.)',nextDue:isoIn(5),contacts:[],notes:'Dream employer, right on the doorstep. AMG + HV are the levers.'});
-  const amg=mk({company:'Mercedes-AMG',role:'High-performance mechatronics / AMG',link:'',location:'CH / DE',salary:'',source:'Network',favourite:true,priority:4,stage:'researching',nextAction:'Ask Merbag colleagues for AMG contacts',nextDue:isoIn(6),contacts:[],notes:'Plays directly to your SLS/G63/E63/C63 experience.'});
-  const kessel=mk({company:'Kessel AG — Ferrari / Maserati',role:'Sports-car mechatronics',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Check open positions',nextDue:'',contacts:[],notes:'Sports-car segment.'});
+  // STABLE deterministic ids: identical on every device, so a first-time sync merges
+  // the seed instead of duplicating it (the v1.2.0 duplicate bug). Never use S.uid() here.
+  const t0=S.nowISO(); const mk=(id,o)=>Object.assign({id,updatedAt:t0,deleted:false},o);
+  const porsche=mk('seed-lead-porsche',{company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Service technician',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / mo (target)",source:'Porsche careers',favourite:true,priority:5,stage:'researching',nextAction:'Tailor dossier to Porsche (highlight HV cert.)',nextDue:isoIn(5),contacts:[],notes:'Dream employer, right on the doorstep. AMG + HV are the levers.'});
+  const amg=mk('seed-lead-amg',{company:'Mercedes-AMG',role:'High-performance mechatronics / AMG',link:'',location:'CH / DE',salary:'',source:'Network',favourite:true,priority:4,stage:'researching',nextAction:'Ask Merbag colleagues for AMG contacts',nextDue:isoIn(6),contacts:[],notes:'Plays directly to your SLS/G63/E63/C63 experience.'});
+  const kessel=mk('seed-lead-kessel',{company:'Kessel AG — Ferrari / Maserati',role:'Sports-car mechatronics',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Check open positions',nextDue:'',contacts:[],notes:'Sports-car segment.'});
   return {
     leads:[porsche,amg,kessel],
     tasks:[
-      mk({title:'Finalise CV (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Use the Porsche version as the base. Keep AGVS + Mercedes HV/EV cert at the top.'}),
-      mk({title:'Ask Merbag team lead for a reference letter',category:'network',due:isoIn(6),priority:'high',done:false,notes:''}),
-      mk({title:'Set up LinkedIn profile (HV/EV visible)',category:'setup',due:isoIn(8),priority:'med',done:false,notes:''}),
-      mk({title:'Collect HV certificates as PDF',category:'admin',due:isoIn(3),priority:'med',done:false,notes:''}),
+      mk('seed-task-cv',{title:'Finalise CV (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Use the Porsche version as the base. Keep AGVS + Mercedes HV/EV cert at the top.'}),
+      mk('seed-task-ref',{title:'Ask Merbag team lead for a reference letter',category:'network',due:isoIn(6),priority:'high',done:false,notes:''}),
+      mk('seed-task-linkedin',{title:'Set up LinkedIn profile (HV/EV visible)',category:'setup',due:isoIn(8),priority:'med',done:false,notes:''}),
+      mk('seed-task-hv',{title:'Collect HV certificates as PDF',category:'admin',due:isoIn(3),priority:'med',done:false,notes:''}),
     ],
-    contacts:[ mk({name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.',helpsWith:[amg.id]}) ],
+    contacts:[ mk('seed-contact-merbag',{name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.',helpsWith:['seed-lead-amg']}) ],
     debriefs:[],
-    settings:{theme:'drift',dailyGoal:3,name:'Ben',lang:'en',updatedAt:t0},
+    settings:{theme:'drift',dailyGoal:3,name:'Ben',lang:'en',knownDevices:[],updatedAt:t0},
     meta:{xp:0,streak:0,bestStreak:0,lastActiveDay:''},
   };
+}
+function cleanupDuplicates(){
+  const norm=s=>String(s||'').trim().toLowerCase(); let total=0;
+  const a=S.dedupeByKey(state.leads, l=>l.company?norm(l.company)+'|'+norm(l.role):null); state.leads=a.result; total+=a.removed;
+  const b=S.dedupeByKey(state.tasks, x=>norm(x.title)||null); state.tasks=b.result; total+=b.removed;
+  const c=S.dedupeByKey(state.contacts, x=>x.name?norm(x.name)+'|'+norm(x.company):null); state.contacts=c.result; total+=c.removed;
+  if(total) save();
+  return total;
 }
 function isoIn(d){ const x=new Date(); x.setDate(x.getDate()+d); return x.toISOString().slice(0,10); }
 function todayKey(){ return new Date().toISOString().slice(0,10); }
@@ -493,14 +503,16 @@ function openMenu(){
     <label class="fld">${t('menu.goal')}</label><input id="m_goal" type="number" min="1" max="10" value="${state.settings.dailyGoal||3}">
     <div class="row" style="margin-top:14px;flex-wrap:wrap;gap:8px">
       <button class="btn" id="m_export">${t('menu.export')}</button><button class="btn" id="m_import">${t('menu.import')}</button>
-      <button class="btn go" id="m_sync">${t('menu.pair')}</button>${standalone?'':`<button class="btn" id="m_install">${t('menu.install')}</button>`}</div>
+      <button class="btn go" id="m_sync">${t('menu.pair')}</button><button class="btn" id="m_cleanup">${t('menu.cleanup')}</button>${standalone?'':`<button class="btn" id="m_install">${t('menu.install')}</button>`}</div>
     <input type="file" id="m_file" accept="application/json" style="display:none">
     <p class="muted tiny" style="margin-top:16px">${t('menu.footer',{v:APP_VERSION})}</p>`);
   $('#m_lang').onchange=e=>{ state.settings.lang=e.target.value; I.setLang(state.settings.lang); save(); render(); openMenu(); };
   $('#m_theme').onchange=e=>{ state.settings.theme=e.target.value; save(); render(); };
   $('#m_goal').onchange=e=>{ state.settings.dailyGoal=+e.target.value||3; save(); renderFocus(); };
   $('#m_export').onclick=exportJSON; $('#m_import').onclick=()=>$('#m_file').click(); $('#m_file').onchange=importFile;
-  $('#m_sync').onclick=openSync; if($('#m_install')) $('#m_install').onclick=()=>{ closeSheet(); showInstall(true); };
+  $('#m_sync').onclick=openSync;
+  $('#m_cleanup').onclick=()=>{ if(!confirm(t('confirm.cleanup'))) return; const n=cleanupDuplicates(); render(); toast(n?t('toast.cleaned',{n}):t('toast.cleaned_none')); };
+  if($('#m_install')) $('#m_install').onclick=()=>{ closeSheet(); showInstall(true); };
 }
 function exportJSON(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`pole-position-${todayKey()}.json`; a.click(); URL.revokeObjectURL(a.href); toast(t('toast.exported')); }
@@ -514,50 +526,85 @@ function ingest(data){
   state=S.mergeState(state,data); save(); render(); closeSheet(); toast(t('toast.merged'));
 }
 
-/* ---------- live PeerJS sync ---------- */
-let peer=null, conn=null, peerName=null, _applyingRemote=false;
-function isMobile(){ return window.matchMedia('(max-width:820px)').matches; }
-function myName(){ return (state.settings.name||'Ben')+' ('+(isMobile()?t('sync.phone'):t('sync.computer'))+')'; }
-function syncPayload(){ return {leads:state.leads,tasks:state.tasks,contacts:state.contacts,debriefs:state.debriefs,meta:state.meta}; } // settings stay local
-function broadcast(){ if(conn && conn.open){ try{ conn.send({type:'state', payload:syncPayload()}); }catch(e){} } }
-function updateConnUI(){ const d=$('#connDot'); if(conn&&conn.open){ d.classList.add('on'); d.title=t('conn.connected',{name:peerName||'…'}); } else { d.classList.remove('on'); d.title=t('conn.disconnected'); } }
+/* ---------- multi-device live sync (PeerJS) ---------- */
+// Each device has a STABLE deviceId (its PeerJS id), a friendly name, and a remembered
+// list of paired devices (all device-local — never synced). Multiple simultaneous
+// connections are supported (e.g. phone ↔ two laptops); a change is broadcast to all
+// peers, and a received change that alters local state is gossiped onward so a hub
+// topology converges. Merge is LWW + tombstones (settings excluded → stay per-device).
+let peer=null, conns={}, _applyingRemote=false, _peerStarting=false;
+function deviceLabelFromUA(){
+  const ua=navigator.userAgent;
+  const plat=/iphone/i.test(ua)?'iPhone':/ipad/i.test(ua)?'iPad':/android/i.test(ua)?'Android':/(macintosh|mac os)/i.test(ua)?'Mac':/windows/i.test(ua)?'Windows PC':/linux/i.test(ua)?'Linux':'Device';
+  const br=/edg/i.test(ua)?'Edge':/(chrome|crios)/i.test(ua)?'Chrome':/firefox|fxios/i.test(ua)?'Firefox':/safari/i.test(ua)?'Safari':'';
+  return (state.settings.name||'Ben')+"'s "+plat+(br?` (${br})`:'');
+}
+function syncPayload(){ return {leads:state.leads,tasks:state.tasks,contacts:state.contacts,debriefs:state.debriefs,meta:state.meta}; }
+function snapHash(){ const s=JSON.stringify(syncPayload()); let h=5381; for(let i=0;i<s.length;i++) h=((h<<5)+h+s.charCodeAt(i))|0; return h; }
+function openConns(){ return Object.values(conns).filter(c=>c&&c.open); }
+function connectedNames(){ const k=state.settings.knownDevices||[]; return openConns().map(c=>(k.find(d=>d.id===c.peer)||{}).name||c.peer); }
+function updateConnUI(){ const d=$('#connDot'); const n=openConns().length; if(n){ d.classList.add('on'); d.title=t('conn.connected_n',{n})+' — '+connectedNames().join(', '); } else { d.classList.remove('on'); d.title=t('conn.disconnected'); } if($('#deviceList')) renderDeviceList(); }
 function flashSynced(){ const d=$('#connDot'); d.classList.add('flash'); setTimeout(()=>d.classList.remove('flash'),800); }
+function broadcast(){ const p=syncPayload(); openConns().forEach(c=>{ try{ c.send({type:'state', payload:p}); }catch(e){} }); }
+function forwardExcept(exceptId){ const p=syncPayload(); openConns().forEach(c=>{ if(c.peer!==exceptId){ try{ c.send({type:'state', payload:p}); }catch(e){} } }); }
+function rememberDevice(id,name){ const k=state.settings.knownDevices=state.settings.knownDevices||[]; const ex=k.find(d=>d.id===id); if(ex){ if(name) ex.name=name; ex.lastSeen=S.nowISO(); } else { k.push({id,name:name||id,lastSeen:S.nowISO()}); } save(); }
+function startPeer(cb){
+  if(peer && !peer.destroyed){ if(peer.open) cb&&cb(); return; }
+  if(_peerStarting){ return; } _peerStarting=true;
+  try{ peer=new Peer(state.settings.deviceId); }catch(e){ _peerStarting=false; return; }
+  peer.on('open',()=>{ _peerStarting=false; (state.settings.knownDevices||[]).forEach(d=>connectTo(d.id)); updateConnUI(); cb&&cb(); });
+  peer.on('connection',c=>wireConn(c));
+  peer.on('disconnected',()=>{ try{ peer.reconnect(); }catch(e){} });
+  peer.on('error',e=>{ _peerStarting=false; if(e&&e.type==='unavailable-id'){ setTimeout(()=>{ try{peer.destroy();}catch(_){} peer=null; startPeer(cb); },4000); } });
+}
+function connectTo(id){ if(!id||id===state.settings.deviceId) return; if(conns[id]&&conns[id].open) return; try{ const c=peer&&peer.connect(id,{reliable:true}); if(c) wireConn(c); }catch(e){} }
 function wireConn(c){
-  conn=c;
-  c.on('open',()=>{ c.send({type:'hello', name:myName(), payload:syncPayload()}); updateConnUI(); const st=$('#s_status'); if(st) st.textContent=t('sync.status_sending'); });
+  c.on('open',()=>{ conns[c.peer]=c; try{ c.send({type:'hello', id:state.settings.deviceId, name:state.settings.deviceName, payload:syncPayload()}); }catch(e){} updateConnUI(); });
   c.on('data',d=>{
     if(!d) return;
     if(d.type==='hello'||d.type==='state'){
-      if(d.name){ peerName=d.name; toast(t('toast.connected_to',{name:peerName})); }
-      if(d.payload){ _applyingRemote=true; state=S.mergeState(state,d.payload); save(); render(); _applyingRemote=false; }
-      const st=$('#s_status'); if(st) st.textContent=t('sync.status_synced');
-      updateConnUI(); flashSynced(); if(d.type==='state') toast(t('conn.live'));
+      if(d.id){ rememberDevice(d.id, d.name); conns[d.id]=c; }
+      if(d.payload){ const before=snapHash(); _applyingRemote=true; state=S.mergeState(state,d.payload); save(); _applyingRemote=false; render(); if(snapHash()!==before) forwardExcept(c.peer); }
+      updateConnUI(); flashSynced();
+      if(d.type==='hello' && d.name) toast(t('toast.connected_to',{name:d.name}));
     }
   });
-  c.on('close',()=>{ conn=null; peerName=null; updateConnUI(); });
-  c.on('error',()=>{ const st=$('#s_status'); if(st) st.textContent=t('sync.status_failed'); });
+  c.on('close',()=>{ delete conns[c.peer]; updateConnUI(); });
+  c.on('error',()=>{ delete conns[c.peer]; updateConnUI(); });
 }
-function ensurePeer(id){ return new Promise((res,rej)=>{ try{ peer = id?new Peer(id):new Peer(); peer.on('open',pid=>res(pid)); peer.on('error',rej); }catch(e){ rej(e); } }); }
-async function hostSync(){ const code='pp-'+Math.random().toString(36).slice(2,8); const out=$('#s_hostout'); out.innerHTML=`<span class="muted tiny">${t('sync.connecting')}</span>`;
-  try{ await ensurePeer(code);
-    out.innerHTML=`<div class="mono" style="font-size:18px;text-align:center">${code}</div><div class="qrwrap" id="qr"></div><div class="tiny muted" style="text-align:center">${t('sync.code_hint')}</div>`;
-    try{ new QRCode($('#qr'),{text:code,width:148,height:148,correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
-    peer.on('connection',c=>wireConn(c));
-  }catch(e){ out.innerHTML=`<span class="tiny" style="color:var(--bad)">${t('sync.broker_fail')}</span>`; } }
-async function joinSync(code){ if(!code) return toast(t('sync.code_missing')); const st=$('#s_status'); st.textContent=t('sync.connecting');
-  try{ await ensurePeer(null); wireConn(peer.connect(code,{reliable:true})); }catch(e){ st.textContent=t('sync.status_failed'); } }
+function disconnectDevice(id){ const c=conns[id]; if(c){ try{c.close();}catch(e){} } delete conns[id]; updateConnUI(); }
+function forgetDevice(id){ disconnectDevice(id); state.settings.knownDevices=(state.settings.knownDevices||[]).filter(d=>d.id!==id); save(); if($('#deviceList')) renderDeviceList(); toast(t('toast.device_forgotten')); }
+function addDevice(code){ code=(code||'').trim(); if(!code) return toast(t('sync.code_missing')); if(code===state.settings.deviceId) return toast(t('sync.code_self'));
+  startPeer(()=>{ rememberDevice(code, code); connectTo(code); toast(t('toast.device_added')); setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },300); }); }
+function renderDeviceList(){
+  const el=$('#deviceList'); if(!el) return; const k=state.settings.knownDevices||[];
+  if(!k.length){ el.innerHTML=`<p class="muted tiny">${t('sync.none_known')}</p>`; return; }
+  el.innerHTML=k.map(d=>{ const on=conns[d.id]&&conns[d.id].open;
+    return `<div class="item"><div class="body"><div class="it-ttl">${esc(d.name)}</div>
+      <div class="it-sub"><span style="color:${on?'var(--good)':'var(--muted)'}">● ${on?t('sync.online'):t('sync.offline')}</span></div></div>
+      <button class="btn sm" data-forget="${esc(d.id)}">${t('sync.forget')}</button></div>`;}).join('');
+  $$('[data-forget]',el).forEach(b=>b.onclick=()=>{ if(confirm(t('confirm.forget'))) forgetDevice(b.dataset.forget); });
+}
 function openSync(){
-  openSheet(`<h3>${t('sync.title')}</h3><p class="muted tiny">${t('sync.intro')}</p>
+  startPeer();
+  openSheet(`<h3>${t('sync.title')}</h3>
     <div class="note"><b>${t('sync.where_h')}</b><span class="tiny muted">${t('sync.where_b')}</span></div>
-    <div class="grid2"><div class="card"><b>${t('sync.share_h')}</b><p class="tiny muted">${t('sync.share_p')}</p>
-        <button class="btn go" id="s_host" style="width:100%">${t('sync.host_btn')}</button><div id="s_hostout" style="margin-top:10px"></div></div>
-      <div class="card"><b>${t('sync.connect_h')}</b><label class="fld">${t('sync.code_label')}</label><input id="s_code" placeholder="${t('sync.code_ph')}">
-        <button class="btn go" id="s_join" style="width:100%;margin-top:8px">${t('sync.join_btn')}</button><div id="s_status" class="tiny muted" style="margin-top:8px"></div></div></div>
+    <div class="card"><b>${t('sync.this_device')}</b>
+      <div class="row" style="gap:8px;margin-top:6px"><input id="s_dname" value="${attr(state.settings.deviceName)}" style="flex:1">
+        <button class="btn sm" id="s_rename">${t('sync.save')}</button></div>
+      <p class="tiny muted" style="margin:8px 0 2px">${t('sync.your_code')}</p>
+      <div class="mono" style="font-size:15px;text-align:center;word-break:break-all">${esc(state.settings.deviceId)}</div>
+      <div class="qrwrap" id="qr"></div></div>
+    <div class="card" style="margin-top:10px"><b>${t('sync.add_device')}</b><p class="tiny muted">${t('sync.add_hint')}</p>
+      <input id="s_code" placeholder="${t('sync.code_ph')}"><button class="btn go" id="s_add" style="width:100%;margin-top:8px">${t('sync.add_btn')}</button></div>
+    <h3 style="font-size:15px;margin:14px 0 4px">${t('sync.known')}</h3><div id="deviceList"></div>
     <div class="row" style="margin-top:12px;gap:8px"><button class="btn" id="s_export" style="flex:1">${t('sync.export_file')}</button>
       <button class="btn" id="s_import" style="flex:1">${t('sync.import_file')}</button><input type="file" id="s_file" accept="application/json" style="display:none"></div>`);
+  try{ new QRCode($('#qr'),{text:state.settings.deviceId,width:140,height:140,correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
+  $('#s_rename').onclick=()=>{ const v=$('#s_dname').value.trim(); if(v){ state.settings.deviceName=v; save(); toast(t('toast.saved')); updateConnUI(); } };
+  $('#s_add').onclick=()=>{ addDevice($('#s_code').value); $('#s_code').value=''; };
   $('#s_export').onclick=exportJSON; $('#s_import').onclick=()=>$('#s_file').click(); $('#s_file').onchange=importFile;
-  $('#s_host').onclick=hostSync; $('#s_join').onclick=()=>joinSync($('#s_code').value.trim());
-  updateConnUI();
+  renderDeviceList();
 }
 
 /* ---------- install overlay ---------- */
@@ -610,10 +657,17 @@ if("serviceWorker" in navigator && location.protocol.startsWith("http")){
 
 /* ---------- boot ---------- */
 I.setLang(state.settings.lang||'en');
+// device identity (device-local, persisted once)
+state.settings.deviceId = state.settings.deviceId || ('pp-'+Math.random().toString(36).slice(2,7)+Math.random().toString(36).slice(2,7));
+state.settings.deviceName = state.settings.deviceName || deviceLabelFromUA();
+if(!Array.isArray(state.settings.knownDevices)) state.settings.knownDevices=[];
+save();
 go(window.matchMedia('(min-width:900px)').matches ? 'board' : 'focus');
 render();
 setTimeout(()=>showInstall(false), 900);
-window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true)};
+// auto-reconnect to remembered devices on open
+if(state.settings.knownDevices.length) setTimeout(()=>startPeer(), 400);
+window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true), cleanup:cleanupDuplicates};
 </script>
 </body>
 </html>

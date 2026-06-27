@@ -85,6 +85,36 @@
     return (arr || []).filter((r) => r && !r.deleted);
   }
 
+  // Collapse records that share a natural key (e.g. same company+role): keep the
+  // most-recently-updated, tombstone the rest. Records keyFn maps to null/'' are
+  // never deduped. Returns { result, removed }. Used by the "clean up duplicates"
+  // maintenance action to repair data already duplicated by a pre-stable-id sync.
+  function dedupeByKey(records, keyFn) {
+    const groups = new Map();
+    for (const r of records || []) {
+      if (!r || r.deleted) continue;
+      const k = keyFn(r);
+      if (k == null || k === "") continue;
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(r);
+    }
+    const tombstone = new Set();
+    for (const arr of groups.values()) {
+      if (arr.length < 2) continue;
+      arr.sort((a, b) => (Date.parse(b.updatedAt) || 0) - (Date.parse(a.updatedAt) || 0));
+      for (let i = 1; i < arr.length; i++) tombstone.add(arr[i].id);
+    }
+    let removed = 0;
+    const result = (records || []).map((r) => {
+      if (r && tombstone.has(r.id)) {
+        removed++;
+        return Object.assign({}, r, { deleted: true, updatedAt: nowISO() });
+      }
+      return r;
+    });
+    return { result, removed };
+  }
+
   // Browser: self === window → window.PP_SYNC. Node (ESM import): self is
   // undefined → globalThis.PP_SYNC. One file, both worlds, no module syntax.
   const root = typeof self !== "undefined" ? self : globalThis;
@@ -96,6 +126,7 @@
     mergeRecords,
     mergeState,
     live,
+    dedupeByKey,
     VERSION: "1.0.0",
   };
 })();

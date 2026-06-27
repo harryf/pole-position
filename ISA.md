@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 67/67
+progress: 79/79
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -182,6 +182,20 @@ and importable via a documented file format.
 - [ ] ISC-66: The link is stored on the contact record (syncs via LWW) and ignores deleted leads.
 - [ ] ISC-67: Version bumped to 1.2.0 (APP_VERSION + SW + CHANGELOG); `v1.2.0` tag + Release; tests green.
 
+### v1.3.0 — duplicate fix + multi-device manager
+- [ ] ISC-68: Seed entries use deterministic stable ids (identical across devices) so first-sync never duplicates them.
+- [ ] ISC-69: Merging two freshly-seeded states yields no duplicate seed records — unit-tested.
+- [ ] ISC-70: A manual "Clean up duplicates" action collapses entries with the same natural key (lead company+role, task title, contact name+company), keeping the most-recently-updated, behind a confirm.
+- [ ] ISC-71: `dedupeByKey` keeps newest-by-updatedAt and tombstones the rest — unit-tested.
+- [ ] ISC-72: Each device has a stable `deviceId` (persisted, device-local) used as its PeerJS id.
+- [ ] ISC-73: Each device has a human name auto-generated from UA metadata, editable in the sync screen.
+- [ ] ISC-74: Paired devices are remembered (`knownDevices`, device-local) and auto-reconnected on app open.
+- [ ] ISC-75: The sync screen lists known devices with online/offline status and a Forget control.
+- [ ] ISC-76: A device can pair with multiple devices simultaneously (phone ↔ two laptops); broadcasts reach all.
+- [ ] ISC-77: A received change that alters local state is forwarded to other connected peers (gossip) and converges (idempotent merge).
+- [ ] ISC-78: The connection indicator shows the count of connected devices.
+- [ ] ISC-79: Version 1.3.0 (APP_VERSION + SW + CHANGELOG); `v1.3.0` tag + Release; tests green.
+
 ## Test Strategy
 
 | isc | type | check | tool |
@@ -319,3 +333,16 @@ Verified live in real Chrome (MCP, fresh v1.2.0 seed):
 - **ISC-66**: link stored on `contact.helpsWith` (LWW sync); `helpCount()` filters deleted leads. ✓
 - **ISC-67**: APP_VERSION/SW "1.2.0", CHANGELOG entry; tagged `v1.2.0` + Release.
 - Regression: task/contact rows still 0 inline deletes; deletes still confirm. ✓
+
+### v1.3.0 Verification (duplicate fix + multi-device) — `node tests/run.mjs` → 33/33 (134 t() keys)
+
+- **ISC-68/69**: tests reproduce the bug (random ids → 6 leads on merge) AND prove the fix (stable ids → 3). Live: seed ids are `seed-lead-porsche/amg/kessel` + `seed-contact-merbag`; merging live state with a clone of itself stays **3 leads** (no duplication). ✓
+- **ISC-70/71**: `dedupeByKey` unit-tested (keep newest, tombstone rest, ignore empty keys). Live: injected a manual Porsche duplicate (4 leads) → Menu cleanup removed 1 → back to 3. ✓
+- **ISC-72/73**: live `settings.deviceId` = `pp-…` (stable), `deviceName` auto-generated "Ben's Mac (Chrome)", editable in sync screen. ✓
+- **ISC-74/75**: `knownDevices` array; sync screen lists devices — adding `pp-testlaptop` rendered an entry with **offline** status + **Forget** button; auto-reconnect wired in boot. ✓
+- **ISC-76/77**: `conns` is a map (multiple simultaneous); `broadcast()` → all open conns; `forwardExcept()` gossips a state-changing merge to other peers (idempotent → converges). Code-verified; **[DEFERRED-VERIFY]** true 3-device live mesh on real hardware.
+- **ISC-78**: indicator shows `conn.connected_n` count (live `#connDot` title toggles connected/disconnected). ✓
+- **ISC-79**: APP_VERSION/SW "1.3.0", CHANGELOG entry; tagged `v1.3.0` + Release.
+
+**Note for Harry**: existing devices already carrying duplicates from v1.2.0 → after they auto-update,
+run **Menu → 🧹 Clean up duplicates** once on each to collapse them.

@@ -3,6 +3,24 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.3.0 — 2026-06-27
+
+Fixes duplicate entries on sync, and adds a real multi-device manager.
+
+- **Duplicate fix (root cause)**: the starter data used random IDs generated per device, so a
+  first-time sync merged two *different-ID* copies of the same seed → duplicates. Seed entries now
+  use **stable, deterministic IDs**, so they merge to one. Every record already carried an `id` +
+  `updatedAt`; merge stays last-write-wins. Tests reproduce the bug and prove the fix.
+- **Clean up duplicates**: Menu → 🧹 collapses entries with the same name (lead company+role, task
+  title, contact name+company), keeping the most-recently-edited — for data already duplicated by an
+  older version. Confirms first.
+- **Multi-device manager**: each device now has a **stable ID** and an **auto-generated name** (from
+  device/browser, editable). Paired devices are **remembered** and **auto-reconnect** on open. The
+  sync screen lists **your devices** with online/offline status, a **Forget** button, and an **Add a
+  device** field + QR of this device's code. A device can pair with **several** at once (e.g. phone ↔
+  two laptops); changes broadcast to all and gossip onward so everyone converges.
+- The connection indicator shows how many devices are connected.
+
 ## v1.2.0 — 2026-06-27
 
 Network ↔ jobs relationships, tappable Focus items, and task notes.

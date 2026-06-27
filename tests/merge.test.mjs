@@ -100,6 +100,41 @@ const t2 = "2026-06-27T12:00:00.000Z";
   ok("merge is idempotent", once.length === 1 && once[0].v === 1);
 }
 
+// --- THE DUPLICATE BUG: random-per-device ids duplicate; stable ids do not ---
+{
+  // simulate two devices each seeding "the same" 3 leads
+  const seedRandom = () => [1, 2, 3].map((n) => ({ id: "rnd-" + Math.random().toString(36).slice(2), company: "Lead" + n, updatedAt: t0 }));
+  const devA = seedRandom(), devB = seedRandom();
+  const bad = SYNC.mergeRecords(devA, devB);
+  ok("random ids DUPLICATE on sync (reproduces the bug)", bad.length === 6);
+
+  const seedStable = () => [1, 2, 3].map((n) => ({ id: "seed-lead-" + n, company: "Lead" + n, updatedAt: t0 }));
+  const good = SYNC.mergeRecords(seedStable(), seedStable());
+  ok("stable seed ids do NOT duplicate on sync (the fix)", good.length === 3);
+}
+
+// --- dedupeByKey: collapse same-key records, keep newest ---
+{
+  const recs = [
+    { id: "a", company: "Porsche", updatedAt: t0 },
+    { id: "b", company: "Porsche", updatedAt: t2 }, // newest of the Porsche pair
+    { id: "c", company: "BMW", updatedAt: t1 },
+  ];
+  const { result, removed } = SYNC.dedupeByKey(recs, (r) => r.company.toLowerCase());
+  ok("dedupe removes 1 duplicate", removed === 1);
+  ok("dedupe keeps the newest of the pair", result.find((r) => r.id === "b").deleted !== true);
+  ok("dedupe tombstones the older of the pair", result.find((r) => r.id === "a").deleted === true);
+  ok("dedupe leaves the unique record alone", result.find((r) => r.id === "c").deleted !== true);
+  ok("dedupe leaves 2 live records", SYNC.live(result).length === 2);
+}
+
+// dedupe ignores null/empty keys (don't merge unnamed entries)
+{
+  const recs = [{ id: "a", title: "", updatedAt: t0 }, { id: "b", title: "", updatedAt: t1 }];
+  const { removed } = SYNC.dedupeByKey(recs, (r) => r.title || null);
+  ok("dedupe never merges empty-key records", removed === 0);
+}
+
 console.log("sync core:");
 console.log(results.join("\n"));
 export default { pass, fail };
