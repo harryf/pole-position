@@ -1,8 +1,8 @@
 ---
 project: ben-jobs
 effort: E3
-phase: complete
-progress: 93/93
+phase: verify
+progress: 100/100
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -391,3 +391,20 @@ positions onto the Board (German titles), three new EN+DE guide sections, refres
 **Note for Harry — getting these onto Ben's phone:** changing `seed()` only affects a *fresh* install.
 Ben's existing install keeps its current data, so to load the 13 positions there: **Menu → Import →
 `import.example.json`** (then **Menu → 🧹** if anything doubles up).
+
+### v1.6.0 Verification (View-posting button + verified per-job links) — `node tests/run.mjs` → 33/33
+
+Each lead now links to its real posting; links researched + verified live on 2026-06-27 by three parallel agents (WebFetch/WebSearch).
+
+- **ISC-94**: Every lead with a link shows a one-tap **↗** on its Board card — live: 13 `.lr a.lnk` anchors, hrefs are the verified URLs. ✓
+- **ISC-95**: Lead editor shows a labelled **↗ View posting** button next to the link field — live DOM + zoom screenshot ("↗ View posting" beside `jobs.ch/.../8253a847…`). ✓
+- **ISC-96**: Button opens the *current* field value (https-normalised) in a new tab — handler reads `#f_link` live, `window.open(…,'_blank','noopener')`. ✓
+- **ISC-97**: All 13 leads carry a researched link (8 specific live postings, 5 durable careers/search fallbacks where the specific posting had expired) — verified in `seed()` + `import.example.json`. ✓
+- **ISC-98**: Anti: no console errors after board render + modal open — live `read_console_messages(onlyErrors)` → none. ✓
+- **ISC-99**: `lead.view_posting` key present in en + de — parity test green. ✓
+- **ISC-100**: APP_VERSION + SW VERSION "1.6.0", CHANGELOG entry. ✓ (Deploy/tag pending Harry's go.)
+
+**Decision (v1.6.0):** *specific posting where live, durable fallback otherwise.* Job postings expire within
+weeks; verification on 2026-06-27 found 5 of the originally-cited specific URLs already dead. Rather than
+ship dead links, those leads point at the employer's careers page or a jobs.ch search that always
+resolves to the current matching role. Specifics used where the agent fetched a live, matching posting.

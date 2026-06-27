@@ -1,12 +1,11 @@
 {
   "_format": "pole-position-import@1",
   "_howto": "Real open positions from the June 2026 research, ready to import. In the app: Menu → Import → choose this file. It ADDS these leads + tasks to whatever you already have (run Menu → 🧹 Clean up duplicates afterwards if needed). Job titles are kept in German on purpose. Stages: researching | resume | cover | applied | contacted | interviewing | offer | closed.",
-
   "leads": [
     {
       "company": "AMAG — Porsche Zentrum Zürich",
       "role": "Automobil-Mechatroniker Porsche (m/w/d) 80–100%",
-      "link": "https://jobs.amag-group.ch",
+      "link": "https://www.jobs.ch/de/stellenangebote/detail/8253a847-704a-401a-97dc-90d37ebc8396/",
       "location": "Zürich (Letzigrund/Ueberlandstr.) — ~10 Min",
       "salary": "CHF 5'500–6'500 / Mt (Ziel)",
       "source": "AMAG careers",
@@ -33,7 +32,7 @@
     {
       "company": "AMAG — Porsche Schlieren",
       "role": "Automobil-Diagnostiker Porsche (m/w/d) 80–100%",
-      "link": "https://www.jobs.ch/de/stellenangebote/?term=porsche",
+      "link": "https://jobs.amag-group.ch",
       "location": "Schlieren — ~10 Min",
       "source": "jobs.ch",
       "favourite": false,
@@ -45,7 +44,7 @@
     {
       "company": "Sauber / Audi F1 — Hinwil",
       "role": "Trainee / Future Race Team Mechanic (Car Assembly)",
-      "link": "https://sauber-group.com/corporate/jobs",
+      "link": "https://talents.studysmarter.de/companies/sauber-motorsport-ag/trainee-future-race-team-mechanic-car-assembly-19710362/",
       "location": "Hinwil, ZH — ~35 Min",
       "salary": "CHF 5'000–5'500 / Mt (Einstieg)",
       "source": "sauber-group.com",
@@ -59,7 +58,7 @@
     {
       "company": "Sportec AG — Höri",
       "role": "Automobil-Mechatroniker*in 100%",
-      "link": "https://sportec.ch/de/jobs",
+      "link": "https://www.jobs.ch/en/vacancies/detail/0d11a3c4-840c-49e9-afd1-5e7b9ac798ff/",
       "location": "Höri, ZH — ~20 Min",
       "salary": "CHF 5'000–6'650 / Mt",
       "source": "Sportec / jobs.ch",
@@ -73,7 +72,7 @@
     {
       "company": "Emil Frey AG — Zürich",
       "role": "Automobil-Fachmann / Mechatroniker (Kia, Subaru, Suzuki)",
-      "link": "https://jobs.emilfrey.ch",
+      "link": "https://jobs.emilfrey.ch/",
       "location": "Zürich — ~10 Min",
       "source": "Emil Frey careers",
       "favourite": false,
@@ -85,7 +84,7 @@
     {
       "company": "Emil Frey Gruppe — Au-Wädenswil",
       "role": "Automobil-Diagnostiker/-in Mercedes-Benz",
-      "link": "https://jobs.emilfrey.ch",
+      "link": "https://jobs.emilfrey.ch/",
       "location": "Au-Wädenswil — ~20 Min",
       "source": "Emil Frey careers",
       "favourite": false,
@@ -97,7 +96,7 @@
     {
       "company": "Garage H.U. Eugster AG",
       "role": "Automobil-Mechatroniker",
-      "link": "https://www.jobs.ch",
+      "link": "https://www.jobs.ch/en/companies/61833-garage-h-u-eugster-ag/",
       "location": "Zürich — ~10 Min",
       "source": "jobs.ch",
       "favourite": false,
@@ -109,7 +108,7 @@
     {
       "company": "Kanton Zürich (Fuhrpark)",
       "role": "Automobilmechatroniker/-in 100%",
-      "link": "https://www.jobs.ch",
+      "link": "https://www.jobs.ch/de/stellenangebote/?term=Kanton%20Z%C3%BCrich%20Automobilmechatroniker",
       "location": "Urdorf — ~12 Min",
       "source": "jobs.ch",
       "favourite": false,
@@ -121,7 +120,7 @@
     {
       "company": "Seegarage Müller AG",
       "role": "Automobilmechatroniker 80–100%",
-      "link": "https://www.jobs.ch",
+      "link": "https://www.seegarage-jobs.ch/",
       "location": "Horgen — ~22 Min",
       "source": "jobs.ch",
       "favourite": false,
@@ -133,7 +132,7 @@
     {
       "company": "Karl Graf Automobile AG",
       "role": "Diagnostiker 60–100%",
-      "link": "https://www.jobs.ch",
+      "link": "https://grafauto.ch/uber-uns/offene-stellen-jobs",
       "location": "Mettmenstetten — ~28 Min",
       "source": "jobs.ch",
       "favourite": false,
@@ -145,7 +144,7 @@
     {
       "company": "Porsche Zentrum Zug (Risch AG)",
       "role": "Automobil-Mechatroniker (m/w/d)",
-      "link": "https://dealer.porsche.com/ch/zug",
+      "link": "https://dealer.porsche.com/ch/zug/de-CH/wir-ueber-uns/jobs-und-karriere/automobil-mechatroniker-mwd",
       "location": "Rotkreuz, ZG — ~35 Min",
       "salary": "CHF 5'000–6'650 / Mt",
       "source": "Porsche Zug",
@@ -154,12 +153,12 @@
       "stage": "applied",
       "nextAction": "Bewerbung warm halten — nachfassen",
       "nextDue": "2026-07-04",
-      "notes": "Bereits beworben. Hochmargiges Porsche-Zentrum in Zug."
+      "notes": "Bereits beworben. Hochmargiges Porsche-Zentrum. Hinweis: Einarbeitung in Rotkreuz, danach fixe Stelle in Kriens (LU) ab Q4 2026."
     },
     {
       "company": "Emil Frey Racing",
       "role": "No. 2 Mechanic (Rennmechaniker) — Ferrari 296 GT3",
-      "link": "https://emilfreyracing.com",
+      "link": "https://talents.studysmarter.de/companies/emil-frey-racing/no-2-mechanic-23022473/",
       "location": "Safenwil, AG — ~45 Min",
       "salary": "€42k–60k (CHF-äquiv.)",
       "source": "emilfreyracing.com",
@@ -170,7 +169,6 @@
       "notes": "GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt."
     }
   ],
-
   "tasks": [
     {
       "title": "CV final machen (Deutsch + Englisch)",

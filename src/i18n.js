@@ -153,7 +153,7 @@
     },
     lead: {
       new: "New lead", edit: "Lead",
-      company: "Company", role: "Role", link: "Job link", link_ph: "https://…",
+      company: "Company", role: "Role", link: "Job link", link_ph: "https://…", view_posting: "View posting",
       location: "Location", salary: "Salary / target", stage: "Stage", priority: "Priority (1–5)",
       fav: "★ Dream employer (prioritise)", next: "Next step", due: "Due", notes: "Notes",
       debriefs_h: "Interview debriefs", add_debrief: "+ Debrief",
@@ -380,7 +380,7 @@
     },
     lead: {
       new: "Neuer Lead", edit: "Lead",
-      company: "Firma", role: "Rolle", link: "Link zur Stelle", link_ph: "https://…",
+      company: "Firma", role: "Rolle", link: "Link zur Stelle", link_ph: "https://…", view_posting: "Stelle ansehen",
       location: "Ort", salary: "Lohn / Ziel", stage: "Stage", priority: "Priorität (1–5)",
       fav: "★ Wunsch-Arbeitgeber (priorisieren)", next: "Nächster Schritt", due: "Fällig", notes: "Notizen",
       debriefs_h: "Interview-Debriefs", add_debrief: "+ Debrief",

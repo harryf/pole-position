@@ -3,6 +3,21 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.6.0 — 2026-06-27
+
+Lets Ben open the actual job posting for each lead.
+
+- **"View posting" button** — every job lead now has a one-tap link to its real posting:
+  a **↗** button on the Board card (opens directly), and a labelled **↗ View posting** button next to
+  the link field in the lead editor. Shown only when the lead has a link.
+- **Researched + verified links for all 13 positions** (checked live on 2026-06-27): 8 point at the
+  specific live posting (AMAG Porsche Zürich, Sportec, Sauber/Audi F1 trainee, Emil Frey Racing,
+  Porsche Zug, Eugster, Seegarage, Karl Graf), the other 5 at a durable employer careers page or a
+  jobs.ch search that always resolves (where the specific posting had already expired — postings age
+  fast). Verified links are in `seed()` and `import.example.json`.
+- Note surfaced during verification: the **Porsche Zug** role onboards in Rotkreuz, then becomes a
+  permanent post in **Kriens (LU)** from Q4 2026 — added to its notes.
+
 ## v1.5.0 — 2026-06-27
 
 Populates the app from Benjamin's real job-market research (June 2026).
