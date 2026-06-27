@@ -3,6 +3,28 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.10.0 — 2026-06-27
+
+Moves the first-install starting data out of the app code, and adds Ben's Merbag campaign.
+
+- **Seed data extracted to `src/seed-data.js`:** the starting dataset (13 leads, the application
+  tasks, the network contacts) used to be hard-coded inside `index.html`'s `seed()` function. It now
+  lives in its own data module (`window.PP_SEED`), loaded on first install — so the *data* can be
+  edited without touching the *app*. Same buildless pattern as `src/sync.js` / `src/i18n.js` (works in
+  the browser and is importable in Node tests). `seed()` is now just a small loader that wraps each
+  record with sync metadata and resolves a **relative-date convention** (`"+5"` = 5 days from install;
+  an ISO date like `2026-07-12` stays an absolute deadline). Stable ids and explicit hotness are
+  carried straight from the data file. **Existing installs are untouched** — seeding only runs on a
+  fresh install (empty storage); the new module is precached by the service worker for offline use.
+- **New tasks for Ben's Merbag / Herr Gut campaign:**
+  - **Set up a meeting with Herr Gut** about openings at other Merbag / Mercedes locations (arrange for
+    next week).
+  - **Prep for the Herr Gut meeting** — which positions are open, how to apply, what advice to ask for.
+  - **Get 3 more Merbag contacts this week** — a *recurring weekly goal* (collect as many as possible
+    until end of July, before holiday + leaving).
+  - **Practice the interview** — describing his Merbag experience, skills and motivation.
+  - **Herr Gut** added as a network contact (Merbag).
+
 ## v1.9.0 — 2026-06-27
 
 Fixes the desktop board's hard-to-reach horizontal scrollbar.

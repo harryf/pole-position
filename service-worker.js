@@ -6,7 +6,7 @@
    ========================================================================= */
 
 // Bump on every release. MUST match the in-app APP_VERSION constant in index.html.
-const VERSION = "1.9.0";
+const VERSION = "1.10.0";
 const CACHE = "pole-position-v" + VERSION;
 
 // Let the page force a waiting worker to activate ("Check for updates" button).
@@ -19,6 +19,7 @@ const SHELL = [
   "manifest.webmanifest",
   "src/sync.js",
   "src/i18n.js",
+  "src/seed-data.js",
   "vendor/peerjs.min.js",
   "vendor/qrcode.min.js",
   "vendor/jsqr.min.js",

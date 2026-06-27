@@ -7,7 +7,7 @@ dad). Car/JDM-drift themed, gamified, syncs phone↔laptop, all data client-side
 - **Live:** https://harryf.github.io/pole-position/
 - **Repo:** `github.com/harryf/pole-position` (public) — Harry's account, `gh` authed as `harryf`.
 - **Spec / source of truth:** `ISA.md` (every feature is a numbered ISC with verification evidence).
-- **Current version:** 1.2.0.
+- **Current version:** 1.10.0.
 
 ## Architecture (don't fight it)
 
@@ -17,6 +17,12 @@ dad). Car/JDM-drift themed, gamified, syncs phone↔laptop, all data client-side
   deleted}` + tombstones). Loaded in the browser (`window.PP_SYNC`) AND importable in Node tests.
 - `src/i18n.js` — **all** UI strings (`window.PP_I18N`). Nothing user-facing is hardcoded in
   `index.html` (a test enforces this).
+- `src/seed-data.js` — the **first-install starting dataset** (`window.PP_SEED`): the seed leads,
+  tasks and contacts, extracted out of `index.html` so data ≠ code. `seed()` in `index.html` is just
+  a loader: it wraps each record with `{updatedAt, deleted}` and resolves a relative-date convention
+  (`"+N"` = N days from install; an ISO date stays an absolute deadline). Stable `seed-*` ids and
+  explicit `hotness` come from the file. Edit Ben's starting data here. **Seed runs only on a fresh
+  install (empty storage)** — existing installs are not re-seeded and don't gain later seed edits.
 - `service-worker.js` — cache-first offline shell + clean update banner (no surprise reload).
 - `manifest.webmanifest`, `icons/` (generated from `icons/icon.svg` via inkscape).
 - `vendor/` — PeerJS, qrcode, jsQR (vendored for offline; the only runtime third-party is the PeerJS

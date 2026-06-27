@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 125/125
+progress: 136/136
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -473,3 +473,44 @@ horizontal scrollbar always reachable without a separate top scrollbar. Scroll-s
 programmatic scrolling). Verification caveat: the click→smooth-scroll animation can't be observed in the
 automation tab because it runs hidden (`visibilityState:hidden` → rAF-throttled smooth scroll); wiring,
 scrollability, and arrow-visibility are all verified, and smooth scroll is standard in a focused tab.
+
+### v1.10.0 Verification (seed data extracted to a data module + Merbag campaign tasks) — `node tests/run.mjs` → 66/66
+
+The hard-coded first-install dataset was moved out of `index.html`'s `seed()` into a standalone data
+module `src/seed-data.js` (`window.PP_SEED`), and `seed()` became a thin loader. Four new tasks + a
+contact were added to the dataset (Ben's Merbag / Herr Gut campaign).
+
+- **ISC-126**: `src/seed-data.js` exists, exposes `window.PP_SEED`, and uses the same dual-export
+  footer as `sync.js`/`i18n.js` — `tests/seed.test.mjs` "PP_SEED loads"; Forge confirmed footer match. ✓
+- **ISC-127**: All 13 leads extracted byte-faithfully (id/company/role/link/location/salary/source/
+  favourite/priority/stage/nextAction/notes) — Forge field-by-field diff vs `git HEAD:index.html` lines
+  321–334: identical, no id changed or dropped. ✓
+- **ISC-128**: Every lead carries an explicit valid `hotness` matching the old `HOT_OVERRIDE||hotnessFor`
+  output (incl. the subtle re-pointed cases amag-porsche-schlieren & amag-altstetten = normal) — seed
+  test + Forge replay of the classifier. ✓
+- **ISC-129**: `seed()` loader resolves the relative-date convention — live: `seed-task-merbag-contacts`
+  `"+6"` → `2026-07-03`; `seed-lead-sportec` ISO `2026-07-12` stayed literal. ✓
+- **ISC-130**: Fresh install boots entirely from the file — live (cleared SW+caches+localStorage,
+  reloaded): `hasPP_SEED:true`, 13 leads / 13 board cards, 9 tasks, 2 contacts, 3 hot + 2 warm pills,
+  zero console errors. ✓
+- **ISC-131**: The 4 new tasks are present with correct category/priority — live: gut-meeting (network/
+  high), gut-prep (network/high), merbag-contacts (network/high, **recurring:true**), interview-practice
+  (skill/med). ✓
+- **ISC-132**: Herr Gut added as a contact (`seed-contact-gut`, Merbag) — live + seed test. ✓
+- **ISC-133**: Anti: existing installs are NOT re-seeded and NOT mutated — `load()` still seeds only on
+  empty storage; `migrate()` untouched. (Implication: existing installs don't auto-gain the new tasks —
+  flagged to Harry as a product decision, see Decision below.) ✓
+- **ISC-134**: Anti: re-extraction didn't break the anti-duplicate feed contract — seed lead ids still
+  match every `jobs-feed.json` id (`tests/seed.test.mjs` final check). ✓
+- **ISC-135**: All files valid UTF-8; accented values (Höri, Dübendorf, Zürich) round-trip — `iconv`
+  + node round-trip. ✓
+- **ISC-136**: APP_VERSION + SW VERSION "1.10.0", `src/seed-data.js` in SW SHELL, CHANGELOG + CLAUDE.md
+  updated. ✓ (Deploy/tag pending Harry's go.)
+
+**Decision (v1.10.0):** *data ≠ code; seed stays first-install-only as Harry specified ("a file that
+loads the first time the app is installed").* The data module mirrors the `i18n.js`/`sync.js` pattern
+(buildless, Node-importable, SW-precached). **Open product call surfaced to Harry:** because seeding is
+first-install-only and `migrate()` is untouched, Ben's existing phone install will not automatically
+receive the 4 new tasks + Herr Gut contact. Options: (a) leave first-install-only and have Ben pull
+them another way; (b) add a one-shot stable-id backfill in `migrate()` (add-only-if-never-seen, so
+deletes still stick) so existing installs gain them once. Awaiting Harry's decision before deploy.
