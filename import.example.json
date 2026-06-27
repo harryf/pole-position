@@ -1,12 +1,13 @@
 {
   "_format": "pole-position-import@1",
-  "_howto": "Real open positions from the June 2026 research, ready to import. In the app: Menu → Import → choose this file. It ADDS these leads + tasks to whatever you already have (run Menu → 🧹 Clean up duplicates afterwards if needed). Job titles are kept in German on purpose. Stages: researching | resume | cover | applied | contacted | interviewing | offer | closed.",
+  "_howto": "Real open positions, links verified live on 2026-06-27 — each goes straight to the actual job posting. In the app: Menu → Import → choose this file. It ADDS these leads + tasks to whatever you already have (run Menu → 🧹 Clean up duplicates afterwards if needed). Job titles are kept in German on purpose. Stages: researching | resume | cover | applied | contacted | interviewing | offer | closed.",
+
   "leads": [
     {
       "company": "AMAG — Porsche Zentrum Zürich",
       "role": "Automobil-Mechatroniker Porsche (m/w/d) 80–100%",
-      "link": "https://www.jobs.ch/de/stellenangebote/detail/8253a847-704a-401a-97dc-90d37ebc8396/",
-      "location": "Zürich (Letzigrund/Ueberlandstr.) — ~10 Min",
+      "link": "https://jobs.amag-group.ch/Automobil-Mechatroniker-Porsche-mwd-80-100-de-j23042.html",
+      "location": "Zürich — ~10 Min",
       "salary": "CHF 5'500–6'500 / Mt (Ziel)",
       "source": "AMAG careers",
       "favourite": true,
@@ -17,29 +18,27 @@
       "notes": "Premium-Sportwagen vor der Haustür. HV + AMG sind die Hebel. AMAG erlaubt Direktbewerbung (WhatsApp)."
     },
     {
-      "company": "AMAG — Altstetten",
-      "role": "Automobil-Mechatroniker/-in oder Diagnostiker/-in 80–100%",
-      "link": "https://jobs.amag-group.ch",
-      "location": "Zürich Altstetten — ~5 Min",
-      "source": "AMAG careers",
-      "favourite": true,
-      "priority": 5,
+      "company": "AMAG — Uster",
+      "role": "Automobil-Mechatroniker oder Diagnostiker & Stv. Werkstattleiter 80–100%",
+      "link": "https://jobs.amag-group.ch/Automobil-Mechatroniker-oder-Diagnostiker-Stv-Werkstattlei-de-j21284.html",
+      "location": "Uster, ZH — ~25 Min",
+      "favourite": false,
+      "priority": 3,
       "stage": "researching",
-      "nextAction": "Bewerben — kürzester Weg",
+      "nextAction": "Bewerben — Mechatroniker oder Diagnostiker",
       "nextDue": "2026-07-03",
-      "notes": "Direkt vor der Tür. Mechatroniker ODER Diagnostiker — beides passt."
+      "notes": "Mechatroniker ODER Diagnostiker mit Stv.-Werkstattleiter-Perspektive. (Die Altstetten-Stelle aus der Recherche ist nicht mehr offen.)"
     },
     {
-      "company": "AMAG — Porsche Schlieren",
-      "role": "Automobil-Diagnostiker Porsche (m/w/d) 80–100%",
-      "link": "https://jobs.amag-group.ch",
-      "location": "Schlieren — ~10 Min",
-      "source": "jobs.ch",
+      "company": "AMAG — Dübendorf",
+      "role": "Automobil-Diagnostiker (m/w/d) 100%",
+      "link": "https://jobs.amag-group.ch/Automobil-Diagnostiker-mwd-100-de-j22963.html",
+      "location": "Dübendorf, ZH — ~12 Min",
       "favourite": false,
       "priority": 4,
       "stage": "researching",
-      "nextAction": "Offene Stelle prüfen, Diagnostik-Stint hervorheben",
-      "notes": "Spielt auf den 4-Monats-Diagnostik-Stint + Xentry."
+      "nextAction": "Bewerben — Diagnostik-Stint hervorheben",
+      "notes": "Diagnostiker-Stelle — spielt direkt auf den 4-Monats-Diagnostik-Stint + Xentry. (Die Porsche-Diagnostiker-Stelle in Schlieren ist nicht mehr offen.)"
     },
     {
       "company": "Sauber / Audi F1 — Hinwil",
@@ -70,76 +69,76 @@
       "notes": "Porsche/Audi + eigene Motorsport- & Classic-Abteilung. Frist 13.07.2026!"
     },
     {
-      "company": "Emil Frey AG — Zürich",
-      "role": "Automobil-Fachmann / Mechatroniker (Kia, Subaru, Suzuki)",
-      "link": "https://jobs.emilfrey.ch/",
-      "location": "Zürich — ~10 Min",
+      "company": "Emil Frey — Dübendorf",
+      "role": "Automobil-Fachmann/-frau / Automobil-Mechatroniker/-in",
+      "link": "https://jobs.emilfrey.ch/Automobil-Fachmann-frau-Automobil-Mechatroniker-in-de-j2050.html",
+      "location": "Dübendorf — ~12 Min",
       "source": "Emil Frey careers",
       "favourite": false,
       "priority": 3,
       "stage": "researching",
-      "nextAction": "Offene Stellen + Spontanbewerbung prüfen",
-      "notes": "Multi-Brand-Academy; auch der Weg zu Emil Frey Racing."
+      "nextAction": "Offene Stelle prüfen + bewerben",
+      "notes": "Multi-Brand. Aktuell offene Stelle. (Die Zürich-Stelle aus der Recherche ist nicht mehr offen.)"
     },
     {
-      "company": "Emil Frey Gruppe — Au-Wädenswil",
-      "role": "Automobil-Diagnostiker/-in Mercedes-Benz",
-      "link": "https://jobs.emilfrey.ch/",
-      "location": "Au-Wädenswil — ~20 Min",
+      "company": "Emil Frey — Altendorf",
+      "role": "Automobil-Diagnostiker/-in",
+      "link": "https://jobs.emilfrey.ch/Automobildiagnostikerin-de-j1725.html",
+      "location": "Altendorf, SZ — ~30 Min",
       "source": "Emil Frey careers",
       "favourite": false,
       "priority": 3,
       "stage": "researching",
-      "nextAction": "Prüfen — Mercedes-Diagnostik passt direkt",
-      "notes": "Mercedes-Wissen + Diagnostik-Stint = direkter Fit."
+      "nextAction": "Prüfen — Diagnostik-Stint passt direkt",
+      "notes": "Diagnostiker-Stelle bei Emil Frey. Passt zum Diagnostik-Stint. (Die Au-Wädenswil Mercedes-Stelle ist geschlossen.)"
     },
     {
       "company": "Garage H.U. Eugster AG",
       "role": "Automobil-Mechatroniker",
-      "link": "https://www.jobs.ch/en/companies/61833-garage-h-u-eugster-ag/",
+      "link": "https://www.jobs.ch/en/vacancies/detail/29dc812d-539a-492e-8ae9-fc142b3e4818",
       "location": "Zürich — ~10 Min",
       "source": "jobs.ch",
       "favourite": false,
       "priority": 3,
       "stage": "researching",
       "nextAction": "Inserat prüfen",
-      "notes": "Stadtgarage, Mechatroniker-Stelle kürzlich ausgeschrieben."
+      "notes": "Stadtgarage, Mechatroniker-Stelle aktuell offen."
     },
     {
       "company": "Kanton Zürich (Fuhrpark)",
       "role": "Automobilmechatroniker/-in 100%",
-      "link": "https://www.jobs.ch/de/stellenangebote/?term=Kanton%20Z%C3%BCrich%20Automobilmechatroniker",
+      "link": "https://www.zh.ch/de/arbeiten-kanton-zuerich/offene-stellen.html",
       "location": "Urdorf — ~12 Min",
-      "source": "jobs.ch",
+      "source": "zh.ch",
       "favourite": false,
       "priority": 2,
       "stage": "researching",
-      "nextAction": "Als stabile Option vormerken",
-      "notes": "Öffentlicher Fuhrpark — geregelte Stunden, stabile Stelle."
+      "nextAction": "Beim Kanton periodisch prüfen",
+      "notes": "Öffentlicher Fuhrpark — stabile Option. Aktuell keine passende Stelle ausgeschrieben; periodisch prüfen."
     },
     {
       "company": "Seegarage Müller AG",
       "role": "Automobilmechatroniker 80–100%",
-      "link": "https://www.seegarage-jobs.ch/",
+      "link": "https://www.seegarage-jobs.ch/jobdetails.php?key=0",
       "location": "Horgen — ~22 Min",
-      "source": "jobs.ch",
+      "source": "seegarage-jobs.ch",
       "favourite": false,
       "priority": 2,
       "stage": "researching",
       "nextAction": "Inserat prüfen",
-      "notes": "Etablierte Garage am See."
+      "notes": "Etablierte Garage am See. Stelle aktuell offen."
     },
     {
       "company": "Karl Graf Automobile AG",
-      "role": "Diagnostiker 60–100%",
-      "link": "https://grafauto.ch/uber-uns/offene-stellen-jobs",
+      "role": "Automobil-Mechatroniker EFZ",
+      "link": "https://95339-hostingstorage-w1.s3-ch-west-1.mtfcloud.ch/customers/graf-auto/Automobil-Mechatroniker-EFZ.pdf",
       "location": "Mettmenstetten — ~28 Min",
-      "source": "jobs.ch",
+      "source": "grafauto.ch",
       "favourite": false,
       "priority": 2,
       "stage": "researching",
-      "nextAction": "Prüfen — spielt auf Diagnostik",
-      "notes": "Diagnostiker-Stelle, passt zum Diagnostik-Stint."
+      "nextAction": "Stelleninserat (PDF) prüfen",
+      "notes": "Aktuell offen: Mechatroniker EFZ (Inserat als PDF). Die Diagnostiker-Stelle ist nicht mehr ausgeschrieben."
     },
     {
       "company": "Porsche Zentrum Zug (Risch AG)",
@@ -169,6 +168,7 @@
       "notes": "GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt."
     }
   ],
+
   "tasks": [
     {
       "title": "CV final machen (Deutsch + Englisch)",

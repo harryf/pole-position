@@ -3,6 +3,24 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.7.0 — 2026-06-27
+
+Every job link now opens the **actual posting**, not a portal homepage.
+
+- I browsed each employer's live job portal (AMAG, Emil Frey, jobs.ch, Seegarage, Karl Graf) and
+  replaced the careers-homepage/search links from v1.6.0 with the **deep link to the specific posting**.
+  **12 of 13 leads now open the real job description directly.**
+- Where the originally-cited posting had **closed**, the lead is re-pointed to the employer's
+  **closest currently-live posting** and its title/location corrected so the card matches what opens:
+  - AMAG Altstetten → **AMAG Uster** (Mechatroniker oder Diagnostiker & Stv. Werkstattleiter).
+  - AMAG Porsche Schlieren (Diagnostiker) → **AMAG Dübendorf** Diagnostiker (the Porsche-Diagnostiker
+    role is now only in Maienfeld GR, too far).
+  - Emil Frey Zürich → **Emil Frey Dübendorf** (Fachmann/Mechatroniker).
+  - Emil Frey Au-Wädenswil (Mercedes diag) → **Emil Frey Altendorf** Diagnostiker.
+  - Karl Graf Diagnostiker → **Karl Graf Mechatroniker EFZ** (the live ad; Diagnostiker has closed).
+- **One honest exception:** Kanton Zürich has no matching posting open right now, so it links to the
+  canton's official open-positions page and is marked as a periodic "watch" item.
+
 ## v1.6.0 — 2026-06-27
 
 Lets Ben open the actual job posting for each lead.

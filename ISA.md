@@ -1,8 +1,8 @@
 ---
 project: ben-jobs
 effort: E3
-phase: complete
-progress: 100/100
+phase: verify
+progress: 106/106
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -408,3 +408,23 @@ Each lead now links to its real posting; links researched + verified live on 202
 weeks; verification on 2026-06-27 found 5 of the originally-cited specific URLs already dead. Rather than
 ship dead links, those leads point at the employer's careers page or a jobs.ch search that always
 resolves to the current matching role. Specifics used where the agent fetched a live, matching posting.
+
+### v1.7.0 Verification (deep per-job links — replaces v1.6.0 portal fallbacks) — `node tests/run.mjs` → 33/33
+
+Harry rejected the v1.6.0 careers-homepage/search fallbacks ("link to the actual job"). I browsed each
+employer's live portal in real Chrome (jobs.amag-group.ch, jobs.emilfrey.ch, jobs.ch, seegarage-jobs.ch,
+grafauto.ch) and extracted the deep posting URLs.
+
+- **ISC-101**: 12 of 13 leads link to the specific posting (deep link), not a portal home/search — live: `localStorage` shows deep paths (`…-de-j23042.html`, `/vacancies/detail/29dc812d…`, `/jobdetails.php?key=0`, the Mechatroniker PDF). ✓
+- **ISC-102**: New deep links resolve — HEAD checks return HTTP 200 for the 6 testable ones (AMAG ×2, Emil Frey ×2, Seegarage, Karl Graf PDF). ✓
+- **ISC-103**: Re-pointed leads' cards match what opens (closed originals re-pointed + corrected): Altstetten→Uster, Schlieren-Porsche-Diag→Dübendorf-Diag, EmilFrey-Zürich→Dübendorf, EmilFrey-AuWädenswil→Altendorf, KarlGraf-Diag→Mechatroniker-EFZ. ✓
+- **ISC-104**: Every live lead has a non-empty link — live `allHaveLinks=true`. ✓
+- **ISC-105**: Anti: no console errors. ✓
+- **ISC-106**: APP_VERSION + SW VERSION "1.7.0", CHANGELOG. ✓ (Deploy/tag pending Harry's go.)
+
+**Decision (v1.7.0 — supersedes v1.6.0):** *deep link to the actual posting, always.* Portal homepages and
+search pages are not acceptable as the lead link. Where the cited posting closed, re-point to the
+employer's closest live posting AND correct the card (title/location) so the link matches. The one
+employer with nothing live (Kanton Zürich) is the sole exception — its official open-positions page,
+flagged as a "watch" item. Doctrine note: real browser extraction beats WebFetch for SPA job portals,
+which silently return homepages.
