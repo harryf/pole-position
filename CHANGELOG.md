@@ -3,6 +3,20 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.9.0 — 2026-06-27
+
+Fixes the desktop board's hard-to-reach horizontal scrollbar.
+
+- **Fixed-height board:** the columns now sit in a viewport-height board, so each column scrolls
+  **vertically inside itself** and the **horizontal scrollbar stays pinned at the bottom of the board**.
+  Before, a full "Researching" column made the board ~2,500px tall and pushed the left/right scrollbar
+  far below the fold — you had to scroll the whole page down just to move between columns. The page
+  itself no longer scrolls on the board view.
+- **‹ › scroll arrows:** discoverable buttons over the board scroll it ~one screen left/right at a time
+  (desktop). They appear only when there's overflow and hide at each end.
+- Visible, styled scrollbars on the board and inside each column.
+- Removed scroll-snap, which was fighting programmatic scrolling.
+
 ## v1.8.0 — 2026-06-27
 
 Two features: a remote **jobs feed** (incoming queue) and a **hotness** scale.

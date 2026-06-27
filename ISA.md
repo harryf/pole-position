@@ -1,8 +1,8 @@
 ---
 project: ben-jobs
 effort: E3
-phase: complete
-progress: 116/116
+phase: verify
+progress: 125/125
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -450,3 +450,26 @@ feed only ADDS unseen jobs â it never overwrites Ben's stage moves, notes, 
 jobs by appending objects with new ids. Seed jobs reuse `seed-lead-*` ids so a fresh install's first
 feed check finds them already present. Hotness: explicit on seed/feed, auto-classified (title-only brand
 match) as fallback.
+
+### v1.9.0 Verification (desktop board horizontal-scroll fix) — `node tests/run.mjs` → 42/42
+
+Reproduced (Interceptor, 1280-wide): a full Researching column made `.board` **2555px tall**, so its
+horizontal scrollbar sat at y≈2677 — **far below the 826px fold** (`scrollbarBelowFold: true`). Fix:
+fixed-height board, columns scroll internally, scrollbar pinned in view, plus ‹ › scroll arrows.
+
+- **ISC-117**: Board is viewport-height (`height: calc(100dvh - 208px)`) — live: board height 511 at a 719-tall viewport, ~27px clearance above the nav. ✓
+- **ISC-118**: The horizontal scrollbar is now in view — live `xScrollbarAboveNav: true` (board bottom 633 < nav top 660); was `scrollbarBelowFold: true` before. ✓
+- **ISC-119**: Each column scrolls vertically inside itself — cards wrapped in `.cards` (`overflow-y:auto`); live `researchingColScrollsInternally: true`. ✓
+- **ISC-120**: The board view no longer forces a tall page scroll — live `pageOverflowPx: 2`. ✓
+- **ISC-121**: Board is horizontally scrollable to its full extent — live direct `scrollLeft` reaches max 1096 (scrollWidth 2248 − clientWidth 1152). ✓
+- **ISC-122**: ‹ › arrows show/hide correctly — live: start = right only, middle = both, end = left only. ✓
+- **ISC-123**: `.bscroll` arrows are desktop-only (hidden < 900px) and bound once outside `#board` so re-renders don't drop them. ✓
+- **ISC-124**: Anti: no console errors. ✓
+- **ISC-125**: APP_VERSION + SW VERSION "1.9.0", CHANGELOG. ✓ (Deploy/tag pending Harry's go.)
+
+**Decision (v1.9.0):** *cap the board to the viewport; scroll columns internally.* The standard
+Trello/Jira Kanban layout and the cleanest answer to "the scrollbar is pushed off-screen" — keeps the
+horizontal scrollbar always reachable without a separate top scrollbar. Scroll-snap removed (it fought
+programmatic scrolling). Verification caveat: the click→smooth-scroll animation can't be observed in the
+automation tab because it runs hidden (`visibilityState:hidden` → rAF-throttled smooth scroll); wiring,
+scrollability, and arrow-visibility are all verified, and smooth scroll is standard in a focused tab.

@@ -98,8 +98,24 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .due.today{background:rgba(31,224,200,.16);color:var(--accent)}
 .due.over{background:rgba(255,90,110,.16);color:var(--bad)}
 .due.soon{background:rgba(255,176,46,.14);color:var(--warn)}
-.board{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x proximity}
-.col{flex:0 0 270px;scroll-snap-align:start;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;min-height:120px}
+.boardwrap{position:relative}
+/* Fixed-height board: columns scroll vertically INSIDE themselves, so the horizontal
+   scrollbar stays pinned at the bottom of the board instead of being pushed off-screen. */
+.board{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;height:calc(100dvh - 208px);padding:4px 2px 10px;scroll-behavior:smooth;overscroll-behavior-x:contain}
+.board::-webkit-scrollbar{height:11px}
+.board::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.board::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+.board::-webkit-scrollbar-track{background:transparent}
+.col{flex:0 0 270px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;min-height:120px;max-height:100%;display:flex;flex-direction:column}
+.col .cards{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;padding-right:3px;margin-right:-3px}
+.col .cards::-webkit-scrollbar{width:7px}
+.col .cards::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.col .cards:empty{min-height:40px}
+/* left/right scroll arrows over the board (desktop) */
+.bscroll{position:absolute;top:calc(50% - 8px);transform:translateY(-50%);z-index:20;width:36px;height:36px;border-radius:50%;background:var(--raised);border:1px solid var(--line);color:var(--ink);font-size:21px;line-height:1;display:none;place-items:center;box-shadow:0 4px 16px rgba(0,0,0,.45);cursor:pointer}
+.bscroll:hover{border-color:var(--accent);color:var(--accent)}
+.bscroll.left{left:-8px}.bscroll.right{right:-8px}
+@media (max-width:899px){.bscroll{display:none!important}}
 .col.drag{outline:2px dashed var(--accent);outline-offset:-4px}
 .col h3{display:flex;align-items:center;gap:8px;font-size:13px;margin:2px 2px 4px}
 .col h3 .dot{width:9px;height:9px;border-radius:50%}
@@ -188,7 +204,11 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 
   <section class="view" data-view="board" id="view-board">
     <h2 class="sec" id="h-board"></h2>
-    <div class="board" id="board"></div>
+    <div class="boardwrap">
+      <button class="bscroll left" id="bLeft" aria-label="Scroll left">‹</button>
+      <div class="board" id="board"></div>
+      <button class="bscroll right" id="bRight" aria-label="Scroll right">›</button>
+    </div>
   </section>
 
   <section class="view" data-view="tasks" id="view-tasks">
@@ -232,7 +252,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/i18n.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.8.0";
+const APP_VERSION = "1.9.0";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -416,8 +436,16 @@ function renderBoard(){
   $('#board').innerHTML=STAGE_KEYS.map(k=>{
     const col=stageColor(k), leads=S.live(state.leads).filter(l=>l.stage===k).sort((a,b)=>(HOT_RANK[effectiveHotness(b)]-HOT_RANK[effectiveHotness(a)])||(b.favourite-a.favourite)||(b.priority||0)-(a.priority||0));
     return `<div class="col" data-stage="${k}"><h3><span class="dot" style="background:${col}"></span>${t('stages.'+k+'.label')}<span class="ct">${leads.length}</span></h3>
-      <div class="tip">${t('stages.'+k+'.tip')}</div>${leads.map(leadCard).join('')}</div>`;}).join('');
+      <div class="tip">${t('stages.'+k+'.tip')}</div><div class="cards">${leads.map(leadCard).join('')}</div></div>`;}).join('');
   wireBoard();
+  syncBoardArrows();
+}
+// Show/hide the ‹ › board-scroll arrows based on horizontal overflow + scroll position.
+function syncBoardArrows(){
+  const board=$('#board'), L=$('#bLeft'), R=$('#bRight'); if(!board||!L||!R) return;
+  const over=board.scrollWidth-board.clientWidth>4;
+  L.style.display=(over && board.scrollLeft>4)?'grid':'none';
+  R.style.display=(over && board.scrollLeft < board.scrollWidth-board.clientWidth-4)?'grid':'none';
 }
 function leadCard(l){ const col=stageColor(l.stage);
   const opts=STAGE_KEYS.map(k=>`<option value="${k}" ${k===l.stage?'selected':''}>${t('stages.'+k+'.label')}</option>`).join('');
@@ -714,7 +742,7 @@ document.addEventListener('click',e=>{
   const ce=e.target.closest('[data-cedit]'); if(ce){ openContact(ce.dataset.cedit); return; }
 });
 $('#tabs').addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
-function go(v){ activeView=v; $$('.view').forEach(s=>s.classList.toggle('on',s.dataset.view===v)); $$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.go===v)); }
+function go(v){ activeView=v; $$('.view').forEach(s=>s.classList.toggle('on',s.dataset.view===v)); $$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.go===v)); if(v==='board') setTimeout(syncBoardArrows,30); }
 $('#fab').onclick=()=>{ ({board:()=>openLead(),tasks:()=>openTask(),network:()=>openContact(),focus:()=>openTask(),guide:()=>openLead()})[activeView](); };
 $('#menuBtn').onclick=openMenu; $('#syncBtn').onclick=openSync; $('#connDot').onclick=openSync;
 
@@ -760,6 +788,14 @@ if(state.settings.knownDevices.length) setTimeout(()=>startPeer(), 400);
 // auto-check the jobs feed for new positions (throttled to ~once every 12h)
 (()=>{ const last=state.settings.lastFeedCheck; const stale=!last || (Date.now()-new Date(last).getTime())>12*3600e3;
   if(stale) setTimeout(()=>checkJobsFeed(false), 1800); })();
+// board horizontal-scroll arrows (bound once; #board re-renders inside, arrows persist outside)
+(()=>{ const board=$('#board'), L=$('#bLeft'), R=$('#bRight'); if(!board||!L||!R) return;
+  const step=()=>Math.max(280, Math.round(board.clientWidth*0.8));
+  L.onclick=()=>board.scrollBy({left:-step(),behavior:'smooth'});
+  R.onclick=()=>board.scrollBy({left:step(),behavior:'smooth'});
+  board.addEventListener('scroll', syncBoardArrows, {passive:true});
+  window.addEventListener('resize', syncBoardArrows);
+})();
 window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true), cleanup:cleanupDuplicates};
 </script>
 </body>
