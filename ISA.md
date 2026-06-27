@@ -1,7 +1,7 @@
 ---
 project: ben-jobs
 effort: E3
-phase: verify
+phase: complete
 progress: 93/93
 mode: ALGORITHM
 started: 2026-06-27
@@ -381,7 +381,7 @@ positions onto the Board (German titles), three new EN+DE guide sections, refres
 - **ISC-90**: DE locale renders all three new sections, labels translated (Arbeitgeber/Karriereweg/Motorsport), **no ß** — live + test "de locale uses no ß". ✓
 - **ISC-91**: en/de key parity holds with the 6 new keys — tests "en and de have identical key sets" + "all dynamic key families (…guide) resolve in both locales". ✓
 - **ISC-92**: Anti: no console errors after load + tab switching — live `read_console_messages(onlyErrors)` → none. ✓
-- **ISC-93**: APP_VERSION + SW VERSION "1.5.0", CHANGELOG entry. ✓ (Deploy/tag pending Harry's go.)
+- **ISC-93**: APP_VERSION + SW VERSION "1.5.0", CHANGELOG entry. ✓ — tagged v1.5.0, pushed; Tests/Deploy/Release all green; live serves 1.5.0. ✓
 
 **Decisions (v1.5.0):**
 - *Title-language split is structural, not manual:* job titles live as free-text `lead.role` data (seed + `import.example.json`), never as i18n keys — so they **cannot** be translated; guides are i18n strings → translated. Enforced by where the data lives.
