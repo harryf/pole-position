@@ -3,6 +3,25 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.1.0 — 2026-06-27
+
+Internationalisation, install guide, live sync UX, and safer deletes.
+
+- **i18n**: all UI strings moved to a single translations file (`src/i18n.js`); **defaults to English**;
+  switch language in Settings. German locale is **Swiss High German** (Hoi/Grüezi, no `ß`) — "Servus" gone.
+  Tests enforce en/de key parity and that every `t()` key used in the app exists.
+- **Install guide**: a dismissible overlay explains how to install the PWA (iOS Share → Add to Home
+  Screen; desktop Install button / address-bar icon). Auto-shows in a browser, hidden once installed,
+  re-openable from the menu.
+- **Live two-way sync**: pairing now exchanges device names, so **both** devices show a "connected to
+  <device>" state; a header indicator shows live/connected status; once paired, changes on one device
+  **auto-sync** to the other. Theme/language stay device-local (not synced).
+- **Sync screen** now explains where data lives: local-first, peer-to-peer over encrypted WebRTC, no
+  server ever stores it.
+- **Safer deletes**: removed the inline delete button from task and contact rows (accidental-tap
+  hazard); delete now lives only inside the edit screen and **always asks for confirmation** (tasks,
+  contacts, and leads).
+
 ## v1.0.0 — 2026-06-27
 
 First release. Benjamin's drift-spec job-hunt cockpit.

@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 41/41
+progress: 58/58
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -152,6 +152,25 @@ and importable via a documented file format.
 - [ ] ISC-40: First open is seeded with Benjamin's real profile (Merbag, skills, target employers) — not placeholder text.
 - [ ] ISC-41: The theme is a dark automotive/performance aesthetic (chosen brand lane), responsive phone↔laptop; Anti: no flashing/autoplay.
 
+### v1.1.0 — i18n, install guide, live sync, safer deletes
+- [ ] ISC-42: All user-facing strings come from a separate translations file (`src/i18n.js`), not hardcoded in `index.html`.
+- [ ] ISC-43: UI defaults to English on first run.
+- [ ] ISC-44: Language is switchable in Settings (English ↔ Deutsch) and persists.
+- [ ] ISC-45: The German locale uses Swiss conventions (no `ß`; "Hoi/Grüezi", not "Servus").
+- [ ] ISC-46: `en` and `de` locales have identical key sets (no missing/extra keys) — unit-tested.
+- [ ] ISC-47: Every `t('key')` referenced in `index.html` exists in the locale files — unit-tested.
+- [ ] ISC-48: A dismissible install overlay appears when running in a browser (not standalone), with iOS vs desktop guidance.
+- [ ] ISC-49: The install overlay is reachable later from the menu and hidden once running standalone.
+- [ ] ISC-50: The sync screen explains where data is stored (local-first; P2P over WebRTC; no server holds it).
+- [ ] ISC-51: On pairing, BOTH devices show a "connected to <device>" state (host is notified too).
+- [ ] ISC-52: A persistent connection-status indicator is visible (connected/disconnected).
+- [ ] ISC-53: While connected, a change on one device auto-syncs to the other (live), with a sync indicator.
+- [ ] ISC-54: The task and contact LIST rows no longer have an inline delete button.
+- [ ] ISC-55: Delete is available only inside the edit modal, for tasks, contacts, and leads.
+- [ ] ISC-56: Every delete (task, contact, lead) requires an explicit confirm before removing.
+- [ ] ISC-57: Anti: switching language never alters or loses the user's stored data.
+- [ ] ISC-58: Version bumped to 1.1.0 across `APP_VERSION`, SW `VERSION`, CHANGELOG; `v1.1.0` tag + Release.
+
 ## Test Strategy
 
 | isc | type | check | tool |
@@ -252,3 +271,28 @@ assets 200. Real-Chrome live render (MCP): 8 board columns, 3 seeded leads, 2 fa
 **Remaining real-device DEFERRED-VERIFY (not blockers, need Ben's hardware):** install-to-home-screen
 on his iPhone + Windows laptop; one live two-device PeerJS pair. Follow-up: walk Ben through install &
 first sync.
+
+### v1.1.0 Verification (i18n, install, live sync, safer deletes) — `node tests/run.mjs` → 25/25
+
+- **ISC-42/43**: all strings in `src/i18n.js`; MCP probe → default `htmlLang="en"`, greet "Hey Ben! 🏎️". ✓
+- **ISC-44/45**: menu language switch → nav "Fokus/Netzwerk", greet "Hoi Ben! 🏎️" (Swiss), `htmlLang="de"`, back to "Focus". i18n test: de has no `ß`, no "Servus", greeting "Hoi". ✓
+- **ISC-46/47**: tests assert en/de key parity AND all 123 literal `t()` keys in `index.html` exist + dynamic families resolve. ✓
+- **ISC-48/49**: MCP → install overlay auto-shows in browser ("Install Pole Position"), dismissible; headless screenshot confirms the card over the dimmed UI; hidden when standalone; re-openable from menu. ✓
+- **ISC-50**: sync sheet contains the "Where does my data live / no server ever stores it" note. ✓
+- **ISC-52**: `#connDot` indicator present; `updateConnUI()` toggles connected/disconnected. ✓
+- **ISC-51/53**: hello-exchange sends device name (both sides toast "connected to <device>"); `broadcast()` fires on every non-remote `save()`; receiver merges + flashes indicator. Code+single-device verified; **[DEFERRED-VERIFY]** true two-device live pair → follow-up with Ben's hardware.
+- **ISC-54**: MCP → task list has 4 rows, **0** `[data-tdel]` buttons, no 🗑. (contacts likewise.) ✓
+- **ISC-55/56**: delete buttons exist only inside edit modals (`#delTask/#delContact/#delLead`, danger-styled) and every handler calls `confirm()` first. ✓
+- **ISC-57**: live `syncPayload()` excludes `settings`; `mergeState` keeps local settings → language/theme never clobbered by sync. ✓
+- **ISC-58**: `APP_VERSION`/SW `VERSION`=="1.1.0", CHANGELOG v1.1.0 entry; tagged `v1.1.0` + Release.
+
+## Changelog
+
+- conjectured: PeerJS one-shot sync (send state once on connect) is enough. refuted_by: user needs
+  ongoing awareness + auto-propagation, and one-shot leaves the host unaware of who connected.
+  learned: model sync as a persistent channel — exchange device identity on open, re-broadcast on
+  every local change, exclude device-local settings from the payload. criterion_now: ISC-51/53/57.
+- conjectured: a single hardcoded-German UI fits a Swiss user. refuted_by: Ben's working language is
+  Swiss German but applications/interviews are High German and he reads English fluently; "Servus" is
+  German-not-Swiss and jarring. learned: externalise all strings, default English, Swiss-German locale,
+  enforce parity + key-existence by test. criterion_now: ISC-42..47.

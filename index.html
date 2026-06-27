@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="drift">
+<html lang="en" data-theme="drift">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Pole Position — Job Hunt</title>
 <meta name="description" content="Benjamin's drift-spec job-hunt cockpit." />
 <meta name="theme-color" content="#0e0f13" />
-<!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="Pole Position" />
@@ -14,77 +13,62 @@
 <link rel="icon" href="icons/icon-192.png" />
 <link rel="manifest" href="manifest.webmanifest" />
 <style>
-/* ===================== THEME ===================== */
 :root{
   --bg:#0e0f13; --panel:#15171f; --panel2:#1c1f29; --raised:#232734;
   --ink:#eceefb; --muted:#8b90a4; --line:rgba(255,255,255,.08);
-  --accent:#1fe0c8;      /* neon teal */
-  --accent2:#ff2d95;     /* magenta */
+  --accent:#1fe0c8; --accent2:#ff2d95;
   --warn:#ffb02e; --good:#23c9a0; --bad:#ff5a6e;
   --grad:radial-gradient(120% 80% at 80% -10%, rgba(255,45,149,.16), transparent 60%),
          radial-gradient(120% 90% at -10% 10%, rgba(31,224,200,.14), transparent 55%);
-  --ring:conic-gradient(from 220deg, var(--bad), var(--warn), var(--good), var(--accent), var(--accent2));
 }
 html[data-theme="porsche"]{ --accent:#d5001c; --accent2:#caa46a; --grad:radial-gradient(120% 80% at 80% -10%, rgba(213,0,28,.18), transparent 60%); }
 html[data-theme="amg"]{ --accent:#00d2a0; --accent2:#c9ccd4; --grad:radial-gradient(120% 80% at 80% -10%, rgba(0,210,160,.16), transparent 60%); }
 html[data-theme="mblue"]{ --accent:#16a0ff; --accent2:#e2002b; --grad:radial-gradient(120% 80% at 50% -10%, rgba(22,160,255,.18), transparent 60%); }
-
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
-body{
-  background:var(--bg); background-image:var(--grad); background-attachment:fixed;
-  color:var(--ink); font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  -webkit-font-smoothing:antialiased; padding-bottom:env(safe-area-inset-bottom); overflow-x:hidden;
-}
+body{background:var(--bg);background-image:var(--grad);background-attachment:fixed;color:var(--ink);
+  font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom);overflow-x:hidden}
 .mono{font-family:ui-monospace,"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 a{color:var(--accent)}
 input,select,textarea{font:inherit;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
 textarea{min-height:76px;resize:vertical}
 label.fld{display:block;margin:10px 0 4px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-
-/* ===================== CHROME ===================== */
-header.bar{
-  position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;
+header.bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:9px;
   padding:calc(env(safe-area-inset-top) + 10px) 14px 10px;
-  background:linear-gradient(180deg, rgba(14,15,19,.96), rgba(14,15,19,.78));
-  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
-}
+  background:linear-gradient(180deg, rgba(14,15,19,.96), rgba(14,15,19,.78));backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.04em}
-.brand .flag{width:18px;height:18px;border-radius:4px;background:
-  conic-gradient(#fff 0 25%, #111 0 50%, #fff 0 75%, #111 0) 0 0/9px 9px; box-shadow:0 0 0 1px var(--line)}
+.brand .flag{width:18px;height:18px;border-radius:4px;background:conic-gradient(#fff 0 25%, #111 0 50%, #fff 0 75%, #111 0) 0 0/9px 9px;box-shadow:0 0 0 1px var(--line)}
 .brand .nm{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .ver{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px}
 .bar .spacer{flex:1}
 .iconbtn{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;font-size:17px}
 .iconbtn:active{transform:translateY(1px)}
-
-nav.tabs{
-  position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:space-around;
+#connDot{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;font-size:12px;color:var(--muted)}
+#connDot.on{color:var(--good);border-color:rgba(35,201,160,.5);box-shadow:0 0 10px rgba(35,201,160,.35)}
+#connDot.flash{animation:flash .8s ease}
+@keyframes flash{0%,100%{box-shadow:0 0 10px rgba(35,201,160,.35)}50%{box-shadow:0 0 18px rgba(31,224,200,.9)}}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:space-around;
   padding:6px 6px calc(env(safe-area-inset-bottom) + 6px);
-  background:linear-gradient(0deg, rgba(14,15,19,.98), rgba(14,15,19,.85));backdrop-filter:blur(10px);
-  border-top:1px solid var(--line);
-}
-nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--muted);padding:5px 10px;border-radius:12px;min-width:58px}
+  background:linear-gradient(0deg, rgba(14,15,19,.98), rgba(14,15,19,.85));backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+nav.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--muted);padding:5px 8px;border-radius:12px;min-width:56px}
 nav.tabs button .ic{font-size:19px;line-height:1}
 nav.tabs button[aria-selected="true"]{color:var(--ink);background:var(--panel)}
 nav.tabs button[aria-selected="true"] .ic{filter:drop-shadow(0 0 8px var(--accent))}
-
 main{max-width:1180px;margin:0 auto;padding:14px 14px 92px}
 .view{display:none}.view.on{display:block;animation:fade .18s ease}
 @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
-
 h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:18px 4px 8px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
 .row{display:flex;gap:10px;align-items:center}
 .pill{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .btn{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:9px 13px;font-weight:600}
 .btn.go{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#06121a;border:0}
+.btn.danger{border-color:rgba(255,90,110,.5);color:var(--bad)}
 .btn.sm{padding:6px 10px;font-size:13px;border-radius:9px}
 .muted{color:var(--muted)} .tiny{font-size:12px}
 .flagstar{color:var(--warn)}
-
-/* ===================== FOCUS / TACHO ===================== */
 .cockpit{display:grid;grid-template-columns:160px minmax(0,1fr);gap:14px;align-items:center}
 @media(max-width:520px){.cockpit{grid-template-columns:120px minmax(0,1fr)}}
 .tacho{position:relative;width:100%;aspect-ratio:1;max-width:170px;margin:auto}
@@ -96,7 +80,6 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .stat b{display:block;font-size:21px;font-weight:800}
 .stat span{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
 .fire{color:var(--warn)}
-
 .action{display:flex;gap:11px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:9px;flex-wrap:wrap}
 .action .ttl{overflow-wrap:anywhere}
 .action.over{border-color:rgba(255,90,110,.5)}
@@ -109,8 +92,6 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .due.today{background:rgba(31,224,200,.16);color:var(--accent)}
 .due.over{background:rgba(255,90,110,.16);color:var(--bad)}
 .due.soon{background:rgba(255,176,46,.14);color:var(--warn)}
-
-/* ===================== BOARD ===================== */
 .board{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 8px;scroll-snap-type:x proximity}
 .col{flex:0 0 270px;scroll-snap-align:start;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px;min-height:120px}
 .col.drag{outline:2px dashed var(--accent);outline-offset:-4px}
@@ -125,14 +106,12 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .lead .lr{display:flex;gap:6px;align-items:center;margin-top:8px;flex-wrap:wrap}
 .lead .stg{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600}
 .lead select.mv{font-size:11px;padding:4px 6px;border-radius:8px;width:auto;flex:1}
-
-/* ===================== LIST ITEMS ===================== */
 .item{display:flex;gap:11px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:13px;background:var(--panel);margin-bottom:8px}
 .item.done{opacity:.5}.item.done .it-ttl{text-decoration:line-through}
 .item .it-ttl{font-weight:600}.item .it-sub{font-size:12px;color:var(--muted)}
+.item .body{flex:1;min-width:0;cursor:pointer}
+.item .chev{color:var(--muted);font-size:18px}
 .catpill{font-size:10px;text-transform:uppercase;letter-spacing:.06em}
-
-/* ===================== MODAL ===================== */
 .scrim{position:fixed;inset:0;z-index:50;background:rgba(4,5,8,.6);backdrop-filter:blur(3px);display:none;align-items:flex-end;justify-content:center}
 .scrim.on{display:flex}
 .sheet{background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;width:100%;max-width:620px;max-height:92vh;overflow:auto;padding:16px 16px calc(env(safe-area-inset-bottom) + 20px)}
@@ -153,8 +132,18 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .banner{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 78px);z-index:40;background:var(--raised);border:1px solid var(--accent);border-radius:14px;padding:12px 14px;display:none;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
 .banner.on{display:flex}
 .qrwrap{display:grid;place-items:center;padding:12px;background:#fff;border-radius:12px;width:max-content;margin:8px auto}
+.note{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
+.note b{display:block;margin-bottom:2px}
 .empty{text-align:center;color:var(--muted);padding:26px 10px}
 .fab{position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom) + 78px);z-index:25;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06121a;font-size:26px;font-weight:700;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+/* install overlay */
+.install{position:fixed;inset:0;z-index:60;background:rgba(4,5,8,.78);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:18px}
+.install.on{display:flex}
+.install .card{max-width:420px;text-align:center}
+.install .logo{width:76px;height:76px;border-radius:20px;margin:0 auto 10px;display:block}
+.install h3{font-size:20px;margin:6px 0}
+.install .steps{text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0}
+.install .share{display:inline-block;border:1px solid var(--accent);border-radius:8px;padding:1px 7px;color:var(--accent)}
 </style>
 </head>
 <body>
@@ -162,53 +151,49 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
   <div class="brand"><span class="flag"></span><span>POLE <span class="nm">POSITION</span></span></div>
   <span class="ver mono" id="verChip">v0.0.0</span>
   <span class="spacer"></span>
-  <button class="iconbtn" id="syncBtn" title="Sync devices">⇄</button>
+  <button id="connDot" title="">●</button>
+  <button class="iconbtn" id="syncBtn" title="Sync">⇄</button>
   <button class="iconbtn" id="menuBtn" title="Menu">⋯</button>
 </header>
 
 <main>
-  <!-- FOCUS -->
   <section class="view" data-view="focus" id="view-focus">
     <div class="card">
       <div class="cockpit">
         <div class="tacho" id="tacho"></div>
         <div>
-          <div style="font-weight:800;font-size:18px" id="greet">Servus Ben/!</div>
+          <div style="font-weight:800;font-size:18px" id="greet"></div>
           <div class="muted tiny" id="todayStr" style="margin-bottom:10px"></div>
           <div class="statchips">
-            <div class="stat"><b id="stXp">0</b><span>XP · Lvl <span id="stLvl">1</span></span></div>
-            <div class="stat"><b class="fire" id="stStreak">0🔥</b><span>Tage-Streak</span></div>
-            <div class="stat"><b id="stOpen">0</b><span>offene Leads</span></div>
+            <div class="stat"><b id="stXp">0</b><span id="stXpSub"></span></div>
+            <div class="stat"><b class="fire" id="stStreak">0🔥</b><span id="stStreakSub"></span></div>
+            <div class="stat"><b id="stOpen">0</b><span id="stOpenSub"></span></div>
           </div>
         </div>
       </div>
     </div>
-    <h2 class="sec">Was jetzt zählt — nächste Schritte</h2>
+    <h2 class="sec" id="h-focus-next"></h2>
     <div id="nextList"></div>
   </section>
 
-  <!-- BOARD -->
   <section class="view" data-view="board" id="view-board">
-    <h2 class="sec">Bewerbungs-Pipeline</h2>
+    <h2 class="sec" id="h-board"></h2>
     <div class="board" id="board"></div>
   </section>
 
-  <!-- TASKS -->
   <section class="view" data-view="tasks" id="view-tasks">
-    <h2 class="sec">Allgemeine Aufgaben <span class="muted tiny">(nicht bewerbungsspezifisch)</span></h2>
+    <h2 class="sec" id="h-tasks"></h2>
     <div id="taskList"></div>
   </section>
 
-  <!-- NETWORK -->
   <section class="view" data-view="network" id="view-network">
-    <h2 class="sec">Netzwerk — Kontakte & Empfehlungen</h2>
-    <p class="muted tiny" style="margin:0 4px 10px">Dein Merbag-Netzwerk ist Gold wert. Eine Empfehlung schlägt jede Kaltbewerbung.</p>
+    <h2 class="sec" id="h-net"></h2>
+    <p class="muted tiny" id="h-net-sub" style="margin:0 4px 10px"></p>
     <div id="contactList"></div>
   </section>
 
-  <!-- GUIDE -->
   <section class="view" data-view="guide" id="view-guide">
-    <h2 class="sec">Guide</h2>
+    <h2 class="sec" id="h-guide"></h2>
     <div class="card">
       <div class="guide-tabs" id="guideTabs"></div>
       <div class="gbody" id="guideBody"></div>
@@ -216,241 +201,187 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
   </section>
 </main>
 
-<button class="fab" id="fab" title="Hinzufügen">+</button>
+<button class="fab" id="fab" title="Add">+</button>
 
 <nav class="tabs" id="tabs">
-  <button data-go="focus" aria-selected="true"><span class="ic">🏁</span>Fokus</button>
-  <button data-go="board"><span class="ic">📋</span>Board</button>
-  <button data-go="tasks"><span class="ic">✓</span>Tasks</button>
-  <button data-go="network"><span class="ic">🤝</span>Netzwerk</button>
-  <button data-go="guide"><span class="ic">💡</span>Guide</button>
+  <button data-go="focus" aria-selected="true"><span class="ic">🏁</span><span class="lab"></span></button>
+  <button data-go="board"><span class="ic">📋</span><span class="lab"></span></button>
+  <button data-go="tasks"><span class="ic">✓</span><span class="lab"></span></button>
+  <button data-go="network"><span class="ic">🤝</span><span class="lab"></span></button>
+  <button data-go="guide"><span class="ic">💡</span><span class="lab"></span></button>
 </nav>
 
-<div class="banner" id="updBanner"><span>🚀 Neue Version verfügbar.</span><button class="btn sm go" id="updBtn" style="margin-left:auto">Aktualisieren</button></div>
-
+<div class="banner" id="updBanner"><span id="updMsg"></span><button class="btn sm go" id="updBtn" style="margin-left:auto"></button></div>
 <div class="scrim" id="scrim"><div class="sheet" id="sheet"></div></div>
+<div class="install" id="installScrim"><div class="card" id="installCard"></div></div>
 
-<!-- vendored, offline -->
 <script src="vendor/peerjs.min.js"></script>
 <script src="vendor/qrcode.min.js"></script>
 <script src="vendor/jsqr.min.js"></script>
 <script src="src/sync.js"></script>
+<script src="src/i18n.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.0.0";
+const APP_VERSION = "1.1.0";
 const KEY = "pole_position_v1";
-const S = window.PP_SYNC;
+const S = window.PP_SYNC, I = window.PP_I18N;
+const t = (k,v)=>I.t(k,v);
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 
-/* ---------- stages & content ---------- */
-const STAGES = [
-  {key:'researching',label:'Recherche',color:'#8b90a4',tip:'Passende Stellen finden. Link, Firma & Warum speichern. Premium/Sport bevorzugen — da glänzt deine AMG- + HV-Erfahrung.'},
-  {key:'resume',label:'CV bereit',color:'#5b8def',tip:'CV auf DIESE Stelle zuschneiden. AGVS + MB HV/EV-Zertifizierung und Merbag zuerst nennen. DE + EN bereit.'},
-  {key:'cover',label:'Anschreiben',color:'#7c6cff',tip:'3 kurze Absätze: warum sie, warum du (HV, AMG, Merbag), was du bringst. Wenn möglich eine Person ansprechen.'},
-  {key:'applied',label:'Beworben',color:'#1fe0c8',tip:'Datum notieren. Follow-up in 7 Tagen setzen — die meisten haken nie nach, genau deshalb wirkt es.'},
-  {key:'contacted',label:'Nachgefasst',color:'#23c9a0',tip:'Kontaktiert / nachgefasst. Nutze dein Merbag-Netzwerk für eine warme Empfehlung.'},
-  {key:'interviewing',label:'Interview',color:'#ffb02e',tip:'Vorbereiten: 3 Geschichten (harte Diagnose, ein HV/EV-Job, unter Termindruck). Fragen mitbringen. Danach sofort Debrief.'},
-  {key:'offer',label:'Angebot / Verhandlung',color:'#ff2d95',tip:'Anker CHF 5\'500/Monat ×13. 13. Monatslohn bestätigen. Mit HV-Zertifizierung führen. Nie sofort zusagen — eine Nacht drüber schlafen.'},
-  {key:'closed',label:'Abgeschlossen',color:'#4a4f5e',tip:'Gewonnen oder verloren — beides festhalten und lernen. Ein Nein heute schärft das nächste Ja.'},
-];
-const stage = k => STAGES.find(s=>s.key===k) || STAGES[0];
-const CATS = {setup:'Setup',admin:'Admin',skill:'Skill',network:'Netzwerk',other:'Sonstiges'};
+const STAGE_KEYS = ['researching','resume','cover','applied','contacted','interviewing','offer','closed'];
+const STAGE_COLORS = {researching:'#8b90a4',resume:'#5b8def',cover:'#7c6cff',applied:'#1fe0c8',contacted:'#23c9a0',interviewing:'#ffb02e',offer:'#ff2d95',closed:'#4a4f5e'};
+const CAT_KEYS = ['setup','admin','skill','network','other'];
 const XP = {task:10, advance:15, debrief:20, lead:5};
 
-/* ---------- state ---------- */
 let state = load();
-function load(){
-  try{ const raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); }catch(e){}
-  return seed();
-}
-function save(){ state.settings.updatedAt = S.nowISO(); localStorage.setItem(KEY, JSON.stringify(state)); }
-function touch(r){ r.updatedAt = S.nowISO(); return r; }
+function load(){ try{ const raw=localStorage.getItem(KEY); if(raw) return migrate(JSON.parse(raw)); }catch(e){} return seed(); }
+function migrate(s){ s.settings=s.settings||{}; if(!s.settings.lang) s.settings.lang='en'; s.debriefs=s.debriefs||[]; s.contacts=s.contacts||[]; return s; }
+function save(){ state.settings.updatedAt=S.nowISO(); localStorage.setItem(KEY, JSON.stringify(state)); if(!_applyingRemote) broadcast(); }
+function touch(r){ r.updatedAt=S.nowISO(); return r; }
 
-/* ---------- seed (his real world) ---------- */
 function seed(){
-  const t = S.nowISO();
-  const mk = (o)=>Object.assign({id:S.uid(),updatedAt:t,deleted:false},o);
+  const t0=S.nowISO(); const mk=o=>Object.assign({id:S.uid(),updatedAt:t0,deleted:false},o);
   return {
     leads:[
-      mk({company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Servicetechniker',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / Mt (Ziel)",source:'Porsche Karriere',favourite:true,priority:5,stage:'researching',nextAction:'Dossier auf Porsche zuschneiden (HV-Zert. hervorheben)',nextDue:isoIn(5),contacts:[],notes:'Traum-Arbeitgeber, direkt vor der Haustür. AMG + HV als Hebel.'}),
-      mk({company:'Mercedes-AMG (Affalterbach/CH)',role:'Mechatroniker Hochleistung / AMG',link:'',location:'CH / DE',salary:'',source:'Netzwerk',favourite:true,priority:4,stage:'researching',nextAction:'Merbag-Kollegen nach AMG-Kontakten fragen',nextDue:isoIn(6),contacts:[],notes:'Spielt direkt deine SLS/G63/E63/C63-Erfahrung aus.'}),
-      mk({company:'Kessel AG — Ferrari / Maserati',role:'Mechatroniker Sportwagen',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Offene Stellen prüfen',nextDue:'',contacts:[],notes:'Sportwagen-Segment.'}),
+      mk({company:'Porsche Zentrum Schlieren',role:'Automobilmechatroniker / Service technician',link:'https://www.porsche.com/swiss/de/aboutporsche/jobs/',location:'Schlieren, ZH',salary:"CHF 5'300–5'800 / mo (target)",source:'Porsche careers',favourite:true,priority:5,stage:'researching',nextAction:'Tailor dossier to Porsche (highlight HV cert.)',nextDue:isoIn(5),contacts:[],notes:'Dream employer, right on the doorstep. AMG + HV are the levers.'}),
+      mk({company:'Mercedes-AMG',role:'High-performance mechatronics / AMG',link:'',location:'CH / DE',salary:'',source:'Network',favourite:true,priority:4,stage:'researching',nextAction:'Ask Merbag colleagues for AMG contacts',nextDue:isoIn(6),contacts:[],notes:'Plays directly to your SLS/G63/E63/C63 experience.'}),
+      mk({company:'Kessel AG — Ferrari / Maserati',role:'Sports-car mechatronics',link:'',location:'Volketswil, ZH',salary:'',source:'jobs.ch',favourite:false,priority:3,stage:'researching',nextAction:'Check open positions',nextDue:'',contacts:[],notes:'Sports-car segment.'}),
     ],
     tasks:[
-      mk({title:'CV final machen (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Porsche-Version als Basis nutzen.'}),
-      mk({title:'Referenzschreiben vom Merbag-Teamleiter anfragen',category:'network',due:isoIn(6),priority:'high',done:false}),
-      mk({title:'LinkedIn-Profil aufsetzen (HV/EV sichtbar)',category:'setup',due:isoIn(8),priority:'med',done:false}),
-      mk({title:'HV-Zertifikate als PDF sammeln',category:'admin',due:isoIn(3),priority:'med',done:false}),
+      mk({title:'Finalise CV (DE + EN)',category:'setup',due:isoIn(4),priority:'high',done:false,recurring:false,notes:'Use the Porsche version as the base.'}),
+      mk({title:'Ask Merbag team lead for a reference letter',category:'network',due:isoIn(6),priority:'high',done:false}),
+      mk({title:'Set up LinkedIn profile (HV/EV visible)',category:'setup',due:isoIn(8),priority:'med',done:false}),
+      mk({title:'Collect HV certificates as PDF',category:'admin',due:isoIn(3),priority:'med',done:false}),
     ],
-    contacts:[
-      mk({name:'Merbag Teamleiter',company:'Merbag AG',relationship:'Ausbildner / Referenz',intro:'Direkt',notes:'Stärkste Referenz — größte MB-Werkstatt der CH.'}),
-    ],
+    contacts:[ mk({name:'Merbag team lead',company:'Merbag AG',relationship:'Trainer / reference',intro:'Direct',notes:'Strongest reference — largest MB workshop in CH.'}) ],
     debriefs:[],
-    settings:{theme:'drift',dailyGoal:3,name:'Ben',updatedAt:t},
+    settings:{theme:'drift',dailyGoal:3,name:'Ben',lang:'en',updatedAt:t0},
     meta:{xp:0,streak:0,bestStreak:0,lastActiveDay:''},
   };
 }
-function isoIn(days){ const d=new Date(); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
+function isoIn(d){ const x=new Date(); x.setDate(x.getDate()+d); return x.toISOString().slice(0,10); }
 function todayKey(){ return new Date().toISOString().slice(0,10); }
+function stageColor(k){ return STAGE_COLORS[k]||STAGE_COLORS.researching; }
 
-/* ---------- gamification ---------- */
 function levelFor(xp){ return Math.floor(Math.sqrt(xp/40))+1; }
 function award(kind){
   state.meta.xp += (XP[kind]||0);
-  const tk = todayKey();
-  if(state.meta.lastActiveDay !== tk){
+  const tk=todayKey();
+  if(state.meta.lastActiveDay!==tk){
     const y=new Date(); y.setDate(y.getDate()-1);
-    state.meta.streak = (state.meta.lastActiveDay === y.toISOString().slice(0,10)) ? state.meta.streak+1 : 1;
-    state.meta.lastActiveDay = tk;
-    state.meta.bestStreak = Math.max(state.meta.bestStreak, state.meta.streak);
+    state.meta.streak = (state.meta.lastActiveDay===y.toISOString().slice(0,10)) ? state.meta.streak+1 : 1;
+    state.meta.lastActiveDay=tk; state.meta.bestStreak=Math.max(state.meta.bestStreak,state.meta.streak);
   }
 }
-function doneToday(){
-  // actions completed today = tasks done today + leads advanced today (approx via meta day)
-  const tk = todayKey();
-  const t = state.tasks.filter(x=>!x.deleted && x.done && (x.updatedAt||'').slice(0,10)===tk).length;
-  return t + (state._advancesToday||0);
-}
+function doneToday(){ const tk=todayKey(); const td=state.tasks.filter(x=>!x.deleted&&x.done&&(x.updatedAt||'').slice(0,10)===tk).length; return td+(state._advancesToday||0); }
 
-/* ---------- tacho ---------- */
 function tacho(done,goal){
-  const frac = Math.max(0,Math.min(1, goal? done/goal : 0));
-  const a0=-220, a1=40, ang=a0+(a1-a0)*frac;      // sweep
-  const ticks = Array.from({length:9},(_,i)=>{
-    const a=(a0+(a1-a0)*(i/8))*Math.PI/180, r1=44,r2=49,cx=50,cy=50;
-    const hot=i/8>0.72;
-    return `<line x1="${cx+r1*Math.cos(a)}" y1="${cy+r1*Math.sin(a)}" x2="${cx+r2*Math.cos(a)}" y2="${cy+r2*Math.sin(a)}" stroke="${hot?'var(--accent2)':'var(--muted)'}" stroke-width="1.5"/>`;
-  }).join('');
-  const ar=ang*Math.PI/180, nx=50+34*Math.cos(ar), ny=50+34*Math.sin(ar);
+  const frac=Math.max(0,Math.min(1,goal?done/goal:0));
+  const a0=-220,a1=40,ang=a0+(a1-a0)*frac;
+  const ticks=Array.from({length:9},(_,i)=>{const a=(a0+(a1-a0)*(i/8))*Math.PI/180,r1=44,r2=49,cx=50,cy=50,hot=i/8>0.72;
+    return `<line x1="${cx+r1*Math.cos(a)}" y1="${cy+r1*Math.sin(a)}" x2="${cx+r2*Math.cos(a)}" y2="${cy+r2*Math.sin(a)}" stroke="${hot?'var(--accent2)':'var(--muted)'}" stroke-width="1.5"/>`;}).join('');
+  const ar=ang*Math.PI/180,nx=50+34*Math.cos(ar),ny=50+34*Math.sin(ar);
   return `<svg viewBox="0 0 100 100" width="100%" height="100%">
     <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent2)"/></linearGradient></defs>
     <path d="M ${50+44*Math.cos(a0*Math.PI/180)} ${50+44*Math.sin(a0*Math.PI/180)} A 44 44 0 1 1 ${50+44*Math.cos(a1*Math.PI/180)} ${50+44*Math.sin(a1*Math.PI/180)}" fill="none" stroke="var(--line)" stroke-width="6"/>
     <path d="M ${50+44*Math.cos(a0*Math.PI/180)} ${50+44*Math.sin(a0*Math.PI/180)} A 44 44 0 ${frac>0.62?1:0} 1 ${50+44*Math.cos(ar)} ${50+44*Math.sin(ar)}" fill="none" stroke="url(#g)" stroke-width="6" stroke-linecap="round"/>
-    ${ticks}
-    <line x1="50" y1="50" x2="${nx}" y2="${ny}" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="50" cy="50" r="4" fill="var(--ink)"/>
-  </svg>
-  <div class="lab"><div class="big mono">${done}/${goal}</div><div class="sub">heute</div></div>`;
+    ${ticks}<line x1="50" y1="50" x2="${nx}" y2="${ny}" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"/><circle cx="50" cy="50" r="4" fill="var(--ink)"/></svg>
+    <div class="lab"><div class="big mono">${done}/${goal}</div><div class="sub">${t('focus.tacho_sub')}</div></div>`;
 }
 
-/* ---------- rendering ---------- */
 let activeView='focus', guideTab='pipeline';
-function render(){
+function applyChrome(){
+  document.documentElement.lang = I.getLang();
   $('#verChip').textContent='v'+APP_VERSION;
   document.documentElement.setAttribute('data-theme', state.settings.theme||'drift');
-  renderFocus(); renderBoard(); renderTasks(); renderContacts(); renderGuide();
+  const navmap={focus:'nav.focus',board:'nav.board',tasks:'nav.tasks',network:'nav.network',guide:'nav.guide'};
+  $$('#tabs button').forEach(b=>$('.lab',b).textContent=t(navmap[b.dataset.go]));
+  $('#h-focus-next').textContent=t('focus.next_heading');
+  $('#h-board').textContent=t('board.heading');
+  $('#h-tasks').innerHTML=t('tasks.heading')+' <span class="muted tiny">'+t('tasks.heading_sub')+'</span>';
+  $('#h-net').textContent=t('network.heading');
+  $('#h-net-sub').textContent=t('network.sub');
+  $('#h-guide').textContent=t('guide.heading');
+  $('#updMsg').textContent=t('bar.update'); $('#updBtn').textContent=t('bar.update_btn');
 }
+function render(){ applyChrome(); renderFocus(); renderBoard(); renderTasks(); renderContacts(); renderGuide(); updateConnUI(); }
+
 function renderFocus(){
   const goal=state.settings.dailyGoal||3, dn=doneToday();
-  $('#tacho').innerHTML = tacho(dn,goal);
-  $('#greet').textContent = `Servus ${state.settings.name||'Ben'}! 🏎️`;
-  $('#todayStr').textContent = new Date().toLocaleDateString('de-CH',{weekday:'long',day:'numeric',month:'long'});
-  $('#stXp').textContent = state.meta.xp;
-  $('#stLvl').textContent = levelFor(state.meta.xp);
-  $('#stStreak').innerHTML = (state.meta.streak||0)+'🔥';
-  $('#stOpen').textContent = S.live(state.leads).filter(l=>l.stage!=='closed').length;
-
-  // next actions: lead nextActions + open tasks with due, sorted by date
+  $('#tacho').innerHTML=tacho(dn,goal);
+  $('#greet').textContent=t('focus.greet',{name:state.settings.name||'Ben'});
+  $('#todayStr').textContent=new Date().toLocaleDateString(I.getLang()==='de'?'de-CH':'en-GB',{weekday:'long',day:'numeric',month:'long'});
+  $('#stXp').textContent=state.meta.xp; $('#stXpSub').textContent=t('focus.xp_sub',{lvl:levelFor(state.meta.xp)});
+  $('#stStreak').innerHTML=(state.meta.streak||0)+'🔥'; $('#stStreakSub').textContent=t('focus.streak_sub');
+  $('#stOpen').textContent=S.live(state.leads).filter(l=>l.stage!=='closed').length; $('#stOpenSub').textContent=t('focus.open_sub');
   const items=[];
-  S.live(state.leads).forEach(l=>{ if(l.nextAction && l.stage!=='closed') items.push({kind:'lead',id:l.id,ttl:l.nextAction,from:l.company,due:l.nextDue}); });
-  S.live(state.tasks).forEach(t=>{ if(!t.done) items.push({kind:'task',id:t.id,ttl:t.title,from:CATS[t.category]||'Aufgabe',due:t.due}); });
+  S.live(state.leads).forEach(l=>{ if(l.nextAction&&l.stage!=='closed') items.push({kind:'lead',id:l.id,ttl:l.nextAction,from:l.company,due:l.nextDue}); });
+  S.live(state.tasks).forEach(x=>{ if(!x.done) items.push({kind:'task',id:x.id,ttl:x.title,from:t('cats.'+x.category),due:x.due}); });
   items.sort((a,b)=>(a.due||'9999')<(b.due||'9999')?-1:1);
   const wrap=$('#nextList');
-  if(!items.length){ wrap.innerHTML='<div class="empty">Alles erledigt. 🏁 Zeit, neue Leads zu jagen.</div>'; return; }
-  wrap.innerHTML = items.slice(0,12).map(it=>{
-    const d=dueInfo(it.due);
-    return `<div class="action ${d.cls==='over'?'over':''}">
-      <button class="check" data-done="${it.kind}:${it.id}">✓</button>
+  if(!items.length){ wrap.innerHTML=`<div class="empty">${t('focus.empty')}</div>`; return; }
+  wrap.innerHTML=items.slice(0,12).map(it=>{const d=dueInfo(it.due);
+    return `<div class="action ${d.cls==='over'?'over':''}"><button class="check" data-done="${it.kind}:${it.id}">✓</button>
       <div class="meta"><div class="ttl">${esc(it.ttl)}</div><div class="from">${it.kind==='lead'?'📋 ':'✓ '}${esc(it.from)}</div></div>
-      ${it.due?`<span class="due ${d.cls}">${d.txt}</span>`:''}
-    </div>`;
-  }).join('');
+      ${it.due?`<span class="due ${d.cls}">${d.txt}</span>`:''}</div>`;}).join('');
 }
-function dueInfo(due){
-  if(!due) return {cls:'',txt:''};
+function dueInfo(due){ if(!due) return {cls:'',txt:''};
   const days=Math.round((new Date(due)-new Date(todayKey()))/864e5);
-  if(days<0) return {cls:'over',txt:`${-days}d über`};
-  if(days===0) return {cls:'today',txt:'heute'};
-  if(days<=3) return {cls:'soon',txt:`in ${days}d`};
-  return {cls:'',txt:new Date(due).toLocaleDateString('de-CH',{day:'numeric',month:'short'})};
+  if(days<0) return {cls:'over',txt:t('due.over',{n:-days})};
+  if(days===0) return {cls:'today',txt:t('due.today')};
+  if(days<=3) return {cls:'soon',txt:t('due.in',{n:days})};
+  return {cls:'',txt:new Date(due).toLocaleDateString(I.getLang()==='de'?'de-CH':'en-GB',{day:'numeric',month:'short'})};
 }
 function renderBoard(){
-  const b=$('#board');
-  b.innerHTML = STAGES.map(st=>{
-    const leads = S.live(state.leads).filter(l=>l.stage===st.key)
-      .sort((a,b)=>(b.favourite-a.favourite)||(b.priority||0)-(a.priority||0));
-    return `<div class="col" data-stage="${st.key}">
-      <h3><span class="dot" style="background:${st.color}"></span>${st.label}<span class="ct">${leads.length}</span></h3>
-      <div class="tip">${st.tip}</div>
-      ${leads.map(l=>leadCard(l)).join('')}
-    </div>`;
-  }).join('');
+  $('#board').innerHTML=STAGE_KEYS.map(k=>{
+    const col=stageColor(k), leads=S.live(state.leads).filter(l=>l.stage===k).sort((a,b)=>(b.favourite-a.favourite)||(b.priority||0)-(a.priority||0));
+    return `<div class="col" data-stage="${k}"><h3><span class="dot" style="background:${col}"></span>${t('stages.'+k+'.label')}<span class="ct">${leads.length}</span></h3>
+      <div class="tip">${t('stages.'+k+'.tip')}</div>${leads.map(leadCard).join('')}</div>`;}).join('');
   wireBoard();
 }
-function leadCard(l){
-  const st=stage(l.stage);
-  const opts=STAGES.map(s=>`<option value="${s.key}" ${s.key===l.stage?'selected':''}>${s.label}</option>`).join('');
-  return `<div class="lead ${l.favourite?'fav':''}" draggable="true" data-id="${l.id}" style="border-left-color:${st.color}">
-    <div class="co">${l.favourite?'<span class="flagstar">★</span>':''}${esc(l.company)}</div>
-    <div class="ro">${esc(l.role||'')}</div>
-    <div class="lr">
-      <span class="stg" style="background:${st.color}22;color:${st.color}">${st.label}</span>
-      ${l.location?`<span class="pill">${esc(l.location)}</span>`:''}
-    </div>
-    <div class="lr"><select class="mv" data-move="${l.id}">${opts}</select><button class="btn sm" data-open="${l.id}">Öffnen</button></div>
-  </div>`;
+function leadCard(l){ const col=stageColor(l.stage);
+  const opts=STAGE_KEYS.map(k=>`<option value="${k}" ${k===l.stage?'selected':''}>${t('stages.'+k+'.label')}</option>`).join('');
+  return `<div class="lead ${l.favourite?'fav':''}" draggable="true" data-id="${l.id}" style="border-left-color:${col}">
+    <div class="co">${l.favourite?'<span class="flagstar">★</span>':''}${esc(l.company)}</div><div class="ro">${esc(l.role||'')}</div>
+    <div class="lr"><span class="stg" style="background:${col}22;color:${col}">${t('stages.'+l.stage+'.label')}</span>${l.location?`<span class="pill">${esc(l.location)}</span>`:''}</div>
+    <div class="lr"><select class="mv" data-move="${l.id}">${opts}</select><button class="btn sm" data-open="${l.id}">${t('board.open')}</button></div></div>`;
 }
 function renderTasks(){
   const tl=$('#taskList'), ts=S.live(state.tasks);
-  if(!ts.length){ tl.innerHTML='<div class="empty">Keine Aufgaben. Mit + eine hinzufügen.</div>'; return; }
+  if(!ts.length){ tl.innerHTML=`<div class="empty">${t('tasks.empty')}</div>`; return; }
   const order={high:0,med:1,low:2};
   ts.sort((a,b)=>(a.done-b.done)||(order[a.priority]??1)-(order[b.priority]??1)||((a.due||'9999')<(b.due||'9999')?-1:1));
-  tl.innerHTML = ts.map(t=>{
-    const d=dueInfo(t.due), pc={high:'var(--bad)',med:'var(--warn)',low:'var(--muted)'}[t.priority]||'var(--muted)';
-    return `<div class="item ${t.done?'done':''}">
-      <button class="check" data-tdone="${t.id}">${t.done?'✓':''}</button>
-      <div class="meta" style="flex:1" data-tedit="${t.id}">
-        <div class="it-ttl">${esc(t.title)}</div>
-        <div class="it-sub"><span class="catpill" style="color:${pc}">${(CATS[t.category]||'').toUpperCase()}</span>${t.due?' · '+d.txt:''}${t.recurring?' · ↻':''}</div>
-      </div>
-      <button class="iconbtn" style="width:32px;height:32px;font-size:14px" data-tdel="${t.id}">🗑</button>
-    </div>`;
-  }).join('');
+  tl.innerHTML=ts.map(x=>{const d=dueInfo(x.due),pc={high:'var(--bad)',med:'var(--warn)',low:'var(--muted)'}[x.priority]||'var(--muted)';
+    return `<div class="item ${x.done?'done':''}"><button class="check" data-tdone="${x.id}">${x.done?'✓':''}</button>
+      <div class="body" data-tedit="${x.id}"><div class="it-ttl">${esc(x.title)}</div>
+        <div class="it-sub"><span class="catpill" style="color:${pc}">${t('cats.'+x.category).toUpperCase()}</span>${x.due?' · '+d.txt:''}${x.recurring?' · ↻':''}</div></div>
+      <span class="chev" data-tedit="${x.id}">›</span></div>`;}).join('');
 }
 function renderContacts(){
   const cl=$('#contactList'), cs=S.live(state.contacts);
-  if(!cs.length){ cl.innerHTML='<div class="empty">Noch keine Kontakte. Mit + dein Merbag-Netzwerk erfassen.</div>'; return; }
-  cl.innerHTML = cs.map(c=>`<div class="item">
-    <div style="flex:1" data-cedit="${c.id}">
-      <div class="it-ttl">${esc(c.name)} ${c.company?`<span class="muted tiny">· ${esc(c.company)}</span>`:''}</div>
-      <div class="it-sub">${esc(c.relationship||'')}${c.notes?' — '+esc(c.notes):''}</div>
-    </div>
-    <button class="iconbtn" style="width:32px;height:32px;font-size:14px" data-cdel="${c.id}">🗑</button>
-  </div>`).join('');
+  if(!cs.length){ cl.innerHTML=`<div class="empty">${t('network.empty')}</div>`; return; }
+  cl.innerHTML=cs.map(c=>`<div class="item"><div class="body" data-cedit="${c.id}">
+    <div class="it-ttl">${esc(c.name)} ${c.company?`<span class="muted tiny">· ${esc(c.company)}</span>`:''}</div>
+    <div class="it-sub">${esc(c.relationship||'')}${c.notes?' — '+esc(c.notes):''}</div></div><span class="chev" data-cedit="${c.id}">›</span></div>`).join('');
 }
-
-/* ---------- board interactions ---------- */
 function wireBoard(){
   $$('.lead').forEach(card=>{
     card.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',card.dataset.id);card.style.opacity=.4;});
-    card.addEventListener('dragend',e=>{card.style.opacity=1;});
+    card.addEventListener('dragend',()=>{card.style.opacity=1;});
   });
   $$('.col').forEach(col=>{
     col.addEventListener('dragover',e=>{e.preventDefault();col.classList.add('drag');});
     col.addEventListener('dragleave',()=>col.classList.remove('drag'));
     col.addEventListener('drop',e=>{e.preventDefault();col.classList.remove('drag');moveLead(e.dataTransfer.getData('text/plain'),col.dataset.stage);});
   });
-  $$('[data-move]').forEach(sel=>sel.addEventListener('change',e=>moveLead(sel.dataset.move,sel.value)));
+  $$('[data-move]').forEach(sel=>sel.addEventListener('change',()=>moveLead(sel.dataset.move,sel.value)));
   $$('[data-open]').forEach(b=>b.addEventListener('click',()=>openLead(b.dataset.open)));
 }
-function moveLead(id,toStage){
-  const l=state.leads.find(x=>x.id===id); if(!l||l.stage===toStage) return;
-  l.stage=toStage; touch(l); award('advance'); state._advancesToday=(state._advancesToday||0)+1;
-  save(); render(); toast(`→ ${stage(toStage).label}  (+${XP.advance} XP)`);
-}
+function moveLead(id,to){ const l=state.leads.find(x=>x.id===id); if(!l||l.stage===to) return;
+  l.stage=to; touch(l); award('advance'); state._advancesToday=(state._advancesToday||0)+1; save(); render();
+  toast(t('toast.advance',{stage:t('stages.'+to+'.label'),xp:XP.advance})); }
 
-/* ---------- modals ---------- */
 const scrim=$('#scrim'), sheet=$('#sheet');
 function openSheet(html){ sheet.innerHTML=`<button class="x" onclick="closeSheet()">✕</button>`+html; scrim.classList.add('on'); }
 function closeSheet(){ scrim.classList.remove('on'); }
@@ -459,343 +390,216 @@ window.closeSheet=closeSheet;
 
 function openLead(id){
   const l = id ? state.leads.find(x=>x.id===id) : touch({id:S.uid(),company:'',role:'',link:'',location:'',salary:'',source:'',favourite:false,priority:3,stage:'researching',nextAction:'',nextDue:'',contacts:[],notes:'',deleted:false});
-  const isNew=!id;
-  const dbs = state.debriefs.filter(d=>!d.deleted && d.leadId===l.id);
+  const isNew=!id, dbs=state.debriefs.filter(d=>!d.deleted&&d.leadId===l.id);
   openSheet(`
-    <h3>${isNew?'Neuer Lead':'Lead'}</h3>
-    <div class="grid2">
-      <div><label class="fld">Firma</label><input id="f_company" value="${attr(l.company)}"></div>
-      <div><label class="fld">Rolle</label><input id="f_role" value="${attr(l.role)}"></div>
-    </div>
-    <label class="fld">Link zur Stelle</label><input id="f_link" value="${attr(l.link)}" placeholder="https://…">
-    <div class="grid2">
-      <div><label class="fld">Ort</label><input id="f_location" value="${attr(l.location)}"></div>
-      <div><label class="fld">Lohn / Ziel</label><input id="f_salary" value="${attr(l.salary)}"></div>
-    </div>
-    <div class="grid2">
-      <div><label class="fld">Stage</label><select id="f_stage">${STAGES.map(s=>`<option value="${s.key}" ${s.key===l.stage?'selected':''}>${s.label}</option>`).join('')}</select></div>
-      <div><label class="fld">Priorität (1–5)</label><input id="f_priority" type="number" min="1" max="5" value="${l.priority||3}"></div>
-    </div>
-    <label class="fld"><input type="checkbox" id="f_fav" ${l.favourite?'checked':''} style="width:auto;margin-right:6px">★ Wunsch-Arbeitgeber (priorisieren)</label>
-    <div class="grid2">
-      <div><label class="fld">Nächster Schritt</label><input id="f_next" value="${attr(l.nextAction)}"></div>
-      <div><label class="fld">Fällig</label><input id="f_nextDue" type="date" value="${attr(l.nextDue)}"></div>
-    </div>
-    <label class="fld">Notizen</label><textarea id="f_notes">${esc(l.notes||'')}</textarea>
-    <div style="margin-top:14px;display:flex;gap:8px;align-items:center">
-      <h3 style="font-size:15px;margin:0">Interview-Debriefs</h3>
-      <button class="btn sm" id="addDebrief" style="margin-left:auto">+ Debrief</button>
-    </div>
-    ${dbs.length?dbs.map(debriefCard).join(''):'<p class="muted tiny">Nach jedem Interview: kurz festhalten, solange es frisch ist. (Tipp: Mikrofon-Taste der iPhone-Tastatur zum Diktieren.)</p>'}
-    <div class="row" style="margin-top:18px">
-      <button class="btn go" id="saveLead" style="flex:1">Speichern</button>
-      ${isNew?'':'<button class="btn" id="delLead">Löschen</button>'}
-    </div>
-  `);
+    <h3>${isNew?t('lead.new'):t('lead.edit')}</h3>
+    <div class="grid2"><div><label class="fld">${t('lead.company')}</label><input id="f_company" value="${attr(l.company)}"></div>
+      <div><label class="fld">${t('lead.role')}</label><input id="f_role" value="${attr(l.role)}"></div></div>
+    <label class="fld">${t('lead.link')}</label><input id="f_link" value="${attr(l.link)}" placeholder="${t('lead.link_ph')}">
+    <div class="grid2"><div><label class="fld">${t('lead.location')}</label><input id="f_location" value="${attr(l.location)}"></div>
+      <div><label class="fld">${t('lead.salary')}</label><input id="f_salary" value="${attr(l.salary)}"></div></div>
+    <div class="grid2"><div><label class="fld">${t('lead.stage')}</label><select id="f_stage">${STAGE_KEYS.map(k=>`<option value="${k}" ${k===l.stage?'selected':''}>${t('stages.'+k+'.label')}</option>`).join('')}</select></div>
+      <div><label class="fld">${t('lead.priority')}</label><input id="f_priority" type="number" min="1" max="5" value="${l.priority||3}"></div></div>
+    <label class="fld"><input type="checkbox" id="f_fav" ${l.favourite?'checked':''} style="width:auto;margin-right:6px">${t('lead.fav')}</label>
+    <div class="grid2"><div><label class="fld">${t('lead.next')}</label><input id="f_next" value="${attr(l.nextAction)}"></div>
+      <div><label class="fld">${t('lead.due')}</label><input id="f_nextDue" type="date" value="${attr(l.nextDue)}"></div></div>
+    <label class="fld">${t('lead.notes')}</label><textarea id="f_notes">${esc(l.notes||'')}</textarea>
+    <div style="margin-top:14px;display:flex;gap:8px;align-items:center"><h3 style="font-size:15px;margin:0">${t('lead.debriefs_h')}</h3>
+      <button class="btn sm" id="addDebrief" style="margin-left:auto">${t('lead.add_debrief')}</button></div>
+    ${dbs.length?dbs.map(debriefCard).join(''):`<p class="muted tiny">${t('lead.debrief_hint')}</p>`}
+    <div class="row" style="margin-top:18px"><button class="btn go" id="saveLead" style="flex:1">${t('lead.save')}</button>
+      ${isNew?'':`<button class="btn danger" id="delLead">${t('lead.delete')}</button>`}</div>`);
   $('#addDebrief').onclick=()=>{ persistLead(l); openDebrief(l.id); };
-  $('#saveLead').onclick=()=>{ persistLead(l,true); closeSheet(); toast('Lead gespeichert'); };
-  if(!isNew) $('#delLead').onclick=()=>{ l.deleted=true; touch(l); save(); render(); closeSheet(); toast('Gelöscht'); };
+  $('#saveLead').onclick=()=>{ persistLead(l,true); closeSheet(); toast(t('toast.lead_saved')); };
+  if(!isNew) $('#delLead').onclick=()=>{ if(!confirm(t('confirm.delete_lead'))) return; l.deleted=true; touch(l); save(); render(); closeSheet(); toast(t('toast.deleted')); };
 }
-function persistLead(l,awardNew){
-  const g=id=>$('#'+id);
-  const existed = state.leads.some(x=>x.id===l.id);
+function persistLead(l,awardNew){ const g=id=>$('#'+id); const existed=state.leads.some(x=>x.id===l.id);
   l.company=g('f_company').value.trim(); l.role=g('f_role').value.trim(); l.link=g('f_link').value.trim();
   l.location=g('f_location').value.trim(); l.salary=g('f_salary').value.trim(); l.stage=g('f_stage').value;
-  l.priority=+g('f_priority').value||3; l.favourite=g('f_fav').checked;
-  l.nextAction=g('f_next').value.trim(); l.nextDue=g('f_nextDue').value; l.notes=g('f_notes').value.trim();
-  touch(l);
-  if(!existed){ state.leads.push(l); if(awardNew) award('lead'); }
-  save(); render();
+  l.priority=+g('f_priority').value||3; l.favourite=g('f_fav').checked; l.nextAction=g('f_next').value.trim();
+  l.nextDue=g('f_nextDue').value; l.notes=g('f_notes').value.trim(); touch(l);
+  if(!existed){ state.leads.push(l); if(awardNew) award('lead'); } save(); render();
 }
-function debriefCard(d){
-  return `<div class="debrief">
-    <div class="muted tiny">${new Date(d.date).toLocaleDateString('de-CH')}</div>
-    ${d.went_well?`<div><b>✓ Gut:</b> ${esc(d.went_well)}</div>`:''}
-    ${d.improve?`<div><b>△ Besser:</b> ${esc(d.improve)}</div>`:''}
-    ${d.followups?`<div><b>→ Follow-up:</b> ${esc(d.followups)}</div>`:''}
-  </div>`;
-}
+function debriefCard(d){ return `<div class="debrief"><div class="muted tiny">${new Date(d.date).toLocaleDateString(I.getLang()==='de'?'de-CH':'en-GB')}</div>
+  ${d.went_well?`<div><b>${t('lead.d_good')}</b> ${esc(d.went_well)}</div>`:''}
+  ${d.improve?`<div><b>${t('lead.d_better')}</b> ${esc(d.improve)}</div>`:''}
+  ${d.followups?`<div><b>${t('lead.d_follow')}</b> ${esc(d.followups)}</div>`:''}</div>`; }
 function openDebrief(leadId){
-  openSheet(`
-    <h3>Interview-Debrief</h3>
-    <p class="muted tiny">Solange es frisch ist. Diktieren geht: iPhone-Tastatur → 🎤.</p>
-    <label class="fld">Was lief gut?</label><textarea id="d_well"></textarea>
-    <label class="fld">Was könntest du besser machen?</label><textarea id="d_improve"></textarea>
-    <label class="fld">Follow-ups / nächste Schritte?</label><textarea id="d_follow"></textarea>
-    <button class="btn go" id="saveDebrief" style="width:100%;margin-top:14px">Debrief speichern (+${XP.debrief} XP)</button>
-  `);
-  $('#saveDebrief').onclick=()=>{
-    state.debriefs.push(touch({id:S.uid(),leadId,date:S.nowISO(),went_well:$('#d_well').value.trim(),improve:$('#d_improve').value.trim(),followups:$('#d_follow').value.trim(),deleted:false}));
-    award('debrief'); save(); render(); openLead(leadId); toast('Debrief gespeichert');
-  };
+  openSheet(`<h3>${t('debrief.title')}</h3><p class="muted tiny">${t('debrief.hint')}</p>
+    <label class="fld">${t('debrief.well')}</label><textarea id="d_well"></textarea>
+    <label class="fld">${t('debrief.improve')}</label><textarea id="d_improve"></textarea>
+    <label class="fld">${t('debrief.follow')}</label><textarea id="d_follow"></textarea>
+    <button class="btn go" id="saveDebrief" style="width:100%;margin-top:14px">${t('debrief.save',{xp:XP.debrief})}</button>`);
+  $('#saveDebrief').onclick=()=>{ state.debriefs.push(touch({id:S.uid(),leadId,date:S.nowISO(),went_well:$('#d_well').value.trim(),improve:$('#d_improve').value.trim(),followups:$('#d_follow').value.trim(),deleted:false}));
+    award('debrief'); save(); render(); openLead(leadId); toast(t('toast.debrief_saved')); };
 }
 function openTask(id){
-  const t = id ? state.tasks.find(x=>x.id===id) : {id:S.uid(),title:'',category:'setup',due:'',priority:'med',done:false,recurring:false,notes:'',deleted:false};
+  const x = id ? state.tasks.find(y=>y.id===id) : {id:S.uid(),title:'',category:'setup',due:'',priority:'med',done:false,recurring:false,notes:'',deleted:false};
   const isNew=!id;
-  openSheet(`
-    <h3>${isNew?'Neue Aufgabe':'Aufgabe'}</h3>
-    <label class="fld">Titel</label><input id="t_title" value="${attr(t.title)}">
-    <div class="grid2">
-      <div><label class="fld">Kategorie</label><select id="t_cat">${Object.entries(CATS).map(([k,v])=>`<option value="${k}" ${k===t.category?'selected':''}>${v}</option>`).join('')}</select></div>
-      <div><label class="fld">Priorität</label><select id="t_pri">${['high','med','low'].map(p=>`<option value="${p}" ${p===t.priority?'selected':''}>${p}</option>`).join('')}</select></div>
-    </div>
-    <div class="grid2">
-      <div><label class="fld">Fällig</label><input id="t_due" type="date" value="${attr(t.due)}"></div>
-      <div><label class="fld"><input type="checkbox" id="t_rec" ${t.recurring?'checked':''} style="width:auto;margin-right:6px">Wiederkehrend</label></div>
-    </div>
-    <div class="row" style="margin-top:16px">
-      <button class="btn go" id="saveTask" style="flex:1">Speichern</button>
-      ${isNew?'':'<button class="btn" id="delTask">Löschen</button>'}
-    </div>
-  `);
-  $('#saveTask').onclick=()=>{
-    t.title=$('#t_title').value.trim(); if(!t.title){toast('Titel fehlt');return;}
-    t.category=$('#t_cat').value; t.priority=$('#t_pri').value; t.due=$('#t_due').value; t.recurring=$('#t_rec').checked;
-    touch(t); if(!state.tasks.some(x=>x.id===t.id)) state.tasks.push(t);
-    save(); render(); closeSheet(); toast('Gespeichert');
-  };
-  if(!isNew) $('#delTask').onclick=()=>{ t.deleted=true; touch(t); save(); render(); closeSheet(); };
+  openSheet(`<h3>${isNew?t('task.new'):t('task.edit')}</h3>
+    <label class="fld">${t('task.title')}</label><input id="t_title" value="${attr(x.title)}">
+    <div class="grid2"><div><label class="fld">${t('task.category')}</label><select id="t_cat">${CAT_KEYS.map(k=>`<option value="${k}" ${k===x.category?'selected':''}>${t('cats.'+k)}</option>`).join('')}</select></div>
+      <div><label class="fld">${t('task.priority')}</label><select id="t_pri">${['high','med','low'].map(p=>`<option value="${p}" ${p===x.priority?'selected':''}>${p}</option>`).join('')}</select></div></div>
+    <div class="grid2"><div><label class="fld">${t('task.due')}</label><input id="t_due" type="date" value="${attr(x.due)}"></div>
+      <div><label class="fld"><input type="checkbox" id="t_rec" ${x.recurring?'checked':''} style="width:auto;margin-right:6px">${t('task.recurring')}</label></div></div>
+    <div class="row" style="margin-top:16px"><button class="btn go" id="saveTask" style="flex:1">${t('task.save')}</button>
+      ${isNew?'':`<button class="btn danger" id="delTask">${t('task.delete')}</button>`}</div>`);
+  $('#saveTask').onclick=()=>{ x.title=$('#t_title').value.trim(); if(!x.title){toast(t('task.title_missing'));return;}
+    x.category=$('#t_cat').value; x.priority=$('#t_pri').value; x.due=$('#t_due').value; x.recurring=$('#t_rec').checked;
+    touch(x); if(!state.tasks.some(y=>y.id===x.id)) state.tasks.push(x); save(); render(); closeSheet(); toast(t('toast.saved')); };
+  if(!isNew) $('#delTask').onclick=()=>{ if(!confirm(t('confirm.delete_task'))) return; x.deleted=true; touch(x); save(); render(); closeSheet(); toast(t('toast.deleted')); };
 }
 function openContact(id){
-  const c = id ? state.contacts.find(x=>x.id===id) : {id:S.uid(),name:'',company:'',relationship:'',intro:'',notes:'',deleted:false};
+  const c = id ? state.contacts.find(y=>y.id===id) : {id:S.uid(),name:'',company:'',relationship:'',intro:'',notes:'',deleted:false};
   const isNew=!id;
-  openSheet(`
-    <h3>${isNew?'Neuer Kontakt':'Kontakt'}</h3>
-    <div class="grid2">
-      <div><label class="fld">Name</label><input id="c_name" value="${attr(c.name)}"></div>
-      <div><label class="fld">Firma</label><input id="c_co" value="${attr(c.company)}"></div>
-    </div>
-    <label class="fld">Beziehung</label><input id="c_rel" value="${attr(c.relationship)}" placeholder="z.B. Ausbildner, Kollege, Empfehlung">
-    <label class="fld">Notizen</label><textarea id="c_notes">${esc(c.notes||'')}</textarea>
-    <div class="row" style="margin-top:16px">
-      <button class="btn go" id="saveContact" style="flex:1">Speichern</button>
-      ${isNew?'':'<button class="btn" id="delContact">Löschen</button>'}
-    </div>
-  `);
-  $('#saveContact').onclick=()=>{
-    c.name=$('#c_name').value.trim(); if(!c.name){toast('Name fehlt');return;}
+  openSheet(`<h3>${isNew?t('contact.new'):t('contact.edit')}</h3>
+    <div class="grid2"><div><label class="fld">${t('contact.name')}</label><input id="c_name" value="${attr(c.name)}"></div>
+      <div><label class="fld">${t('contact.company')}</label><input id="c_co" value="${attr(c.company)}"></div></div>
+    <label class="fld">${t('contact.relationship')}</label><input id="c_rel" value="${attr(c.relationship)}" placeholder="${t('contact.rel_ph')}">
+    <label class="fld">${t('contact.notes')}</label><textarea id="c_notes">${esc(c.notes||'')}</textarea>
+    <div class="row" style="margin-top:16px"><button class="btn go" id="saveContact" style="flex:1">${t('contact.save')}</button>
+      ${isNew?'':`<button class="btn danger" id="delContact">${t('contact.delete')}</button>`}</div>`);
+  $('#saveContact').onclick=()=>{ c.name=$('#c_name').value.trim(); if(!c.name){toast(t('contact.name_missing'));return;}
     c.company=$('#c_co').value.trim(); c.relationship=$('#c_rel').value.trim(); c.notes=$('#c_notes').value.trim();
-    touch(c); if(!state.contacts.some(x=>x.id===c.id)) state.contacts.push(c);
-    save(); render(); closeSheet();
-  };
-  if(!isNew) $('#delContact').onclick=()=>{ c.deleted=true; touch(c); save(); render(); closeSheet(); };
+    touch(c); if(!state.contacts.some(y=>y.id===c.id)) state.contacts.push(c); save(); render(); closeSheet(); toast(t('toast.saved')); };
+  if(!isNew) $('#delContact').onclick=()=>{ if(!confirm(t('confirm.delete_contact'))) return; c.deleted=true; touch(c); save(); render(); closeSheet(); toast(t('toast.deleted')); };
 }
 
-/* ---------- guide ---------- */
-const GUIDE = {
-  pipeline:{label:'Erste Bewerbung',html:()=>`
-    <h4>Dein Plan in 6 Schritten</h4>
-    <ol>
-      <li><b>Stellen sammeln</b> — Premium/Sport zuerst (Porsche, AMG, BMW M). Jede als Lead mit Link speichern.</li>
-      <li><b>CV zuschneiden</b> — AGVS + Mercedes HV/EV-Zertifizierung und Merbag <i>zuoberst</i>. Eine Seite, DE + EN.</li>
-      <li><b>Kurzes Anschreiben</b> — warum sie, warum du, was du bringst. Wenn möglich eine Person ansprechen.</li>
-      <li><b>Bewerben & Datum notieren</b> — und sofort einen Follow-up in 7 Tagen setzen.</li>
-      <li><b>Nachfassen</b> — höflich nachhaken. Die meisten tun's nie — dein unfairer Vorteil.</li>
-      <li><b>Interview → Debrief</b> — 3 Geschichten parat (harte Diagnose, HV/EV-Job, Termindruck). Danach Debrief schreiben.</li>
-    </ol>
-    <h4>Dein Netzwerk ist der Turbo</h4>
-    <p>Du kennst Leute bei Merbag/Mercedes. Eine warme Empfehlung schlägt 20 Kaltbewerbungen. Frag aktiv nach Intros — unter „Netzwerk“ festhalten.</p>`},
-  salary:{label:'Lohn-Erwartung',html:()=>`
-    <h4>Was du in Zürich verdienen kannst (2026)</h4>
-    <div class="salbar">
-      <div class="b" style="height:62%"><span class="mono">~62k</span><small>tief</small></div>
-      <div class="b" style="height:72%"><span class="mono">~66k</span><small>Median Einstieg</small></div>
-      <div class="b" style="height:88%;background:linear-gradient(180deg,var(--accent2),transparent)"><span class="mono">~71.5k</span><small>dein Anker</small></div>
-      <div class="b" style="height:100%"><span class="mono">~75k+</span><small>Premium-Stretch</small></div>
-    </div>
-    <ul>
-      <li><b>Gesetzlicher Boden (GAV Zürich, 4-Jahres-EFZ):</b> CHF 5'000/Monat ×13 ≈ <b>65k</b>. Niemand darf weniger bieten.</li>
-      <li><b>Markt-Einstieg Median:</b> ~CHF 66k (jobs.ch: Zürich CHF 66'300).</li>
-      <li><b>Dein Anker in der Verhandlung:</b> <b>CHF 5'500/Monat ×13 ≈ 71'500</b>. Walk-Floor CHF 5'300, Stretch 5'600–5'800.</li>
-      <li>13. Monatslohn ist Standard — <b>immer ×13 rechnen</b> und bestätigen lassen.</li>
-      <li>~42.5 Std/Woche; Stundenwert ≈ CHF 29–32.</li>
-    </ul>
-    <p class="muted tiny">Quellen: AGVS-ZH GAV-Lohnblatt (unterz. 06.11.2025), jobs.ch, lohnanalyse.ch.</p>`},
-  negotiate:{label:'Verhandeln',html:()=>`
-    <h4>6 Regeln für die Lohnverhandlung</h4>
-    <ol>
-      <li><b>Mit der HV-Zertifizierung führen</b>, nicht mit Erfahrung (die kommt noch): „Ich darf Hochvolt-Arbeit ab Tag 1 verrechnen — die meisten frischen EFZ nicht.“</li>
-      <li><b>Immer den Monatslohn verhandeln und ×13 bestätigen.</b> „Ist der 13. inklusive?“ ist die erste Frage.</li>
-      <li><b>Den GAV nennen</b> — zeigt, dass du deine Hausaufgaben gemacht hast. Verschiebt das Gespräch auf „wie viel über dem Boden“.</li>
-      <li><b>Gesamtpaket fragen:</b> Spesen, Werkzeug, bezahlte Weiterbildung (Diagnostiker-Kurse), wer die HV-Rezertifizierung zahlt.</li>
-      <li><b>Nie sofort zusagen.</b> „Kann ich das über Nacht anschauen?“ ist in der Schweiz normal und wirkt seriös.</li>
-      <li><b>Kein Spielraum beim Lohn?</b> 6-Monats-Review mit konkreter Zahl vereinbaren (z.B. „Review auf 5'500 nach Probezeit“).</li>
-    </ol>
-    <h4>Deine stärksten Hebel</h4>
-    <p>AGVS + Mercedes HV/EV-Zertifizierung · Merbag-Referenz (grösste MB-Werkstatt der CH) · AMG-Erfahrung · DE + EN.</p>`},
-};
+const GUIDE_TABS=[['pipeline','guide.tab_pipeline','guide.pipeline_html'],['salary','guide.tab_salary','guide.salary_html'],['negotiate','guide.tab_negotiate','guide.negotiate_html']];
 function renderGuide(){
-  $('#guideTabs').innerHTML = Object.entries(GUIDE).map(([k,g])=>`<button class="${k===guideTab?'on':''}" data-gtab="${k}">${g.label}</button>`).join('');
-  $('#guideBody').innerHTML = GUIDE[guideTab].html();
+  $('#guideTabs').innerHTML=GUIDE_TABS.map(([k,lab])=>`<button class="${k===guideTab?'on':''}" data-gtab="${k}">${t(lab)}</button>`).join('');
+  const cur=GUIDE_TABS.find(g=>g[0]===guideTab); $('#guideBody').innerHTML=t(cur[2]);
   $$('[data-gtab]').forEach(b=>b.onclick=()=>{guideTab=b.dataset.gtab;renderGuide();});
 }
 
-/* ---------- menu / sync / io ---------- */
 function openMenu(){
-  openSheet(`
-    <h3>Menü</h3>
-    <label class="fld">Theme</label>
-    <select id="m_theme">${['drift','porsche','amg','mblue'].map(t=>`<option value="${t}" ${t===state.settings.theme?'selected':''}>${({drift:'JDM / Drift',porsche:'Porsche',amg:'Mercedes-AMG',mblue:'BMW M'})[t]}</option>`).join('')}</select>
-    <label class="fld">Tagesziel (Aktionen)</label><input id="m_goal" type="number" min="1" max="10" value="${state.settings.dailyGoal||3}">
+  const standalone=isStandalone();
+  openSheet(`<h3>${t('menu.title')}</h3>
+    <label class="fld">${t('menu.language')}</label><select id="m_lang">${I.langs.map(l=>`<option value="${l}" ${l===state.settings.lang?'selected':''}>${I.names[l]}</option>`).join('')}</select>
+    <label class="fld">${t('menu.theme')}</label><select id="m_theme">${['drift','porsche','amg','mblue'].map(th=>`<option value="${th}" ${th===state.settings.theme?'selected':''}>${t('themes.'+th)}</option>`).join('')}</select>
+    <label class="fld">${t('menu.goal')}</label><input id="m_goal" type="number" min="1" max="10" value="${state.settings.dailyGoal||3}">
     <div class="row" style="margin-top:14px;flex-wrap:wrap;gap:8px">
-      <button class="btn" id="m_export">⬇ Export (JSON)</button>
-      <button class="btn" id="m_import">⬆ Import</button>
-      <button class="btn go" id="m_sync">⇄ Geräte koppeln</button>
-    </div>
+      <button class="btn" id="m_export">${t('menu.export')}</button><button class="btn" id="m_import">${t('menu.import')}</button>
+      <button class="btn go" id="m_sync">${t('menu.pair')}</button>${standalone?'':`<button class="btn" id="m_install">${t('menu.install')}</button>`}</div>
     <input type="file" id="m_file" accept="application/json" style="display:none">
-    <p class="muted tiny" style="margin-top:16px">v${APP_VERSION} · Deine Daten bleiben auf deinen Geräten. Kein Server, kein Login.</p>
-  `);
-  $('#m_theme').onchange=e=>{state.settings.theme=e.target.value;save();render();};
-  $('#m_goal').onchange=e=>{state.settings.dailyGoal=+e.target.value||3;save();renderFocus();};
-  $('#m_export').onclick=exportJSON;
-  $('#m_import').onclick=()=>$('#m_file').click();
-  $('#m_file').onchange=importFile;
-  $('#m_sync').onclick=openSync;
+    <p class="muted tiny" style="margin-top:16px">${t('menu.footer',{v:APP_VERSION})}</p>`);
+  $('#m_lang').onchange=e=>{ state.settings.lang=e.target.value; I.setLang(state.settings.lang); save(); render(); openMenu(); };
+  $('#m_theme').onchange=e=>{ state.settings.theme=e.target.value; save(); render(); };
+  $('#m_goal').onchange=e=>{ state.settings.dailyGoal=+e.target.value||3; save(); renderFocus(); };
+  $('#m_export').onclick=exportJSON; $('#m_import').onclick=()=>$('#m_file').click(); $('#m_file').onchange=importFile;
+  $('#m_sync').onclick=openSync; if($('#m_install')) $('#m_install').onclick=()=>{ closeSheet(); showInstall(true); };
 }
-function exportJSON(){
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
-  a.download=`pole-position-${todayKey()}.json`; a.click(); URL.revokeObjectURL(a.href);
-  toast('Exportiert');
-}
-function importFile(e){
-  const f=e.target.files[0]; if(!f) return;
-  const r=new FileReader();
-  r.onload=()=>{ try{ ingest(JSON.parse(r.result)); }catch(err){ toast('Ungültige Datei'); } };
-  r.readAsText(f);
-}
-// Accepts either a full app snapshot (merge) OR an import file with leads[]/tasks[] (append).
+function exportJSON(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`pole-position-${todayKey()}.json`; a.click(); URL.revokeObjectURL(a.href); toast(t('toast.exported')); }
+function importFile(e){ const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ ingest(JSON.parse(r.result)); }catch(err){ toast(t('toast.bad_file')); } }; r.readAsText(f); }
 function ingest(data){
-  if(data && (data._format||'').startsWith('pole-position-import')){
-    let n=0; const t=S.nowISO();
-    (data.leads||[]).forEach(o=>{ state.leads.push(Object.assign({id:S.uid(),updatedAt:t,deleted:false,stage:'researching',priority:3,favourite:false,contacts:[]},o)); n++; });
-    (data.tasks||[]).forEach(o=>{ state.tasks.push(Object.assign({id:S.uid(),updatedAt:t,deleted:false,done:false,priority:'med',category:'other'},o)); n++; });
-    save(); render(); closeSheet(); toast(`${n} Einträge importiert`); return;
-  }
-  // full snapshot → merge (sync semantics)
-  state = S.mergeState(state, data); save(); render(); closeSheet(); toast('Daten zusammengeführt');
+  if(data && (data._format||'').startsWith('pole-position-import')){ let n=0; const ts=S.nowISO();
+    (data.leads||[]).forEach(o=>{ state.leads.push(Object.assign({id:S.uid(),updatedAt:ts,deleted:false,stage:'researching',priority:3,favourite:false,contacts:[]},o)); n++; });
+    (data.tasks||[]).forEach(o=>{ state.tasks.push(Object.assign({id:S.uid(),updatedAt:ts,deleted:false,done:false,priority:'med',category:'other'},o)); n++; });
+    save(); render(); closeSheet(); toast(t('toast.imported',{n})); return; }
+  state=S.mergeState(state,data); save(); render(); closeSheet(); toast(t('toast.merged'));
 }
 
-/* ---------- PeerJS sync ---------- */
-let peer=null, conn=null;
-function openSync(){
-  openSheet(`
-    <h3>Geräte koppeln</h3>
-    <p class="muted tiny">Beide Geräte online → Live-Sync. Sonst: rechts Export/Import als Datei.</p>
-    <div class="grid2">
-      <div class="card">
-        <b>Dieses Gerät teilen</b>
-        <p class="tiny muted">Code generieren, am anderen Gerät eingeben/scannen.</p>
-        <button class="btn go" id="s_host" style="width:100%">Code erzeugen</button>
-        <div id="s_hostout" style="margin-top:10px"></div>
-      </div>
-      <div class="card">
-        <b>Mit Gerät verbinden</b>
-        <label class="fld">Code eingeben</label>
-        <input id="s_code" placeholder="z.B. pp-ab12cd">
-        <button class="btn go" id="s_join" style="width:100%;margin-top:8px">Verbinden & syncen</button>
-        <div id="s_status" class="tiny muted" style="margin-top:8px"></div>
-      </div>
-    </div>
-    <div class="row" style="margin-top:12px;gap:8px">
-      <button class="btn" id="s_export" style="flex:1">⬇ Export-Datei</button>
-      <button class="btn" id="s_import" style="flex:1">⬆ Import-Datei</button>
-      <input type="file" id="s_file" accept="application/json" style="display:none">
-    </div>
-  `);
-  $('#s_export').onclick=exportJSON;
-  $('#s_import').onclick=()=>$('#s_file').click();
-  $('#s_file').onchange=importFile;
-  $('#s_host').onclick=hostSync;
-  $('#s_join').onclick=()=>joinSync($('#s_code').value.trim());
-}
-function ensurePeer(id){
-  return new Promise((res,rej)=>{
-    try{
-      peer = id ? new Peer(id) : new Peer();
-      peer.on('open',pid=>res(pid));
-      peer.on('error',e=>rej(e));
-    }catch(e){ rej(e); }
-  });
-}
-async function hostSync(){
-  const code='pp-'+Math.random().toString(36).slice(2,8);
-  const out=$('#s_hostout'); out.innerHTML='<span class="muted tiny">Verbinde…</span>';
-  try{
-    await ensurePeer(code);
-    out.innerHTML=`<div class="mono" style="font-size:18px;text-align:center">${code}</div><div class="qrwrap" id="qr"></div><div class="tiny muted" style="text-align:center">Code am anderen Gerät eingeben</div>`;
-    try{ new QRCode($('#qr'),{text:code,width:148,height:148,correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
-    peer.on('connection',c=>{ conn=c; wireConn(c,'host'); });
-  }catch(e){ out.innerHTML='<span class="tiny" style="color:var(--bad)">Broker nicht erreichbar. Nutze Export/Import.</span>'; }
-}
-async function joinSync(code){
-  if(!code) return toast('Code fehlt');
-  const st=$('#s_status'); st.textContent='Verbinde…';
-  try{
-    await ensurePeer(null);
-    conn=peer.connect(code,{reliable:true});
-    wireConn(conn,'join');
-  }catch(e){ st.textContent='Verbindung fehlgeschlagen. Nutze Export/Import.'; }
-}
-function wireConn(c,role){
-  const st=$('#s_status');
-  c.on('open',()=>{ if(st)st.textContent='Verbunden ✓ — sende Daten…'; c.send({type:'state',payload:state}); });
+/* ---------- live PeerJS sync ---------- */
+let peer=null, conn=null, peerName=null, _applyingRemote=false;
+function isMobile(){ return window.matchMedia('(max-width:820px)').matches; }
+function myName(){ return (state.settings.name||'Ben')+' ('+(isMobile()?t('sync.phone'):t('sync.computer'))+')'; }
+function syncPayload(){ return {leads:state.leads,tasks:state.tasks,contacts:state.contacts,debriefs:state.debriefs,meta:state.meta}; } // settings stay local
+function broadcast(){ if(conn && conn.open){ try{ conn.send({type:'state', payload:syncPayload()}); }catch(e){} } }
+function updateConnUI(){ const d=$('#connDot'); if(conn&&conn.open){ d.classList.add('on'); d.title=t('conn.connected',{name:peerName||'…'}); } else { d.classList.remove('on'); d.title=t('conn.disconnected'); } }
+function flashSynced(){ const d=$('#connDot'); d.classList.add('flash'); setTimeout(()=>d.classList.remove('flash'),800); }
+function wireConn(c){
+  conn=c;
+  c.on('open',()=>{ c.send({type:'hello', name:myName(), payload:syncPayload()}); updateConnUI(); const st=$('#s_status'); if(st) st.textContent=t('sync.status_sending'); });
   c.on('data',d=>{
-    if(d&&d.type==='state'){
-      state=S.mergeState(state,d.payload); save(); render();
-      if(st)st.textContent='Synchronisiert ✓';
-      toast('Geräte synchronisiert ✓');
-      if(role==='host') c.send({type:'ack'}); // peer pushed nothing yet; host already sent
+    if(!d) return;
+    if(d.type==='hello'||d.type==='state'){
+      if(d.name){ peerName=d.name; toast(t('toast.connected_to',{name:peerName})); }
+      if(d.payload){ _applyingRemote=true; state=S.mergeState(state,d.payload); save(); render(); _applyingRemote=false; }
+      const st=$('#s_status'); if(st) st.textContent=t('sync.status_synced');
+      updateConnUI(); flashSynced(); if(d.type==='state') toast(t('conn.live'));
     }
   });
-  c.on('error',()=>{ if(st)st.textContent='Sync-Fehler.'; });
+  c.on('close',()=>{ conn=null; peerName=null; updateConnUI(); });
+  c.on('error',()=>{ const st=$('#s_status'); if(st) st.textContent=t('sync.status_failed'); });
 }
+function ensurePeer(id){ return new Promise((res,rej)=>{ try{ peer = id?new Peer(id):new Peer(); peer.on('open',pid=>res(pid)); peer.on('error',rej); }catch(e){ rej(e); } }); }
+async function hostSync(){ const code='pp-'+Math.random().toString(36).slice(2,8); const out=$('#s_hostout'); out.innerHTML=`<span class="muted tiny">${t('sync.connecting')}</span>`;
+  try{ await ensurePeer(code);
+    out.innerHTML=`<div class="mono" style="font-size:18px;text-align:center">${code}</div><div class="qrwrap" id="qr"></div><div class="tiny muted" style="text-align:center">${t('sync.code_hint')}</div>`;
+    try{ new QRCode($('#qr'),{text:code,width:148,height:148,correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
+    peer.on('connection',c=>wireConn(c));
+  }catch(e){ out.innerHTML=`<span class="tiny" style="color:var(--bad)">${t('sync.broker_fail')}</span>`; } }
+async function joinSync(code){ if(!code) return toast(t('sync.code_missing')); const st=$('#s_status'); st.textContent=t('sync.connecting');
+  try{ await ensurePeer(null); wireConn(peer.connect(code,{reliable:true})); }catch(e){ st.textContent=t('sync.status_failed'); } }
+function openSync(){
+  openSheet(`<h3>${t('sync.title')}</h3><p class="muted tiny">${t('sync.intro')}</p>
+    <div class="note"><b>${t('sync.where_h')}</b><span class="tiny muted">${t('sync.where_b')}</span></div>
+    <div class="grid2"><div class="card"><b>${t('sync.share_h')}</b><p class="tiny muted">${t('sync.share_p')}</p>
+        <button class="btn go" id="s_host" style="width:100%">${t('sync.host_btn')}</button><div id="s_hostout" style="margin-top:10px"></div></div>
+      <div class="card"><b>${t('sync.connect_h')}</b><label class="fld">${t('sync.code_label')}</label><input id="s_code" placeholder="${t('sync.code_ph')}">
+        <button class="btn go" id="s_join" style="width:100%;margin-top:8px">${t('sync.join_btn')}</button><div id="s_status" class="tiny muted" style="margin-top:8px"></div></div></div>
+    <div class="row" style="margin-top:12px;gap:8px"><button class="btn" id="s_export" style="flex:1">${t('sync.export_file')}</button>
+      <button class="btn" id="s_import" style="flex:1">${t('sync.import_file')}</button><input type="file" id="s_file" accept="application/json" style="display:none"></div>`);
+  $('#s_export').onclick=exportJSON; $('#s_import').onclick=()=>$('#s_file').click(); $('#s_file').onchange=importFile;
+  $('#s_host').onclick=hostSync; $('#s_join').onclick=()=>joinSync($('#s_code').value.trim());
+  updateConnUI();
+}
+
+/* ---------- install overlay ---------- */
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferredPrompt=e; });
+function isStandalone(){ return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }
+function isIOS(){ return /iphone|ipad|ipod/i.test(navigator.userAgent) && !window.MSStream; }
+function showInstall(force){
+  if(isStandalone()) return;
+  if(!force && localStorage.getItem('pp_install_dismissed_v1')) return;
+  const ios=isIOS();
+  $('#installCard').innerHTML=`<img class="logo" src="icons/icon-192.png" alt="">
+    <h3>${t('install.title')}</h3><p class="muted">${t('install.why')}</p>
+    <div class="steps">${ios?`${t('install.ios').replace('↑','<span class="share">↑</span>')}`:t('install.desktop')}</div>
+    <div class="row" style="gap:8px">${ios?'':`<button class="btn go" id="i_install" style="flex:1">${t('install.install_btn')}</button>`}
+      <button class="btn" id="i_later" style="flex:1">${t('install.later')}</button></div>`;
+  $('#installScrim').classList.add('on');
+  $('#i_later').onclick=()=>{ localStorage.setItem('pp_install_dismissed_v1','1'); $('#installScrim').classList.remove('on'); };
+  if($('#i_install')) $('#i_install').onclick=async()=>{ if(deferredPrompt){ deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; } $('#installScrim').classList.remove('on'); };
+}
+window.addEventListener('appinstalled',()=>{ $('#installScrim').classList.remove('on'); });
 
 /* ---------- helpers ---------- */
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
 function attr(s){ return esc(s).replace(/"/g,'&quot;'); }
 let toastT;
-function toast(msg){
-  let el=$('#toast'); if(!el){ el=document.createElement('div'); el.id='toast'; el.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 140px);background:var(--raised);border:1px solid var(--accent);color:var(--ink);padding:10px 16px;border-radius:999px;z-index:60;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.4);transition:opacity .2s'; document.body.appendChild(el); }
-  el.textContent=msg; el.style.opacity='1'; clearTimeout(toastT); toastT=setTimeout(()=>el.style.opacity='0',1900);
-}
+function toast(msg){ let el=$('#toast'); if(!el){ el=document.createElement('div'); el.id='toast'; el.style.cssText='position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 140px);background:var(--raised);border:1px solid var(--accent);color:var(--ink);padding:10px 16px;border-radius:999px;z-index:65;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,.4);transition:opacity .2s;max-width:90vw;text-align:center'; document.body.appendChild(el); }
+  el.textContent=msg; el.style.opacity='1'; clearTimeout(toastT); toastT=setTimeout(()=>el.style.opacity='0',1900); }
 
 /* ---------- events ---------- */
 document.addEventListener('click',e=>{
   const d=e.target.closest('[data-done]'); if(d){ const[k,id]=d.dataset.done.split(':');
-    if(k==='task'){ const t=state.tasks.find(x=>x.id===id); if(t&&!t.done){t.done=true;touch(t);award('task');save();render();toast(`Erledigt +${XP.task} XP`);} }
-    else { openLead(id); } return; }
-  const td=e.target.closest('[data-tdone]'); if(td){ const t=state.tasks.find(x=>x.id===td.dataset.tdone); if(t){t.done=!t.done;touch(t);if(t.done)award('task');save();render();} return; }
+    if(k==='task'){ const x=state.tasks.find(y=>y.id===id); if(x&&!x.done){x.done=true;touch(x);award('task');save();render();toast(t('toast.task_done',{xp:XP.task}));} } else { openLead(id); } return; }
+  const td=e.target.closest('[data-tdone]'); if(td){ const x=state.tasks.find(y=>y.id===td.dataset.tdone); if(x){x.done=!x.done;touch(x);if(x.done)award('task');save();render();} return; }
   const te=e.target.closest('[data-tedit]'); if(te){ openTask(te.dataset.tedit); return; }
-  const tdel=e.target.closest('[data-tdel]'); if(tdel){ const t=state.tasks.find(x=>x.id===tdel.dataset.tdel); if(t){t.deleted=true;touch(t);save();render();} return; }
   const ce=e.target.closest('[data-cedit]'); if(ce){ openContact(ce.dataset.cedit); return; }
-  const cdel=e.target.closest('[data-cdel]'); if(cdel){ const c=state.contacts.find(x=>x.id===cdel.dataset.cdel); if(c){c.deleted=true;touch(c);save();render();} return; }
 });
-$('#tabs').addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(!b)return; go(b.dataset.go); });
-function go(v){
-  activeView=v;
-  $$('.view').forEach(s=>s.classList.toggle('on',s.dataset.view===v));
-  $$('#tabs button').forEach(b=>b.setAttribute('aria-selected', b.dataset.go===v));
-}
+$('#tabs').addEventListener('click',e=>{ const b=e.target.closest('[data-go]'); if(b) go(b.dataset.go); });
+function go(v){ activeView=v; $$('.view').forEach(s=>s.classList.toggle('on',s.dataset.view===v)); $$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.go===v)); }
 $('#fab').onclick=()=>{ ({board:()=>openLead(),tasks:()=>openTask(),network:()=>openContact(),focus:()=>openTask(),guide:()=>openLead()})[activeView](); };
-$('#menuBtn').onclick=openMenu;
-$('#syncBtn').onclick=openSync;
+$('#menuBtn').onclick=openMenu; $('#syncBtn').onclick=openSync; $('#connDot').onclick=openSync;
 
-/* ---------- service worker + update banner ---------- */
 if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-  let firstControllerSeen = !!navigator.serviceWorker.controller;
-  navigator.serviceWorker.addEventListener("controllerchange",()=>{
-    if(firstControllerSeen){ $('#updBanner').classList.add('on'); }
-    firstControllerSeen=true;
-  });
+  let first=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{ if(first) $('#updBanner').classList.add('on'); first=true; });
   navigator.serviceWorker.register("service-worker.js",{updateViaCache:"none"}).catch(()=>{});
   $('#updBtn').onclick=()=>location.reload();
 }
 
 /* ---------- boot ---------- */
+I.setLang(state.settings.lang||'en');
 go(window.matchMedia('(min-width:900px)').matches ? 'board' : 'focus');
 render();
-window.PP = {state:()=>state, reset:()=>{localStorage.removeItem(KEY);location.reload();}}; // test/debug hook
+setTimeout(()=>showInstall(false), 900);
+window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true)};
 </script>
 </body>
 </html>
