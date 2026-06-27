@@ -117,7 +117,7 @@
     menu: {
       title: "Menu", language: "Language", theme: "Theme", goal: "Daily goal (actions)",
       export: "⬇ Export (JSON)", import: "⬆ Import", pair: "⇄ Devices & sync", install: "📲 Install app",
-      cleanup: "🧹 Clean up duplicates",
+      cleanup: "🧹 Clean up duplicates", check_updates: "⟳ Check for updates",
       footer: "v{v} · Your data stays on your devices. No server, no login.",
     },
     themes: { drift: "JDM / Drift", porsche: "Porsche", amg: "Mercedes-AMG", mblue: "BMW M" },
@@ -162,6 +162,10 @@
       ios: "Tap the Share button in Safari (the box with an ↑), then choose “Add to Home Screen”.",
       desktop: "Click Install below, or the install icon in your browser's address bar.",
       install_btn: "Install", later: "Maybe later",
+    },
+    update: {
+      checking: "Checking for updates…", found: "Update found — installing…",
+      uptodate: "You're on the latest version (v{v})", no_sw: "Updates aren't available here",
     },
   };
 
@@ -274,7 +278,7 @@
     menu: {
       title: "Menü", language: "Sprache", theme: "Theme", goal: "Tagesziel (Aktionen)",
       export: "⬇ Export (JSON)", import: "⬆ Import", pair: "⇄ Geräte & Sync", install: "📲 App installieren",
-      cleanup: "🧹 Duplikate bereinigen",
+      cleanup: "🧹 Duplikate bereinigen", check_updates: "⟳ Nach Updates suchen",
       footer: "v{v} · Deine Daten bleiben auf deinen Geräten. Kein Server, kein Login.",
     },
     themes: { drift: "JDM / Drift", porsche: "Porsche", amg: "Mercedes-AMG", mblue: "BMW M" },
@@ -319,6 +323,10 @@
       ios: "In Safari auf Teilen tippen (das Kästchen mit ↑), dann „Zum Home-Bildschirm“.",
       desktop: "Unten auf Installieren klicken, oder das Installations-Symbol in der Adressleiste.",
       install_btn: "Installieren", later: "Vielleicht später",
+    },
+    update: {
+      checking: "Suche nach Updates…", found: "Update gefunden — wird installiert…",
+      uptodate: "Du hast die neuste Version (v{v})", no_sw: "Updates hier nicht verfügbar",
     },
   };
 

@@ -3,6 +3,23 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.4.0 — 2026-06-27
+
+Makes the installed PWA reliably pick up updates.
+
+- **Why it was needed**: an installed iOS home-screen PWA *resumes* its page instead of navigating,
+  so the browser's passive service-worker update check almost never fired — the phone kept serving
+  the cached old version.
+- **Fix**: the app now actively asks the browser to check — on load, and (throttled) every time the
+  app returns to the foreground (`visibilitychange`/`focus`). This transparently catches the
+  "reopened from the home screen" case.
+- **Manual control**: Menu → **⟳ Check for updates** forces a check and tells you whether you're on
+  the latest version or an update is downloading. The existing "Update available" banner still shows
+  (no surprise reloads); tap it to reload into the new version.
+- The service worker accepts a skip-waiting message so a found update can activate immediately.
+- iOS caveat: if it still won't update, fully closing the app (swipe it away in the app switcher) and
+  reopening forces it — an Apple limitation, not a bug.
+
 ## v1.3.0 — 2026-06-27
 
 Fixes duplicate entries on sync, and adds a real multi-device manager.

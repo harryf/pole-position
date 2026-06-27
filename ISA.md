@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 79/79
+progress: 84/84
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -196,6 +196,13 @@ and importable via a documented file format.
 - [ ] ISC-78: The connection indicator shows the count of connected devices.
 - [ ] ISC-79: Version 1.3.0 (APP_VERSION + SW + CHANGELOG); `v1.3.0` tag + Release; tests green.
 
+### v1.4.0 — reliable update detection (installed PWA)
+- [ ] ISC-80: SW registration is stored and `registration.update()` is called on load.
+- [ ] ISC-81: An update check runs when the app returns to the foreground (visibilitychange/focus), throttled — fixes the installed-iOS-PWA "resume doesn't check" case.
+- [ ] ISC-82: A manual "Check for updates" action in the menu forces `registration.update()` and reports up-to-date / update-found.
+- [ ] ISC-83: The SW handles a skip-waiting message so a found update activates, then the existing "Update available" banner shows (no surprise reload).
+- [ ] ISC-84: Version 1.4.0 (APP_VERSION + SW + CHANGELOG); `v1.4.0` tag + Release; tests green.
+
 ## Test Strategy
 
 | isc | type | check | tool |
@@ -346,3 +353,17 @@ Verified live in real Chrome (MCP, fresh v1.2.0 seed):
 
 **Note for Harry**: existing devices already carrying duplicates from v1.2.0 → after they auto-update,
 run **Menu → 🧹 Clean up duplicates** once on each to collapse them.
+
+### v1.4.0 Verification (reliable update detection) — `node tests/run.mjs` → 33/33
+
+- **Root cause**: installed iOS PWAs resume (don't navigate), so the browser's passive SW update check rarely fires → cached old version persists.
+- **ISC-80**: live — SW registered + active; `swReg` captured; `reg.update()` called on load. ✓
+- **ISC-81**: `visibilitychange`+`focus` listeners call `checkForUpdates(false)` throttled (20s) → re-checks when the app is foregrounded. ✓ (code-verified; real effect is on-device.)
+- **ISC-82**: live — Menu shows "⟳ Check for updates"; tapping ran `reg.update()` → toast "You're on the latest version (v1.4.0)", no false banner. ✓
+- **ISC-83**: served SW has the `skip-waiting` message handler (grep); banner shown via both `controllerchange` and `updatefound→statechange(installed)` paths. ✓ (update-found path is standard SW API; **[DEFERRED-VERIFY]** real cross-version update on Ben's iPhone.)
+- **ISC-84**: APP_VERSION/SW "1.4.0", CHANGELOG; tagged `v1.4.0` + Release.
+
+**Bootstrapping caveat (important):** the auto-recheck only exists *from* 1.4.0 onward. A device still
+running an older version won't auto-pull 1.4.0 (its old code lacks the fix) — get it onto 1.4.0 once
+via a cold launch (fully close the PWA + reopen) or remove+re-add to home screen; updates are
+automatic thereafter.

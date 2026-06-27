@@ -6,8 +6,11 @@
    ========================================================================= */
 
 // Bump on every release. MUST match the in-app APP_VERSION constant in index.html.
-const VERSION = "1.3.0";
+const VERSION = "1.4.0";
 const CACHE = "pole-position-v" + VERSION;
+
+// Let the page force a waiting worker to activate ("Check for updates" button).
+self.addEventListener("message", (e) => { if (e.data === "skip-waiting") self.skipWaiting(); });
 
 // Full offline shell. Relative URLs so it works on the /pole-position/ subpath.
 const SHELL = [
