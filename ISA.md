@@ -1,7 +1,7 @@
 ---
 project: ben-jobs
 effort: E3
-phase: verify
+phase: complete
 progress: 100/100
 mode: ALGORITHM
 started: 2026-06-27
@@ -402,7 +402,7 @@ Each lead now links to its real posting; links researched + verified live on 202
 - **ISC-97**: All 13 leads carry a researched link (8 specific live postings, 5 durable careers/search fallbacks where the specific posting had expired) — verified in `seed()` + `import.example.json`. ✓
 - **ISC-98**: Anti: no console errors after board render + modal open — live `read_console_messages(onlyErrors)` → none. ✓
 - **ISC-99**: `lead.view_posting` key present in en + de — parity test green. ✓
-- **ISC-100**: APP_VERSION + SW VERSION "1.6.0", CHANGELOG entry. ✓ (Deploy/tag pending Harry's go.)
+- **ISC-100**: APP_VERSION + SW VERSION "1.6.0", CHANGELOG entry. ✓ — tagged v1.6.0, pushed; Tests/Deploy/Release green; live serves 1.6.0. ✓
 
 **Decision (v1.6.0):** *specific posting where live, durable fallback otherwise.* Job postings expire within
 weeks; verification on 2026-06-27 found 5 of the originally-cited specific URLs already dead. Rather than
