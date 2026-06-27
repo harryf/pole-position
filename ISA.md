@@ -1,56 +1,56 @@
 ---
 project: ben-jobs
 effort: E3
-phase: verify
+phase: complete
 progress: 116/116
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
 ---
 
-# ISA — APEX: Benjamin's Job-Hunt Co-Pilot
+# ISA â APEX: Benjamin's Job-Hunt Co-Pilot
 
-> Working title "APEX" (the racing line through a corner — the fastest path through). Final
+> Working title "APEX" (the racing line through a corner â the fastest path through). Final
 > name/aesthetic pending Harry's decision. This ISA is the spec; it drives the build and verifies it.
 
 ## Problem
 
 Benjamin Madani (20) finishes his Automobilmechatroniker EFZ at Merbag (Switzerland's largest
 Mercedes-Benz workshop) in **August 2026** and is starting the hunt for his first real full-time
-job — premium/sport automotive (he applied to Porsche; loves drift cars; trained on AMG/EV). He is
+job â premium/sport automotive (he applied to Porsche; loves drift cars; trained on AMG/EV). He is
 disciplined when there's a concrete goal but goes slack without one, and this is his first time
 navigating a professional job search (CV, cover letters, applications, follow-up, interviews,
 salary negotiation, working a personal network). He has an **iPhone** (at work) and a **Windows
 laptop** (at home). He has no single place that tells him *the one thing to do next*, holds his
-leads and their stages, captures interview debriefs, or keeps momentum between applications — which
+leads and their stages, captures interview debriefs, or keeps momentum between applications â which
 is exactly where first-time hunters stall.
 
 ## Vision
 
 Benjamin opens APEX on his phone between jobs in the workshop and it greets him like a car
-dashboard — dark, performance-themed, a rev-counter showing today's momentum. It shows the **single
+dashboard â dark, performance-themed, a rev-counter showing today's momentum. It shows the **single
 next move**: "Send Porsche follow-up email" with the button right there. He taps it done, the needle
 climbs, his streak holds. At home on the laptop the same data is a **pit-wall board**: every
-application as a car moving through the grid — Researching → Applied → Interviewing → Offer — his
+application as a car moving through the grid â Researching â Applied â Interviewing â Offer â his
 favourite employers flagged, his Mercedes contacts attached, salary targets visible. After an
 interview the app prompts a quick debrief he dictates with his thumb. **The euphoric surprise: a job
-hunt — the thing that feels like formless anxiety — becomes a game with a clear next lap, themed
+hunt â the thing that feels like formless anxiety â becomes a game with a clear next lap, themed
 like the world he already loves, and it follows him from workshop to home without him thinking about
 sync.**
 
 ## Out of Scope
 
-- **No backend/server we have to run for the app to work** — it is a static PWA on GitHub Pages;
+- **No backend/server we have to run for the app to work** â it is a static PWA on GitHub Pages;
   all his data lives on his devices (localStorage/IndexedDB), never on a server we operate.
-- **No real-time job-board scraping inside the app** — leads come in via an import file (Harry
+- **No real-time job-board scraping inside the app** â leads come in via an import file (Harry
   curates searches and drops them in). The app manages leads; it does not crawl job sites.
 - **No account / login / cloud database.** Privacy by architecture: his job data never leaves his
   devices except by his explicit export or his own peer sync.
 - **No guaranteed background push on iOS in v1** unless we add a tiny push service (decision pending)
-  — see Constraints. v1 ships local reminders + a Today agenda + app badge.
-- **No automatic resume/cover-letter generation this round** — the app tracks readiness, it is not
+  â see Constraints. v1 ships local reminders + a Today agenda + app badge.
+- **No automatic resume/cover-letter generation this round** â the app tracks readiness, it is not
   a document generator (could be a later lap).
-- Not a generic productivity app — every surface is bent toward *get Benjamin hired*.
+- Not a generic productivity app â every surface is bent toward *get Benjamin hired*.
 
 ## Principles
 
@@ -59,13 +59,13 @@ sync.**
 - **Colour + text, never colour alone.** Stages and priorities carry a label, not just a hue
   (accessibility + glanceability).
 - **His world, not lorem ipsum.** Seeded with Merbag, his real skills, his target employers, his
-  Mercedes network — recognition is what makes it land.
+  Mercedes network â recognition is what makes it land.
 - **Never trap his data.** Everything round-trips through a plain, re-importable file.
 - **Transport-agnostic sync.** The data model (per-record last-write-wins + timestamps + tombstones)
-  is correct independent of how bytes move — PeerJS today, file/QR fallback always, cloud later.
+  is correct independent of how bytes move â PeerJS today, file/QR fallback always, cloud later.
 - **Guide, don't nag.** Good-practice guidance is embedded where the decision happens (per stage),
   not buried in a help page.
-- **Buildless and durable.** One `index.html`, no build step, runs by double-click and on Pages —
+- **Buildless and durable.** One `index.html`, no build step, runs by double-click and on Pages â
   it must still work in two years with zero maintenance.
 
 ## Constraints
@@ -79,21 +79,21 @@ sync.**
 - **Auto-update**: SW `VERSION` constant bumped per release; cache-first; in-app "new version" banner
   on `controllerchange`, no surprise reload (exact mechanism proven in the inspiration app).
 - **iOS reality (hard limits):** background Web Push requires a home-screen install AND a server with
-  VAPID keys to send — a static site cannot push by itself. Web Speech *recognition* is unreliable on
+  VAPID keys to send â a static site cannot push by itself. Web Speech *recognition* is unreliable on
   iOS Safari, but native keyboard dictation works in any `<textarea>` (the debrief path).
 - TypeScript/bun for any generators and the test harness; no Python.
 - No secrets in the repo; no third-party calls at runtime except the chosen sync broker.
 
 ## Goal
 
-Deliver a single-file, installable PWA — deployed to GitHub Pages under `github.com/harryf` with
-versioning, CHANGELOG, and clean auto-update — that gives Benjamin (1) a **mobile-first Focus view**
+Deliver a single-file, installable PWA â deployed to GitHub Pages under `github.com/harryf` with
+versioning, CHANGELOG, and clean auto-update â that gives Benjamin (1) a **mobile-first Focus view**
 surfacing today's next actions with a gamified momentum/streak gauge, (2) a **desktop Board view**:
 a Kanban of job applications across well-practised stages with favourite-employer prioritisation,
 attached Mercedes contacts, and salary targets, (3) a **general task list** separate from
 application-specific work, (4) **post-interview debriefs** (thumb-dictatable, stored as structured
 JSON for later LLM analysis), (5) embedded **first-job + salary-negotiation guidance** seeded with
-**real Swiss salary research** for his role, and (6) **bi-directional phone↔laptop sync** via a
+**real Swiss salary research** for his role, and (6) **bi-directional phoneâlaptop sync** via a
 transport-agnostic layer (PeerJS/WebRTC primary, file/QR fallback), all seeded with his real profile
 and importable via a documented file format.
 
@@ -149,16 +149,16 @@ and importable via a documented file format.
 
 ### Import + seed + theme
 - [ ] ISC-39: A documented import file format adds leads AND general tasks in bulk (schema + example in repo).
-- [ ] ISC-40: First open is seeded with Benjamin's real profile (Merbag, skills, target employers) — not placeholder text.
-- [ ] ISC-41: The theme is a dark automotive/performance aesthetic (chosen brand lane), responsive phone↔laptop; Anti: no flashing/autoplay.
+- [ ] ISC-40: First open is seeded with Benjamin's real profile (Merbag, skills, target employers) â not placeholder text.
+- [ ] ISC-41: The theme is a dark automotive/performance aesthetic (chosen brand lane), responsive phoneâlaptop; Anti: no flashing/autoplay.
 
-### v1.1.0 — i18n, install guide, live sync, safer deletes
+### v1.1.0 â i18n, install guide, live sync, safer deletes
 - [ ] ISC-42: All user-facing strings come from a separate translations file (`src/i18n.js`), not hardcoded in `index.html`.
 - [ ] ISC-43: UI defaults to English on first run.
-- [ ] ISC-44: Language is switchable in Settings (English ↔ Deutsch) and persists.
-- [ ] ISC-45: The German locale uses Swiss conventions (no `ß`; "Hoi/Grüezi", not "Servus").
-- [ ] ISC-46: `en` and `de` locales have identical key sets (no missing/extra keys) — unit-tested.
-- [ ] ISC-47: Every `t('key')` referenced in `index.html` exists in the locale files — unit-tested.
+- [ ] ISC-44: Language is switchable in Settings (English â Deutsch) and persists.
+- [ ] ISC-45: The German locale uses Swiss conventions (no `Ã`; "Hoi/GrÃ¼ezi", not "Servus").
+- [ ] ISC-46: `en` and `de` locales have identical key sets (no missing/extra keys) â unit-tested.
+- [ ] ISC-47: Every `t('key')` referenced in `index.html` exists in the locale files â unit-tested.
 - [ ] ISC-48: A dismissible install overlay appears when running in a browser (not standalone), with iOS vs desktop guidance.
 - [ ] ISC-49: The install overlay is reachable later from the menu and hidden once running standalone.
 - [ ] ISC-50: The sync screen explains where data is stored (local-first; P2P over WebRTC; no server holds it).
@@ -171,34 +171,34 @@ and importable via a documented file format.
 - [ ] ISC-57: Anti: switching language never alters or loses the user's stored data.
 - [ ] ISC-58: Version bumped to 1.1.0 across `APP_VERSION`, SW `VERSION`, CHANGELOG; `v1.1.0` tag + Release.
 
-### v1.2.0 — network↔job links, Focus tap-into, task notes
+### v1.2.0 â networkâjob links, Focus tap-into, task notes
 - [ ] ISC-59: A contact can be linked to one or more leads ("can help with") via checkboxes in the contact editor.
 - [ ] ISC-60: The same link is editable from the lead detail (checkbox list of contacts).
-- [ ] ISC-61: A lead card on the board shows a 🤝 badge with the helper count when ≥1 contact can help.
-- [ ] ISC-62: The lead detail lists/【selects】the network contacts who can help.
-- [ ] ISC-63: Tapping a Focus next-action body opens the underlying task or lead; the ✓ still completes a task.
+- [ ] ISC-61: A lead card on the board shows a ð¤ badge with the helper count when â¥1 contact can help.
+- [ ] ISC-62: The lead detail lists/ãselectsãthe network contacts who can help.
+- [ ] ISC-63: Tapping a Focus next-action body opens the underlying task or lead; the â still completes a task.
 - [ ] ISC-64: Tasks have an editable notes field in the task editor.
-- [ ] ISC-65: The task list shows a 📝 indicator when a task has notes.
+- [ ] ISC-65: The task list shows a ð indicator when a task has notes.
 - [ ] ISC-66: The link is stored on the contact record (syncs via LWW) and ignores deleted leads.
 - [ ] ISC-67: Version bumped to 1.2.0 (APP_VERSION + SW + CHANGELOG); `v1.2.0` tag + Release; tests green.
 
-### v1.3.0 — duplicate fix + multi-device manager
+### v1.3.0 â duplicate fix + multi-device manager
 - [ ] ISC-68: Seed entries use deterministic stable ids (identical across devices) so first-sync never duplicates them.
-- [ ] ISC-69: Merging two freshly-seeded states yields no duplicate seed records — unit-tested.
+- [ ] ISC-69: Merging two freshly-seeded states yields no duplicate seed records â unit-tested.
 - [ ] ISC-70: A manual "Clean up duplicates" action collapses entries with the same natural key (lead company+role, task title, contact name+company), keeping the most-recently-updated, behind a confirm.
-- [ ] ISC-71: `dedupeByKey` keeps newest-by-updatedAt and tombstones the rest — unit-tested.
+- [ ] ISC-71: `dedupeByKey` keeps newest-by-updatedAt and tombstones the rest â unit-tested.
 - [ ] ISC-72: Each device has a stable `deviceId` (persisted, device-local) used as its PeerJS id.
 - [ ] ISC-73: Each device has a human name auto-generated from UA metadata, editable in the sync screen.
 - [ ] ISC-74: Paired devices are remembered (`knownDevices`, device-local) and auto-reconnected on app open.
 - [ ] ISC-75: The sync screen lists known devices with online/offline status and a Forget control.
-- [ ] ISC-76: A device can pair with multiple devices simultaneously (phone ↔ two laptops); broadcasts reach all.
+- [ ] ISC-76: A device can pair with multiple devices simultaneously (phone â two laptops); broadcasts reach all.
 - [ ] ISC-77: A received change that alters local state is forwarded to other connected peers (gossip) and converges (idempotent merge).
 - [ ] ISC-78: The connection indicator shows the count of connected devices.
 - [ ] ISC-79: Version 1.3.0 (APP_VERSION + SW + CHANGELOG); `v1.3.0` tag + Release; tests green.
 
-### v1.4.0 — reliable update detection (installed PWA)
+### v1.4.0 â reliable update detection (installed PWA)
 - [ ] ISC-80: SW registration is stored and `registration.update()` is called on load.
-- [ ] ISC-81: An update check runs when the app returns to the foreground (visibilitychange/focus), throttled — fixes the installed-iOS-PWA "resume doesn't check" case.
+- [ ] ISC-81: An update check runs when the app returns to the foreground (visibilitychange/focus), throttled â fixes the installed-iOS-PWA "resume doesn't check" case.
 - [ ] ISC-82: A manual "Check for updates" action in the menu forces `registration.update()` and reports up-to-date / update-found.
 - [ ] ISC-83: The SW handles a skip-waiting message so a found update activates, then the existing "Update available" banner shows (no surprise reload).
 - [ ] ISC-84: Version 1.4.0 (APP_VERSION + SW + CHANGELOG); `v1.4.0` tag + Release; tests green.
@@ -210,21 +210,21 @@ and importable via a documented file format.
 | ISC-1,2,3 | functional | open via file:// and http; install prompt; offline reload | Interceptor |
 | ISC-4,5,9 | code/version | grep VERSION in index.html + SW + CHANGELOG match | Grep/Read |
 | ISC-6,7,8 | ci | workflow files present + valid YAML; first Actions run green | Read/gh |
-| ISC-11,12 | persistence | reload + export→import round-trip equality | Interceptor/unit |
+| ISC-11,12 | persistence | reload + exportâimport round-trip equality | Interceptor/unit |
 | ISC-13,14 | merge | unit test: two snapshots merge LWW + tombstone correctly | bun/node test |
 | ISC-15,16 | sync | two browser contexts pair + converge; QR/file handoff | Interceptor |
 | ISC-18..25 | board | seed leads render; drag stage; detail edit; favourite sort | Interceptor |
-| ISC-26..31 | focus/game | next-action list; complete→XP/streak/needle move | Interceptor |
+| ISC-26..31 | focus/game | next-action list; completeâXP/streak/needle move | Interceptor |
 | ISC-32..35 | contacts/debrief | attach contact; debrief saved as JSON in export | Interceptor/Read |
 | ISC-36..38 | content | guidance + negotiation + salary sections present, real numbers | Read |
-| ISC-39 | import | import sample file → leads+tasks appear | Interceptor |
+| ISC-39 | import | import sample file â leads+tasks appear | Interceptor |
 | ISC-40,41 | seed/theme | his real employers visible first open; dark theme; no motion | Interceptor |
 
 ## Features
 
 | name | satisfies | depends_on | parallelizable |
 |------|-----------|------------|----------------|
-| Shell + data model + persistence + seed | ISC-1,2,3,11,40 | — | no |
+| Shell + data model + persistence + seed | ISC-1,2,3,11,40 | â | no |
 | PWA + SW + auto-update banner | ISC-2,3,4,5,10 | shell | no |
 | Deploy + release + tests CI | ISC-6,7,8,9 | shell | yes |
 | Sync layer (LWW merge) + PeerJS + QR fallback | ISC-13,14,15,16,17 | data model | yes |
@@ -245,27 +245,27 @@ and importable via a documented file format.
   inline rather than as separate ceremony skill calls; voice curls skipped (Pulse not assumed up in
   this install). Budget goes to the plan, the honest constraints, and the build.
 - 2026-06-27: **Delegation: Research delegated (background salary research agent); Forge deferred to
-  BUILD.** Salary research is genuinely parallel read-only work → backgrounded now. Forge (GPT-5.4)
+  BUILD.** Salary research is genuinely parallel read-only work â backgrounded now. Forge (GPT-5.4)
   to be invoked during the BUILD of `index.html` per the E3 coding auto-include. Single-author for
   the coherent UX/colour judgment across one file (same rationale as the sibling project).
-- 2026-06-27: **One responsive app, two views — not two apps.** "Focus" (mobile, next-action +
+- 2026-06-27: **One responsive app, two views â not two apps.** "Focus" (mobile, next-action +
   momentum) and "Board" (desktop, Kanban planning) share one data model and one `index.html`,
   adapting by viewport. Simpler to sync, simpler to ship, one source of truth.
 - 2026-06-27: **Transport-agnostic sync chosen over PeerJS-coupled sync.** WebRTC P2P only works
   when both peers are online simultaneously; a phone+laptop rarely are. Modelling state as
   per-record LWW + tombstones makes PeerJS, QR/file, and a future cloud relay all correct against the
-  same merge function — de-risks the riskiest assumption.
+  same merge function â de-risks the riskiest assumption.
 - 2026-06-27: **LOCKED Harry decisions.** (1) Sync = PeerJS live + QR/file fallback (no server).
-  (2) Reminders = none in v1 (revisit push later). (3) Aesthetic = JDM/Drift — dark slate base,
+  (2) Reminders = none in v1 (revisit push later). (3) Aesthetic = JDM/Drift â dark slate base,
   neon teal + magenta livery, tyre-smoke gradients, arcade-racer energy. (4) Repo =
-  `github.com/harryf/pole-position` (public) → `harryf.github.io/pole-position`. App name "Pole
+  `github.com/harryf/pole-position` (public) â `harryf.github.io/pole-position`. App name "Pole
   Position" (working APEX dropped).
-- 2026-06-27: **Forge unavailable (codex CLI not installed) → single-author build confirmed.**
+- 2026-06-27: **Forge unavailable (codex CLI not installed) â single-author build confirmed.**
   Show-your-math: the value is one coherent JDM/drift UX judgment across a single `index.html`;
   the sibling Technicolour Planner shipped the same way. Merge logic isolated in `src/sync.js`
   for node-side unit testing without a browser.
-- 2026-06-27: **Salary research landed (background agent).** Zürich GAV legal floor for 4-year EFZ
-  = CHF 5,000/mo ×13 (~CHF 65k); market entry midpoint ~CHF 66k; ANCHOR ASK CHF 5,500/mo (~CHF
+- 2026-06-27: **Salary research landed (background agent).** ZÃ¼rich GAV legal floor for 4-year EFZ
+  = CHF 5,000/mo Ã13 (~CHF 65k); market entry midpoint ~CHF 66k; ANCHOR ASK CHF 5,500/mo (~CHF
   71.5k), walk-floor CHF 5,300, lead every conversation with the AGVS+MB HV/EV certification.
   Seeds ISC-38. Sources: AGVS-ZH GAV wage sheet (signed 2025-11-06), jobs.ch, lohnanalyse.ch.
 
@@ -281,172 +281,172 @@ are banned), so live verification used real Chrome two ways: (a) headless `--scr
 headless `--window-size=390` crop a wider layout (false "clipping"); the MCP intrinsic-width probe is
 the authoritative responsive check.
 
-- **ISC-1** (no server/build): app renders from `file://`-style static serving (bun static server), JS executes. ✓
-- **ISC-3/4/5/10** (SW + version + update banner): `service-worker.js` precache+cache-first; `controllerchange`→banner; `APP_VERSION`==SW `VERSION`=="1.0.0". Code-verified; live SW behaviour confirmed by the cache serving stale shells in headless (proves it caches). ✓ (real-device install DEFERRED-VERIFY → follow-up: install on Ben's iPhone/laptop.)
-- **ISC-11/12** (persist + export/import): localStorage load/save; export blob + import round-trip wired. ✓ (code-verified)
-- **ISC-13/14** (LWW merge + tombstones): `node tests/run.mjs` → **15/15 pass** (LWW, tombstone, union, commutative, idempotent, state-merge, XP/streak max). ✓
-- **ISC-15/16/17** (PeerJS + QR + file fallback; no silent egress): `Peer`,`QRCode`,`jsQR` globals loaded (MCP probe); host/join + QR + export/import wired; transmit only on explicit pair/export. ✓ (two-device live pair DEFERRED-VERIFY → follow-up: pair phone+laptop once.)
-- **ISC-18..25** (board): desktop screenshot shows 8 stage columns, per-stage guidance, Porsche+AMG favourites gold-starred & sorted to top, location pills, move dropdown + Öffnen, drag wired. ✓
-- **ISC-26..31** (focus + tasks + game): 600px screenshot shows tacho 0/3, XP/Lvl/streak/open-leads chips, next-action list w/ due badges; XP/streak/level fns + award() wired. ✓
-- **ISC-32..35** (contacts + debriefs): Merbag contact seeded; debrief modal (well/improve/followups) stores JSON in `debriefs[]` (in export). ✓ (code-verified)
-- **ISC-36/37/38** (guide + salary + negotiate): Guide tabs render real Zürich numbers (GAV 5'000 floor, 5'500 anchor) + 6 negotiation rules. ✓
-- **ISC-39/40** (import format + seed): `import.example.json` schema + `ingest()`; first open shows Merbag/Porsche/AMG/HV (recognition). ✓
-- **ISC-41** (theme + responsive + no-motion): dark JDM/drift theme both viewports; intrinsic-width probe at 390 → nav/cockpit/statchips/actions overflow = 0; no autoplay/flash. ✓
+- **ISC-1** (no server/build): app renders from `file://`-style static serving (bun static server), JS executes. â
+- **ISC-3/4/5/10** (SW + version + update banner): `service-worker.js` precache+cache-first; `controllerchange`âbanner; `APP_VERSION`==SW `VERSION`=="1.0.0". Code-verified; live SW behaviour confirmed by the cache serving stale shells in headless (proves it caches). â (real-device install DEFERRED-VERIFY â follow-up: install on Ben's iPhone/laptop.)
+- **ISC-11/12** (persist + export/import): localStorage load/save; export blob + import round-trip wired. â (code-verified)
+- **ISC-13/14** (LWW merge + tombstones): `node tests/run.mjs` â **15/15 pass** (LWW, tombstone, union, commutative, idempotent, state-merge, XP/streak max). â
+- **ISC-15/16/17** (PeerJS + QR + file fallback; no silent egress): `Peer`,`QRCode`,`jsQR` globals loaded (MCP probe); host/join + QR + export/import wired; transmit only on explicit pair/export. â (two-device live pair DEFERRED-VERIFY â follow-up: pair phone+laptop once.)
+- **ISC-18..25** (board): desktop screenshot shows 8 stage columns, per-stage guidance, Porsche+AMG favourites gold-starred & sorted to top, location pills, move dropdown + Ãffnen, drag wired. â
+- **ISC-26..31** (focus + tasks + game): 600px screenshot shows tacho 0/3, XP/Lvl/streak/open-leads chips, next-action list w/ due badges; XP/streak/level fns + award() wired. â
+- **ISC-32..35** (contacts + debriefs): Merbag contact seeded; debrief modal (well/improve/followups) stores JSON in `debriefs[]` (in export). â (code-verified)
+- **ISC-36/37/38** (guide + salary + negotiate): Guide tabs render real ZÃ¼rich numbers (GAV 5'000 floor, 5'500 anchor) + 6 negotiation rules. â
+- **ISC-39/40** (import format + seed): `import.example.json` schema + `ingest()`; first open shows Merbag/Porsche/AMG/HV (recognition). â
+- **ISC-41** (theme + responsive + no-motion): dark JDM/drift theme both viewports; intrinsic-width probe at 390 â nav/cockpit/statchips/actions overflow = 0; no autoplay/flash. â
 
-**Live deploy ISC-6/7/8 — VERIFIED.** Pushed to `github.com/harryf/pole-position` (public). Actions:
+**Live deploy ISC-6/7/8 â VERIFIED.** Pushed to `github.com/harryf/pole-position` (public). Actions:
 Deploy=success, Tests=success (15/15 in CI), Release v1.0.0 cut. Live probe of
-`https://harryf.github.io/pole-position/` → HTTP 200, wordmark + `APP_VERSION "1.0.0"` present, all
+`https://harryf.github.io/pole-position/` â HTTP 200, wordmark + `APP_VERSION "1.0.0"` present, all
 assets 200. Real-Chrome live render (MCP): 8 board columns, 3 seeded leads, 2 favourites starred
-(★Porsche first), PP_SYNC/Peer/QRCode/jsQR all loaded, **service worker controlling the page**
-(installable + offline). ✓
+(âPorsche first), PP_SYNC/Peer/QRCode/jsQR all loaded, **service worker controlling the page**
+(installable + offline). â
 
 **Remaining real-device DEFERRED-VERIFY (not blockers, need Ben's hardware):** install-to-home-screen
 on his iPhone + Windows laptop; one live two-device PeerJS pair. Follow-up: walk Ben through install &
 first sync.
 
-### v1.1.0 Verification (i18n, install, live sync, safer deletes) — `node tests/run.mjs` → 25/25
+### v1.1.0 Verification (i18n, install, live sync, safer deletes) â `node tests/run.mjs` â 25/25
 
-- **ISC-42/43**: all strings in `src/i18n.js`; MCP probe → default `htmlLang="en"`, greet "Hey Ben! 🏎️". ✓
-- **ISC-44/45**: menu language switch → nav "Fokus/Netzwerk", greet "Hoi Ben! 🏎️" (Swiss), `htmlLang="de"`, back to "Focus". i18n test: de has no `ß`, no "Servus", greeting "Hoi". ✓
-- **ISC-46/47**: tests assert en/de key parity AND all 123 literal `t()` keys in `index.html` exist + dynamic families resolve. ✓
-- **ISC-48/49**: MCP → install overlay auto-shows in browser ("Install Pole Position"), dismissible; headless screenshot confirms the card over the dimmed UI; hidden when standalone; re-openable from menu. ✓
-- **ISC-50**: sync sheet contains the "Where does my data live / no server ever stores it" note. ✓
-- **ISC-52**: `#connDot` indicator present; `updateConnUI()` toggles connected/disconnected. ✓
-- **ISC-51/53**: hello-exchange sends device name (both sides toast "connected to <device>"); `broadcast()` fires on every non-remote `save()`; receiver merges + flashes indicator. Code+single-device verified; **[DEFERRED-VERIFY]** true two-device live pair → follow-up with Ben's hardware.
-- **ISC-54**: MCP → task list has 4 rows, **0** `[data-tdel]` buttons, no 🗑. (contacts likewise.) ✓
-- **ISC-55/56**: delete buttons exist only inside edit modals (`#delTask/#delContact/#delLead`, danger-styled) and every handler calls `confirm()` first. ✓
-- **ISC-57**: live `syncPayload()` excludes `settings`; `mergeState` keeps local settings → language/theme never clobbered by sync. ✓
+- **ISC-42/43**: all strings in `src/i18n.js`; MCP probe â default `htmlLang="en"`, greet "Hey Ben! ðï¸". â
+- **ISC-44/45**: menu language switch â nav "Fokus/Netzwerk", greet "Hoi Ben! ðï¸" (Swiss), `htmlLang="de"`, back to "Focus". i18n test: de has no `Ã`, no "Servus", greeting "Hoi". â
+- **ISC-46/47**: tests assert en/de key parity AND all 123 literal `t()` keys in `index.html` exist + dynamic families resolve. â
+- **ISC-48/49**: MCP â install overlay auto-shows in browser ("Install Pole Position"), dismissible; headless screenshot confirms the card over the dimmed UI; hidden when standalone; re-openable from menu. â
+- **ISC-50**: sync sheet contains the "Where does my data live / no server ever stores it" note. â
+- **ISC-52**: `#connDot` indicator present; `updateConnUI()` toggles connected/disconnected. â
+- **ISC-51/53**: hello-exchange sends device name (both sides toast "connected to <device>"); `broadcast()` fires on every non-remote `save()`; receiver merges + flashes indicator. Code+single-device verified; **[DEFERRED-VERIFY]** true two-device live pair â follow-up with Ben's hardware.
+- **ISC-54**: MCP â task list has 4 rows, **0** `[data-tdel]` buttons, no ð. (contacts likewise.) â
+- **ISC-55/56**: delete buttons exist only inside edit modals (`#delTask/#delContact/#delLead`, danger-styled) and every handler calls `confirm()` first. â
+- **ISC-57**: live `syncPayload()` excludes `settings`; `mergeState` keeps local settings â language/theme never clobbered by sync. â
 - **ISC-58**: `APP_VERSION`/SW `VERSION`=="1.1.0", CHANGELOG v1.1.0 entry; tagged `v1.1.0` + Release.
 
 ## Changelog
 
 - conjectured: PeerJS one-shot sync (send state once on connect) is enough. refuted_by: user needs
   ongoing awareness + auto-propagation, and one-shot leaves the host unaware of who connected.
-  learned: model sync as a persistent channel — exchange device identity on open, re-broadcast on
+  learned: model sync as a persistent channel â exchange device identity on open, re-broadcast on
   every local change, exclude device-local settings from the payload. criterion_now: ISC-51/53/57.
 - conjectured: a single hardcoded-German UI fits a Swiss user. refuted_by: Ben's working language is
   Swiss German but applications/interviews are High German and he reads English fluently; "Servus" is
   German-not-Swiss and jarring. learned: externalise all strings, default English, Swiss-German locale,
   enforce parity + key-existence by test. criterion_now: ISC-42..47.
 
-### v1.2.0 Verification (network↔job links, Focus tap-into, task notes) — 25/25 (131 t() keys)
+### v1.2.0 Verification (networkâjob links, Focus tap-into, task notes) â 25/25 (131 t() keys)
 
 Verified live in real Chrome (MCP, fresh v1.2.0 seed):
-- **ISC-59**: contact editor shows "which jobs can this person help with?" + 3 lead checkboxes, seeded AMG checked. ✓
-- **ISC-60/62**: lead detail shows "who can help here?" + contact checkboxes; linking Merbag→Porsche **from the lead side** persisted. ✓
-- **ISC-61**: AMG card shows "🤝 1" (seeded); Porsche card none → "🤝 1" after the lead-side link. ✓
-- **ISC-63**: Focus rows carry `data-openitem`; tapping a task body opened the task editor, a lead body opened the lead editor; ✓ still completes. ✓
-- **ISC-64/65**: task editor has notes textarea (seeded note shown); list shows 📝 on the CV task. ✓
-- **ISC-66**: link stored on `contact.helpsWith` (LWW sync); `helpCount()` filters deleted leads. ✓
+- **ISC-59**: contact editor shows "which jobs can this person help with?" + 3 lead checkboxes, seeded AMG checked. â
+- **ISC-60/62**: lead detail shows "who can help here?" + contact checkboxes; linking MerbagâPorsche **from the lead side** persisted. â
+- **ISC-61**: AMG card shows "ð¤ 1" (seeded); Porsche card none â "ð¤ 1" after the lead-side link. â
+- **ISC-63**: Focus rows carry `data-openitem`; tapping a task body opened the task editor, a lead body opened the lead editor; â still completes. â
+- **ISC-64/65**: task editor has notes textarea (seeded note shown); list shows ð on the CV task. â
+- **ISC-66**: link stored on `contact.helpsWith` (LWW sync); `helpCount()` filters deleted leads. â
 - **ISC-67**: APP_VERSION/SW "1.2.0", CHANGELOG entry; tagged `v1.2.0` + Release.
-- Regression: task/contact rows still 0 inline deletes; deletes still confirm. ✓
+- Regression: task/contact rows still 0 inline deletes; deletes still confirm. â
 
-### v1.3.0 Verification (duplicate fix + multi-device) — `node tests/run.mjs` → 33/33 (134 t() keys)
+### v1.3.0 Verification (duplicate fix + multi-device) â `node tests/run.mjs` â 33/33 (134 t() keys)
 
-- **ISC-68/69**: tests reproduce the bug (random ids → 6 leads on merge) AND prove the fix (stable ids → 3). Live: seed ids are `seed-lead-porsche/amg/kessel` + `seed-contact-merbag`; merging live state with a clone of itself stays **3 leads** (no duplication). ✓
-- **ISC-70/71**: `dedupeByKey` unit-tested (keep newest, tombstone rest, ignore empty keys). Live: injected a manual Porsche duplicate (4 leads) → Menu cleanup removed 1 → back to 3. ✓
-- **ISC-72/73**: live `settings.deviceId` = `pp-…` (stable), `deviceName` auto-generated "Ben's Mac (Chrome)", editable in sync screen. ✓
-- **ISC-74/75**: `knownDevices` array; sync screen lists devices — adding `pp-testlaptop` rendered an entry with **offline** status + **Forget** button; auto-reconnect wired in boot. ✓
-- **ISC-76/77**: `conns` is a map (multiple simultaneous); `broadcast()` → all open conns; `forwardExcept()` gossips a state-changing merge to other peers (idempotent → converges). Code-verified; **[DEFERRED-VERIFY]** true 3-device live mesh on real hardware.
-- **ISC-78**: indicator shows `conn.connected_n` count (live `#connDot` title toggles connected/disconnected). ✓
+- **ISC-68/69**: tests reproduce the bug (random ids â 6 leads on merge) AND prove the fix (stable ids â 3). Live: seed ids are `seed-lead-porsche/amg/kessel` + `seed-contact-merbag`; merging live state with a clone of itself stays **3 leads** (no duplication). â
+- **ISC-70/71**: `dedupeByKey` unit-tested (keep newest, tombstone rest, ignore empty keys). Live: injected a manual Porsche duplicate (4 leads) â Menu cleanup removed 1 â back to 3. â
+- **ISC-72/73**: live `settings.deviceId` = `pp-â¦` (stable), `deviceName` auto-generated "Ben's Mac (Chrome)", editable in sync screen. â
+- **ISC-74/75**: `knownDevices` array; sync screen lists devices â adding `pp-testlaptop` rendered an entry with **offline** status + **Forget** button; auto-reconnect wired in boot. â
+- **ISC-76/77**: `conns` is a map (multiple simultaneous); `broadcast()` â all open conns; `forwardExcept()` gossips a state-changing merge to other peers (idempotent â converges). Code-verified; **[DEFERRED-VERIFY]** true 3-device live mesh on real hardware.
+- **ISC-78**: indicator shows `conn.connected_n` count (live `#connDot` title toggles connected/disconnected). â
 - **ISC-79**: APP_VERSION/SW "1.3.0", CHANGELOG entry; tagged `v1.3.0` + Release.
 
-**Note for Harry**: existing devices already carrying duplicates from v1.2.0 → after they auto-update,
-run **Menu → 🧹 Clean up duplicates** once on each to collapse them.
+**Note for Harry**: existing devices already carrying duplicates from v1.2.0 â after they auto-update,
+run **Menu â ð§¹ Clean up duplicates** once on each to collapse them.
 
-### v1.4.0 Verification (reliable update detection) — `node tests/run.mjs` → 33/33
+### v1.4.0 Verification (reliable update detection) â `node tests/run.mjs` â 33/33
 
-- **Root cause**: installed iOS PWAs resume (don't navigate), so the browser's passive SW update check rarely fires → cached old version persists.
-- **ISC-80**: live — SW registered + active; `swReg` captured; `reg.update()` called on load. ✓
-- **ISC-81**: `visibilitychange`+`focus` listeners call `checkForUpdates(false)` throttled (20s) → re-checks when the app is foregrounded. ✓ (code-verified; real effect is on-device.)
-- **ISC-82**: live — Menu shows "⟳ Check for updates"; tapping ran `reg.update()` → toast "You're on the latest version (v1.4.0)", no false banner. ✓
-- **ISC-83**: served SW has the `skip-waiting` message handler (grep); banner shown via both `controllerchange` and `updatefound→statechange(installed)` paths. ✓ (update-found path is standard SW API; **[DEFERRED-VERIFY]** real cross-version update on Ben's iPhone.)
+- **Root cause**: installed iOS PWAs resume (don't navigate), so the browser's passive SW update check rarely fires â cached old version persists.
+- **ISC-80**: live â SW registered + active; `swReg` captured; `reg.update()` called on load. â
+- **ISC-81**: `visibilitychange`+`focus` listeners call `checkForUpdates(false)` throttled (20s) â re-checks when the app is foregrounded. â (code-verified; real effect is on-device.)
+- **ISC-82**: live â Menu shows "â³ Check for updates"; tapping ran `reg.update()` â toast "You're on the latest version (v1.4.0)", no false banner. â
+- **ISC-83**: served SW has the `skip-waiting` message handler (grep); banner shown via both `controllerchange` and `updatefoundâstatechange(installed)` paths. â (update-found path is standard SW API; **[DEFERRED-VERIFY]** real cross-version update on Ben's iPhone.)
 - **ISC-84**: APP_VERSION/SW "1.4.0", CHANGELOG; tagged `v1.4.0` + Release.
 
 **Bootstrapping caveat (important):** the auto-recheck only exists *from* 1.4.0 onward. A device still
-running an older version won't auto-pull 1.4.0 (its old code lacks the fix) — get it onto 1.4.0 once
+running an older version won't auto-pull 1.4.0 (its old code lacks the fix) â get it onto 1.4.0 once
 via a cold launch (fully close the PWA + reopen) or remove+re-add to home screen; updates are
 automatic thereafter.
 
-### v1.5.0 Verification (populate from research) — `node tests/run.mjs` → 33/33
+### v1.5.0 Verification (populate from research) â `node tests/run.mjs` â 33/33
 
 Populated the app from Benjamin's June-2026 research (5 docx/md files under `input/`): 13 real open
 positions onto the Board (German titles), three new EN+DE guide sections, refreshed import file.
 
-- **ISC-85**: Board seeded with 13 real positions, closest-first, German titles intact — live `localStorage` state shows 13 leads (`AMAG — Porsche Zentrum Zürich … Emil Frey Racing`), umlauts render. ✓
-- **ISC-86**: Already-applied position (Porsche Zug) sits in the **applied** stage — live `appliedStage:["Porsche Zentrum Zug (Risch AG)"]`. ✓
-- **ISC-87**: Guide shows 6 tabs in order (First application · Employers · Salary · Career paths · Negotiate · Motorsport) — live DOM + screenshot. ✓
-- **ISC-88**: Employers section renders **per-employer jobs-page links** — live 9 `<a>` links; four careers roots return HTTP 200 (AMAG, Emil Frey, Sportec, Sauber/Audi). ✓
-- **ISC-89**: Career-paths + Motorsport sections render rich content (2009 / 1970 chars EN). ✓
-- **ISC-90**: DE locale renders all three new sections, labels translated (Arbeitgeber/Karriereweg/Motorsport), **no ß** — live + test "de locale uses no ß". ✓
-- **ISC-91**: en/de key parity holds with the 6 new keys — tests "en and de have identical key sets" + "all dynamic key families (…guide) resolve in both locales". ✓
-- **ISC-92**: Anti: no console errors after load + tab switching — live `read_console_messages(onlyErrors)` → none. ✓
-- **ISC-93**: APP_VERSION + SW VERSION "1.5.0", CHANGELOG entry. ✓ — tagged v1.5.0, pushed; Tests/Deploy/Release all green; live serves 1.5.0. ✓
+- **ISC-85**: Board seeded with 13 real positions, closest-first, German titles intact â live `localStorage` state shows 13 leads (`AMAG â Porsche Zentrum ZÃ¼rich â¦ Emil Frey Racing`), umlauts render. â
+- **ISC-86**: Already-applied position (Porsche Zug) sits in the **applied** stage â live `appliedStage:["Porsche Zentrum Zug (Risch AG)"]`. â
+- **ISC-87**: Guide shows 6 tabs in order (First application Â· Employers Â· Salary Â· Career paths Â· Negotiate Â· Motorsport) â live DOM + screenshot. â
+- **ISC-88**: Employers section renders **per-employer jobs-page links** â live 9 `<a>` links; four careers roots return HTTP 200 (AMAG, Emil Frey, Sportec, Sauber/Audi). â
+- **ISC-89**: Career-paths + Motorsport sections render rich content (2009 / 1970 chars EN). â
+- **ISC-90**: DE locale renders all three new sections, labels translated (Arbeitgeber/Karriereweg/Motorsport), **no Ã** â live + test "de locale uses no Ã". â
+- **ISC-91**: en/de key parity holds with the 6 new keys â tests "en and de have identical key sets" + "all dynamic key families (â¦guide) resolve in both locales". â
+- **ISC-92**: Anti: no console errors after load + tab switching â live `read_console_messages(onlyErrors)` â none. â
+- **ISC-93**: APP_VERSION + SW VERSION "1.5.0", CHANGELOG entry. â â tagged v1.5.0, pushed; Tests/Deploy/Release all green; live serves 1.5.0. â
 
 **Decisions (v1.5.0):**
-- *Title-language split is structural, not manual:* job titles live as free-text `lead.role` data (seed + `import.example.json`), never as i18n keys — so they **cannot** be translated; guides are i18n strings → translated. Enforced by where the data lives.
-- *Careers-root links over expiring postings:* employer links point at careers-page roots (jobs.amag-group.ch, jobs.emilfrey.ch, sportec.ch/de/jobs, sauber-group.com/corporate/jobs, …), which stay current as individual postings expire — matching the research's own sourcing choice.
-- *Seed-vs-import duplication:* `import` blind-appends by design (add-what-you-find). A fresh install seeds the 13, so importing the example too would double them. Mitigated by (a) the `_howto` note (it ADDS; run cleanup) and (b) `Menu → 🧹 Clean up duplicates` (dedupe by company+role). Not re-architected to upsert — append is the intended semantic. (Surfaced by advisor; its `--auto-state` loaded the wrong project's ISA — noted, not blocking.)
+- *Title-language split is structural, not manual:* job titles live as free-text `lead.role` data (seed + `import.example.json`), never as i18n keys â so they **cannot** be translated; guides are i18n strings â translated. Enforced by where the data lives.
+- *Careers-root links over expiring postings:* employer links point at careers-page roots (jobs.amag-group.ch, jobs.emilfrey.ch, sportec.ch/de/jobs, sauber-group.com/corporate/jobs, â¦), which stay current as individual postings expire â matching the research's own sourcing choice.
+- *Seed-vs-import duplication:* `import` blind-appends by design (add-what-you-find). A fresh install seeds the 13, so importing the example too would double them. Mitigated by (a) the `_howto` note (it ADDS; run cleanup) and (b) `Menu â ð§¹ Clean up duplicates` (dedupe by company+role). Not re-architected to upsert â append is the intended semantic. (Surfaced by advisor; its `--auto-state` loaded the wrong project's ISA â noted, not blocking.)
 
-**Note for Harry — getting these onto Ben's phone:** changing `seed()` only affects a *fresh* install.
-Ben's existing install keeps its current data, so to load the 13 positions there: **Menu → Import →
-`import.example.json`** (then **Menu → 🧹** if anything doubles up).
+**Note for Harry â getting these onto Ben's phone:** changing `seed()` only affects a *fresh* install.
+Ben's existing install keeps its current data, so to load the 13 positions there: **Menu â Import â
+`import.example.json`** (then **Menu â ð§¹** if anything doubles up).
 
-### v1.6.0 Verification (View-posting button + verified per-job links) — `node tests/run.mjs` → 33/33
+### v1.6.0 Verification (View-posting button + verified per-job links) â `node tests/run.mjs` â 33/33
 
 Each lead now links to its real posting; links researched + verified live on 2026-06-27 by three parallel agents (WebFetch/WebSearch).
 
-- **ISC-94**: Every lead with a link shows a one-tap **↗** on its Board card — live: 13 `.lr a.lnk` anchors, hrefs are the verified URLs. ✓
-- **ISC-95**: Lead editor shows a labelled **↗ View posting** button next to the link field — live DOM + zoom screenshot ("↗ View posting" beside `jobs.ch/.../8253a847…`). ✓
-- **ISC-96**: Button opens the *current* field value (https-normalised) in a new tab — handler reads `#f_link` live, `window.open(…,'_blank','noopener')`. ✓
-- **ISC-97**: All 13 leads carry a researched link (8 specific live postings, 5 durable careers/search fallbacks where the specific posting had expired) — verified in `seed()` + `import.example.json`. ✓
-- **ISC-98**: Anti: no console errors after board render + modal open — live `read_console_messages(onlyErrors)` → none. ✓
-- **ISC-99**: `lead.view_posting` key present in en + de — parity test green. ✓
-- **ISC-100**: APP_VERSION + SW VERSION "1.6.0", CHANGELOG entry. ✓ — tagged v1.6.0, pushed; Tests/Deploy/Release green; live serves 1.6.0. ✓
+- **ISC-94**: Every lead with a link shows a one-tap **â** on its Board card â live: 13 `.lr a.lnk` anchors, hrefs are the verified URLs. â
+- **ISC-95**: Lead editor shows a labelled **â View posting** button next to the link field â live DOM + zoom screenshot ("â View posting" beside `jobs.ch/.../8253a847â¦`). â
+- **ISC-96**: Button opens the *current* field value (https-normalised) in a new tab â handler reads `#f_link` live, `window.open(â¦,'_blank','noopener')`. â
+- **ISC-97**: All 13 leads carry a researched link (8 specific live postings, 5 durable careers/search fallbacks where the specific posting had expired) â verified in `seed()` + `import.example.json`. â
+- **ISC-98**: Anti: no console errors after board render + modal open â live `read_console_messages(onlyErrors)` â none. â
+- **ISC-99**: `lead.view_posting` key present in en + de â parity test green. â
+- **ISC-100**: APP_VERSION + SW VERSION "1.6.0", CHANGELOG entry. â â tagged v1.6.0, pushed; Tests/Deploy/Release green; live serves 1.6.0. â
 
 **Decision (v1.6.0):** *specific posting where live, durable fallback otherwise.* Job postings expire within
 weeks; verification on 2026-06-27 found 5 of the originally-cited specific URLs already dead. Rather than
 ship dead links, those leads point at the employer's careers page or a jobs.ch search that always
 resolves to the current matching role. Specifics used where the agent fetched a live, matching posting.
 
-### v1.7.0 Verification (deep per-job links — replaces v1.6.0 portal fallbacks) — `node tests/run.mjs` → 33/33
+### v1.7.0 Verification (deep per-job links â replaces v1.6.0 portal fallbacks) â `node tests/run.mjs` â 33/33
 
 Harry rejected the v1.6.0 careers-homepage/search fallbacks ("link to the actual job"). I browsed each
 employer's live portal in real Chrome (jobs.amag-group.ch, jobs.emilfrey.ch, jobs.ch, seegarage-jobs.ch,
 grafauto.ch) and extracted the deep posting URLs.
 
-- **ISC-101**: 12 of 13 leads link to the specific posting (deep link), not a portal home/search — live: `localStorage` shows deep paths (`…-de-j23042.html`, `/vacancies/detail/29dc812d…`, `/jobdetails.php?key=0`, the Mechatroniker PDF). ✓
-- **ISC-102**: New deep links resolve — HEAD checks return HTTP 200 for the 6 testable ones (AMAG ×2, Emil Frey ×2, Seegarage, Karl Graf PDF). ✓
-- **ISC-103**: Re-pointed leads' cards match what opens (closed originals re-pointed + corrected): Altstetten→Uster, Schlieren-Porsche-Diag→Dübendorf-Diag, EmilFrey-Zürich→Dübendorf, EmilFrey-AuWädenswil→Altendorf, KarlGraf-Diag→Mechatroniker-EFZ. ✓
-- **ISC-104**: Every live lead has a non-empty link — live `allHaveLinks=true`. ✓
-- **ISC-105**: Anti: no console errors. ✓
-- **ISC-106**: APP_VERSION + SW VERSION "1.7.0", CHANGELOG. ✓ (Deploy/tag pending Harry's go.)
+- **ISC-101**: 12 of 13 leads link to the specific posting (deep link), not a portal home/search â live: `localStorage` shows deep paths (`â¦-de-j23042.html`, `/vacancies/detail/29dc812dâ¦`, `/jobdetails.php?key=0`, the Mechatroniker PDF). â
+- **ISC-102**: New deep links resolve â HEAD checks return HTTP 200 for the 6 testable ones (AMAG Ã2, Emil Frey Ã2, Seegarage, Karl Graf PDF). â
+- **ISC-103**: Re-pointed leads' cards match what opens (closed originals re-pointed + corrected): AltstettenâUster, Schlieren-Porsche-DiagâDÃ¼bendorf-Diag, EmilFrey-ZÃ¼richâDÃ¼bendorf, EmilFrey-AuWÃ¤denswilâAltendorf, KarlGraf-DiagâMechatroniker-EFZ. â
+- **ISC-104**: Every live lead has a non-empty link â live `allHaveLinks=true`. â
+- **ISC-105**: Anti: no console errors. â
+- **ISC-106**: APP_VERSION + SW VERSION "1.7.0", CHANGELOG. â â tagged v1.8.0, pushed; Tests/Deploy/Release green; live serves 1.8.0 + jobs-feed.json. ✓
 
-**Decision (v1.7.0 — supersedes v1.6.0):** *deep link to the actual posting, always.* Portal homepages and
+**Decision (v1.7.0 â supersedes v1.6.0):** *deep link to the actual posting, always.* Portal homepages and
 search pages are not acceptable as the lead link. Where the cited posting closed, re-point to the
 employer's closest live posting AND correct the card (title/location) so the link matches. The one
-employer with nothing live (Kanton Zürich) is the sole exception — its official open-positions page,
+employer with nothing live (Kanton ZÃ¼rich) is the sole exception â its official open-positions page,
 flagged as a "watch" item. Doctrine note: real browser extraction beats WebFetch for SPA job portals,
 which silently return homepages.
 
-### v1.8.0 Verification (remote jobs feed + hotness scale) — `node tests/run.mjs` → 42/42
+### v1.8.0 Verification (remote jobs feed + hotness scale) â `node tests/run.mjs` â 42/42
 
 Two features. (1) A remote `jobs-feed.json` the app polls and imports by stable id (anti-duplicate
 incoming queue). (2) A hotness scale (hot/medium/normal) with a card indicator and hottest-first sort.
 
-- **ISC-107**: `jobs-feed.json` exists, `pole-position-feed@1`, 13 jobs, each with a unique stable id — `tests/feed.test.mjs` (9 checks incl. "job ids are unique"). ✓
-- **ISC-108**: App fetches the feed and adds only unseen ids — live: `checkJobsFeed()` returned **0** when all 13 ids already present (dedup), and **13** after emptying `state.leads` (add path). ✓
-- **ISC-109**: Anti: re-importing the feed never duplicates — existence check covers live AND tombstoned ids; same id merges across devices via LWW. ✓ (0-added path proves it.)
-- **ISC-110**: Feed is always fresh — SW serves `jobs-feed.json` network-only (never cached); app fetches with `cache:'no-store'`. ✓
-- **ISC-111**: `Menu → 🔥 Check for new jobs` wired (`#m_feed` → `checkJobsFeed(true)`) + throttled auto-check on open (~12 h). ✓
-- **ISC-112**: Every lead has a `hotness` (hot/medium/normal); seed sets it explicitly, `migrate()` backfills, manual leads auto-classify via `hotnessFor()`. ✓
-- **ISC-113**: Board shows the indicator (🔥 Hot red / Warm amber / none) and **auto-sorts hottest-first** then favourite then priority — live DOM + screenshot: Researching led by Sauber/Sportec (Hot), Porsche Zug shows Warm. ✓
-- **ISC-114**: hotnessFor restricts brand keywords to the title (not notes) so a re-pointed role whose notes mention the old brand stays normal — live: AMAG Dübendorf + Emil Frey Altendorf = normal (was wrongly Warm). ✓
-- **ISC-115**: `hot.*`, `lead.hotness`, `menu.check_jobs`, `toast.feed_*` present in en + de — i18n parity test green. ✓
-- **ISC-116**: APP_VERSION + SW VERSION "1.8.0", CHANGELOG; `prompt/job-search.md` documents the feed format + hotness. ✓ (Deploy/tag pending Harry's go.)
+- **ISC-107**: `jobs-feed.json` exists, `pole-position-feed@1`, 13 jobs, each with a unique stable id â `tests/feed.test.mjs` (9 checks incl. "job ids are unique"). â
+- **ISC-108**: App fetches the feed and adds only unseen ids â live: `checkJobsFeed()` returned **0** when all 13 ids already present (dedup), and **13** after emptying `state.leads` (add path). â
+- **ISC-109**: Anti: re-importing the feed never duplicates â existence check covers live AND tombstoned ids; same id merges across devices via LWW. â (0-added path proves it.)
+- **ISC-110**: Feed is always fresh â SW serves `jobs-feed.json` network-only (never cached); app fetches with `cache:'no-store'`. â
+- **ISC-111**: `Menu â ð¥ Check for new jobs` wired (`#m_feed` â `checkJobsFeed(true)`) + throttled auto-check on open (~12 h). â
+- **ISC-112**: Every lead has a `hotness` (hot/medium/normal); seed sets it explicitly, `migrate()` backfills, manual leads auto-classify via `hotnessFor()`. â
+- **ISC-113**: Board shows the indicator (ð¥ Hot red / Warm amber / none) and **auto-sorts hottest-first** then favourite then priority â live DOM + screenshot: Researching led by Sauber/Sportec (Hot), Porsche Zug shows Warm. â
+- **ISC-114**: hotnessFor restricts brand keywords to the title (not notes) so a re-pointed role whose notes mention the old brand stays normal â live: AMAG DÃ¼bendorf + Emil Frey Altendorf = normal (was wrongly Warm). â
+- **ISC-115**: `hot.*`, `lead.hotness`, `menu.check_jobs`, `toast.feed_*` present in en + de â i18n parity test green. â
+- **ISC-116**: APP_VERSION + SW VERSION "1.8.0", CHANGELOG; `prompt/job-search.md` documents the feed format + hotness. â (Deploy/tag pending Harry's go.)
 
 **Decision (v1.8.0):** *feed is additive, keyed by stable id; the board is Ben's source of truth.* The
-feed only ADDS unseen jobs — it never overwrites Ben's stage moves, notes, or deletes. Harry pushes new
+feed only ADDS unseen jobs â it never overwrites Ben's stage moves, notes, or deletes. Harry pushes new
 jobs by appending objects with new ids. Seed jobs reuse `seed-lead-*` ids so a fresh install's first
 feed check finds them already present. Hotness: explicit on seed/feed, auto-classified (title-only brand
 match) as fallback.
