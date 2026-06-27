@@ -170,6 +170,15 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .install h3{font-size:20px;margin:6px 0}
 .install .steps{text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0}
 .install .share{display:inline-block;border:1px solid var(--accent);border-radius:8px;padding:1px 7px;color:var(--accent)}
+/* in-app QR scanner overlay (the reliable pairing path for an installed iPhone) */
+.scan{position:fixed;inset:0;z-index:70;background:#000;display:none;flex-direction:column;gap:10px;
+  padding:calc(env(safe-area-inset-top) + 12px) 12px calc(env(safe-area-inset-bottom) + 16px)}
+.scan.on{display:flex}
+.scan .scanhd{display:flex;align-items:center;justify-content:space-between;color:var(--ink);font-size:15px}
+.scan .scanbox{position:relative;flex:1;min-height:0;display:grid;place-items:center;overflow:hidden;border-radius:16px;background:#000}
+.scan video{width:100%;height:100%;object-fit:cover}
+.scan .scanframe{position:absolute;width:64vw;max-width:280px;aspect-ratio:1;border:3px solid var(--accent);border-radius:18px;box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
+.scan p{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -253,7 +262,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/seed-data.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.10.0";
+const APP_VERSION = "1.11.0";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -652,7 +661,13 @@ function wireConn(c){
 function disconnectDevice(id){ const c=conns[id]; if(c){ try{c.close();}catch(e){} } delete conns[id]; updateConnUI(); }
 function forgetDevice(id){ disconnectDevice(id); state.settings.knownDevices=(state.settings.knownDevices||[]).filter(d=>d.id!==id); save(); if($('#deviceList')) renderDeviceList(); toast(t('toast.device_forgotten')); }
 function addDevice(code){ code=(code||'').trim(); if(!code) return toast(t('sync.code_missing')); if(code===state.settings.deviceId) return toast(t('sync.code_self'));
-  startPeer(()=>{ rememberDevice(code, code); connectTo(code); toast(t('toast.device_added')); setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },300); }); }
+  // Remember it SYNCHRONOUSLY (don't bury this in startPeer's open callback — that
+  // callback is dropped if a peer is already starting, e.g. openSync() ran first).
+  // peer.on('open') connects every known device, so remembering first guarantees
+  // the connection once the broker is up; connectTo now covers the already-open case.
+  rememberDevice(code, code); toast(t('toast.device_added'));
+  startPeer(()=>connectTo(code)); connectTo(code);
+  setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },300); }
 function renderDeviceList(){
   const el=$('#deviceList'); if(!el) return; const k=state.settings.knownDevices||[];
   if(!k.length){ el.innerHTML=`<p class="muted tiny">${t('sync.none_known')}</p>`; return; }
@@ -669,19 +684,85 @@ function openSync(){
     <div class="card"><b>${t('sync.this_device')}</b>
       <div class="row" style="gap:8px;margin-top:6px"><input id="s_dname" value="${attr(state.settings.deviceName)}" style="flex:1">
         <button class="btn sm" id="s_rename">${t('sync.save')}</button></div>
+      <div class="qrwrap" id="qr"></div>
+      <p class="tiny muted" style="text-align:center;margin:2px 2px 8px">${t('sync.qr_hint')}</p>
+      <div class="row" style="gap:8px"><button class="btn sm go" id="s_share" style="flex:1">${t('sync.share_link')}</button>
+        <button class="btn sm" id="s_copy" style="flex:1">${t('sync.copy_link')}</button></div>
       <p class="tiny muted" style="margin:8px 0 2px">${t('sync.your_code')}</p>
-      <div class="mono" style="font-size:15px;text-align:center;word-break:break-all">${esc(state.settings.deviceId)}</div>
-      <div class="qrwrap" id="qr"></div></div>
+      <div class="mono" style="font-size:14px;text-align:center;word-break:break-all">${esc(state.settings.deviceId)}</div></div>
     <div class="card" style="margin-top:10px"><b>${t('sync.add_device')}</b><p class="tiny muted">${t('sync.add_hint')}</p>
-      <input id="s_code" placeholder="${t('sync.code_ph')}"><button class="btn go" id="s_add" style="width:100%;margin-top:8px">${t('sync.add_btn')}</button></div>
+      <input id="s_code" placeholder="${t('sync.code_ph')}"><button class="btn go" id="s_add" style="width:100%;margin-top:8px">${t('sync.add_btn')}</button>
+      <button class="btn" id="s_scan" style="width:100%;margin-top:8px">${t('sync.scan_btn')}</button></div>
     <h3 style="font-size:15px;margin:14px 0 4px">${t('sync.known')}</h3><div id="deviceList"></div>
     <div class="row" style="margin-top:12px;gap:8px"><button class="btn" id="s_export" style="flex:1">${t('sync.export_file')}</button>
       <button class="btn" id="s_import" style="flex:1">${t('sync.import_file')}</button><input type="file" id="s_file" accept="application/json" style="display:none"></div>`);
-  try{ new QRCode($('#qr'),{text:state.settings.deviceId,width:140,height:140,correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
+  // QR now encodes a pairing URL (…/?pair=<id>), not the bare id — so a phone camera
+  // opens the app & connects, and the same string works as a shareable link.
+  try{ new QRCode($('#qr'),{text:pairUrl(),width:180,height:180,correctLevel:QRCode.CorrectLevel.M}); }catch(e){}
   $('#s_rename').onclick=()=>{ const v=$('#s_dname').value.trim(); if(v){ state.settings.deviceName=v; save(); toast(t('toast.saved')); updateConnUI(); } };
   $('#s_add').onclick=()=>{ addDevice($('#s_code').value); $('#s_code').value=''; };
+  $('#s_share').onclick=sharePairLink;
+  $('#s_copy').onclick=()=>{ const u=pairUrl(); if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(u).then(()=>toast(t('sync.link_copied'))).catch(()=>{ try{prompt(t('sync.copy_link'),u);}catch(e){} }); } else { try{prompt(t('sync.copy_link'),u);}catch(e){} } };
+  $('#s_scan').onclick=openScanner;
   $('#s_export').onclick=exportJSON; $('#s_import').onclick=()=>$('#s_file').click(); $('#s_file').onchange=importFile;
   renderDeviceList();
+}
+
+/* ---------- pairing: URL / link-share / in-app QR scanner ----------
+   The QR + share-link carry …/?pair=<deviceId>. Opening that URL auto-connects
+   (handlePairParam at boot). On an INSTALLED iPhone an external link can't open
+   the home-screen app (iOS opens Safari, a separate storage jar) — so the
+   reliable installed path is the in-app scanner: open the app, tap Scan, point
+   at the other device's QR. jsQR (already vendored) decodes it in-app. */
+function pairUrl(id){ return location.origin+location.pathname+'?pair='+encodeURIComponent(id||state.settings.deviceId); }
+function extractPairId(s){ s=(s||'').trim(); const m=s.match(/[?&]pair=([^&\s]+)/);
+  if(m){ try{ return decodeURIComponent(m[1]); }catch(e){ return m[1]; } }
+  if(/^pp-[a-z0-9]+$/i.test(s)) return s; return null; }
+async function sharePairLink(){ const url=pairUrl();
+  if(navigator.share){ try{ await navigator.share({title:'Pole Position', text:t('sync.share_text'), url}); return; }catch(e){ if(e&&e.name==='AbortError') return; } }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ try{ await navigator.clipboard.writeText(url); toast(t('sync.link_copied')); return; }catch(e){} }
+  try{ prompt(t('sync.copy_link'),url); }catch(e){} }
+let _scanStream=null, _scanRAF=0;
+async function openScanner(){
+  let ov=$('#scanOv');
+  if(!ov){ ov=document.createElement('div'); ov.id='scanOv'; ov.className='scan';
+    ov.innerHTML=`<div class="scanhd"><b>${t('sync.scan_title')}</b><button class="btn sm" id="scanX">${t('sync.cancel')}</button></div>
+      <div class="scanbox"><video id="scanVid" playsinline muted></video><div class="scanframe"></div></div>
+      <p class="tiny" style="text-align:center;padding:0 20px">${t('sync.scan_hint')}</p>`;
+    document.body.appendChild(ov); $('#scanX',ov).onclick=closeScanner; }
+  ov.classList.add('on');
+  const video=$('#scanVid',ov);
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ toast(t('sync.cam_fail')); closeScanner(); return; }
+  try{ _scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}}); }
+  catch(e){ toast(t('sync.cam_fail')); closeScanner(); return; }
+  video.srcObject=_scanStream; try{ await video.play(); }catch(e){}
+  const canvas=document.createElement('canvas'), ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const tick=()=>{
+    if(!ov.classList.contains('on')) return;
+    if(video.readyState>=2 && video.videoWidth){
+      canvas.width=video.videoWidth; canvas.height=video.videoHeight;
+      ctx.drawImage(video,0,0,canvas.width,canvas.height);
+      let code=null; try{ const img=ctx.getImageData(0,0,canvas.width,canvas.height); code=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'}); }catch(e){}
+      if(code&&code.data){ const id=extractPairId(code.data);
+        if(id&&id===state.settings.deviceId){ closeScanner(); toast(t('sync.pair_self')); return; }
+        if(id){ closeScanner(); addDevice(id); setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },300); return; } }
+    }
+    _scanRAF=requestAnimationFrame(tick);
+  };
+  _scanRAF=requestAnimationFrame(tick);
+}
+function closeScanner(){ const ov=$('#scanOv'); if(ov) ov.classList.remove('on');
+  if(_scanRAF){ cancelAnimationFrame(_scanRAF); _scanRAF=0; }
+  if(_scanStream){ try{ _scanStream.getTracks().forEach(tr=>tr.stop()); }catch(e){} _scanStream=null; } }
+// Boot: if opened via …/?pair=<id>, strip it from the URL and auto-connect.
+function handlePairParam(){
+  let id=null; try{ id=new URLSearchParams(location.search).get('pair'); }catch(e){}
+  if(!id) return;
+  try{ history.replaceState(null,'',location.origin+location.pathname); }catch(e){}
+  id=id.trim(); if(!id) return;
+  if(id===state.settings.deviceId){ toast(t('sync.pair_self')); return; }
+  toast(t('sync.pairing_in'));
+  setTimeout(()=>{ openSync(); addDevice(id); setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },400); }, 300);
 }
 
 /* ---------- install overlay ---------- */
@@ -764,6 +845,8 @@ render();
 setTimeout(()=>showInstall(false), 900);
 // auto-reconnect to remembered devices on open
 if(state.settings.knownDevices.length) setTimeout(()=>startPeer(), 400);
+// if launched from a pairing link (…/?pair=<id>), connect to that device
+handlePairParam();
 // auto-check the jobs feed for new positions (throttled to ~once every 12h)
 (()=>{ const last=state.settings.lastFeedCheck; const stale=!last || (Date.now()-new Date(last).getTime())>12*3600e3;
   if(stale) setTimeout(()=>checkJobsFeed(false), 1800); })();
@@ -775,7 +858,7 @@ if(state.settings.knownDevices.length) setTimeout(()=>startPeer(), 400);
   board.addEventListener('scroll', syncBoardArrows, {passive:true});
   window.addEventListener('resize', syncBoardArrows);
 })();
-window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true), cleanup:cleanupDuplicates};
+window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true), cleanup:cleanupDuplicates, pairUrl, extractPairId};
 </script>
 </body>
 </html>

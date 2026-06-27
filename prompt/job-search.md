@@ -56,8 +56,8 @@ Large dealer groups:
 - **Binelli Group** (BMW, MINI, Maserati) — `https://www.jobs.ch/de/stellenangebote/?term=binelli` — Adliswil, Zürich.
 - **Th. Willy AG** (Ford, MG, CUPRA) — `https://thwilly.ch/karriere` — Schlieren.
 
-Stay-with-Mercedes (lowest friction):
-- **Merbag** (current employer — internal move) — `https://www.jobs.ch/de/stellenangebote/?term=merbag`.
+Stay-with-Mercedes (lowest friction) — **CHECK FIRST**:
+- **Merbag** (current employer — internal move; where Ben trained) — own portal `https://jobs.merbag.com` (server-rendered, deep-link pattern `…-de-jNNN.html`; also `https://www.jobs.ch/de/stellenangebote/?term=merbag`). Filter to Zürich-area sites (Zürich-Nord, Zürich-Seefeld, Schlieren, Zollikon). Ask **Herr Gut** about internal openings — an internal move beats a cold application. Roles split PW / Nutzfahrzeuge / Lastwagen — prefer Personenwagen + Diagnostiker, but list all near sites.
 
 Motorsport:
 - **Sauber / Audi F1** (Formula One factory, Hinwil) — `https://sauber-group.com/corporate/jobs` — Trainee / Future Race Team Mechanic (Car Assembly / Sub-Assembly) is the career-starter track.
@@ -71,13 +71,37 @@ Independent garages within ~30 min:
 - **Kanton Zürich** vehicle fleet — Urdorf — `https://www.zh.ch/de/arbeiten-kanton-zuerich/offene-stellen.html` (public sector; intermittent).
 - Also worth a look: **Kessel AG** (Ferrari/Maserati, Volketswil).
 
+### 3c. Official brand garages — full Zürich directory (check each brand)
+
+This mirrors the in-app **Guide → Employers** tab. Go brand-by-brand and check each official representative's careers page for current Automobilmechatroniker / Diagnostiker / Fachmann openings within ~30 min of 8047. Where a brand's official rep is AMAG or Emil Frey, that's noted.
+
+- **Mercedes-Benz / AMG** — Merbag (see above; check first). Sites: Zürich-Nord (Hagenholzstr. 111), Zürich-Seefeld (Färberstr. 6), Schlieren (PW-Zentrum), Zollikon.
+- **BMW / MINI** — Binelli Automobile AG (`jobs.binelli-group.ch`, Badenerstr. 527 Zürich + Adliswil); Hedin Automotive (`hedinautomotive.ch/stellen/`, Dielsdorf, Samstagern; deep-link pattern `hedinautomotive.ch/stellenanzeigen/<slug>/`); Stehli & Fischer AG (Ottenweg 11, Seefeld).
+- **VW / Audi / Škoda / SEAT / Cupra** — AMAG (`jobs.amag-group.ch`): Autowelt Dübendorf, Letzigrund (Rautistr. 23), Utoquai, Altstetten (Vulkanstr. 120).
+- **Porsche** — AMAG: Porsche Zentrum Zürich (Schlieren), Porsche Center Seefeld.
+- **Toyota / Lexus** — Allmend Automobile AG (Zwirnerstr. 316, Zürich); Garage Illi AG (Birmensdorf); Toyota Garage Harlacher AG (Winkel). (Importer: Emil Frey.)
+- **Ford / MG / Cupra** — Th. Willy AG (`thwilly.ch/karriere`, Schlieren; postings on `thwilly.abacuscity.ch`); Ford Garage Zürich Nord.
+- **Volvo** — Volvo Cars Zurich (Wallisellen); Kehlhof Garage (Steinmaur).
+- **Tesla** — Tesla Center Schlieren (service workshop); Pelikanstrasse (sales only).
+- **Hyundai** — Garage Stoop (Schlieren); Wallishauser AG (Adlikon b. Regensdorf).
+- **Renault** — RRG Albisriederplatz (Badenerstr. 330); RRG Glattpark (Opfikon); Garage Ofner AG (Mööslistr. 1).
+- **Kia** — Emil Frey Zürich Nord (`jobs.emilfrey.ch`, Thurgauerstr. 35).
+- **Opel** — Ernst Ruckstuhl Automobile AG (Brunaustr. 89).
+- **Peugeot** — Rütli Garage AG (Dietlikon).
+- **Honda** — Honda Automobile Zürich (Letzigraben 77).
+- **Fiat** — Häusermann Automobile AG (Bernerstr. Nord 188); Kalchbühl-Garage AG (Thujastr. 4).
+- **Citroën** — Auto Center Wiedikon (Steinstr. 21).
+
+Clusters worth knowing: **Thurgauerstr. 35** (Zürich-Nord) is the big Emil Frey campus — Kia, Opel & Peugeot share it. The **Schlieren** strip clusters Mercedes, Porsche, Ford, Hyundai & Tesla.
+
 ### 3b. Broaden — find OTHER Zürich-area jobs
 
 Search the general boards too, then deep-link each real hit:
 - **jobs.ch** (largest), **jobscout24.ch**, **auto-stellen.ch**, **jobagent.ch**.
 - **Search terms (German):** `Automobilmechatroniker`, `Automobil-Diagnostiker`, `Automobil-Fachmann`,
-  `Servicetechniker Automobil`, `Rennmechaniker`, `Kfz-Mechatroniker`. Add brand terms: `Porsche`,
-  `AMG`, `BMW M`, `Audi`, `Ferrari`.
+  `Servicetechniker Automobil`, `Rennmechaniker`, `Kfz-Mechatroniker`. Add brand terms — run each:
+  `Mercedes`/`AMG`/`Merbag`, `BMW`/`MINI`/`Binelli`/`Hedin`, `Porsche`, `Audi`/`VW`/`AMAG`, `Toyota`/`Lexus`,
+  `Ford`/`Th. Willy`, `Volvo`, `Tesla`, `Hyundai`, `Renault`, `Kia`, `Opel`, `Peugeot`, `Honda`, `Fiat`, `Citroën`, `Ferrari`/`Maserati`.
 - **Filter to:** location within ~30 min of 8047 (Zürich + Schlieren, Dietikon, Urdorf, Dübendorf,
   Wallisellen, Kloten, Uster, Horgen, Adliswil, Hinwil, Höri, Rotkreuz/Zug, Wädenswil); workload
   **80–100%**; **entry-level / EFZ** (avoid roles demanding 5+ yrs or a Meister). Prefer premium/sport.

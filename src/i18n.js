@@ -85,30 +85,99 @@
         <h4>Your strongest levers</h4>
         <p>AGVS + Mercedes HV/EV certification · Merbag reference (largest MB workshop in CH) · AMG experience · DE + EN.</p>`,
       employers_html: `
-        <h4>Employers to watch (Zürich, ≤30 min)</h4>
-        <p class="muted tiny">Tap an employer to open their own jobs page — postings move fast, the careers page stays current.</p>
-        <h4>Premium &amp; sports brands — his target</h4>
+        <h4>★ Merbag — Mercedes-Benz / AMG · start here</h4>
+        <p>Where he trained — the lowest-friction move. He already knows the workshop, Xentry &amp; WIS. Ask <b>Herr Gut</b> about openings across Merbag sites: an internal move beats a cold application.</p>
         <ul>
-          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG</b></a> — Porsche, Audi, VW, Bentley. Porsche Academy → Certified Master Technician. Branches 5–25 min (Letzigrund, Altstetten, Wallisellen). <i>Hiring Porsche mechatronics now.</i></li>
-          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Porsche &amp; Audi specialist with its own Motorsport &amp; Classic divisions. Höri, ~20 min. The most motorsport-flavoured daily workshop.</li>
+          <li><a href="https://jobs.merbag.com" target="_blank" rel="noopener"><b>Merbag careers</b></a> — every Swiss site, deep-linked job board (Mechatroniker, Diagnostiker, Fachmann).</li>
+          <li><b>Zürich-Nord</b> — Hagenholzstr. 111, 8050 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Merbag%20Hagenholzstrasse%20111%208050%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Zürich-Seefeld</b> — Färberstr. 6, 8008 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Merbag%20F%C3%A4rberstrasse%206%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Schlieren (PW-Zentrum)</b> — Schlieren <a href="https://www.google.com/maps/search/?api=1&amp;query=Mercedes-Benz%20Personenwagen-Zentrum%20Schlieren" target="_blank" rel="noopener">📍</a></li>
         </ul>
-        <h4>Large dealer groups — most openings, structured training</h4>
+        <p class="muted tiny">Tap a name to open that garage's own jobs page; tap 📍 for the map. Postings move fast — the careers page stays current.</p>
+        <h4>His targets first — premium &amp; sport</h4>
         <ul>
-          <li><a href="https://jobs.emilfrey.ch" target="_blank" rel="noopener"><b>Emil Frey Group</b></a> — Toyota, Lexus, Jaguar, Land Rover and more. Multi-brand academy; also the route into Emil Frey Racing.</li>
-          <li><a href="https://hedinautomotive.ch/stellen/" target="_blank" rel="noopener"><b>Hedin Automotive</b></a> — BMW &amp; MINI. Factory master-technician training, annualised flexible hours.</li>
-          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=binelli" target="_blank" rel="noopener"><b>Binelli Group</b></a> — BMW, MINI, Maserati. Modern, highly digitised workshops, ~12–15 min.</li>
-          <li><a href="https://thwilly.ch/karriere" target="_blank" rel="noopener"><b>Th. Willy AG</b></a> — Ford (largest in CH), MG, CUPRA. Large family group, Schlieren ~10 min.</li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG</b></a> — Porsche, Audi, VW, Bentley. Porsche Academy → Certified Master Technician. <i>Hiring Porsche mechatronics now.</i></li>
+          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Porsche &amp; Audi specialist with its own Motorsport &amp; Classic divisions. Höri, ~20 min.</li>
+          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Sauber / Audi F1</b></a> — Formula One factory, Hinwil. Trainee race-mechanic track. See the Motorsport tab.</li>
+          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Ferrari 296 GT3 (DTM &amp; GTWC), Safenwil. Speculative application.</li>
         </ul>
-        <h4>Staying with Mercedes — lowest friction</h4>
+        <h4>Every official brand garage in &amp; around Zürich</h4>
+        <p class="muted tiny">Tap 📍 for the location. Where a brand's official rep is AMAG or Emil Frey, that's noted.</p>
+        <h4>BMW · MINI</h4>
         <ul>
-          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=merbag" target="_blank" rel="noopener"><b>Merbag</b></a> — Mercedes-Benz / AMG. Internal move across teams or sites; he already knows the workshop and tools (Xentry, WIS).</li>
+          <li><a href="https://jobs.binelli-group.ch" target="_blank" rel="noopener"><b>Binelli Automobile AG</b></a> — Badenerstr. 527, 8048 Zürich (+ Adliswil) <a href="https://www.google.com/maps/search/?api=1&amp;query=Binelli%20Automobile%20Badenerstrasse%20527%208048%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://hedinautomotive.ch/stellen/" target="_blank" rel="noopener"><b>Hedin Automotive</b></a> — Dielsdorf &amp; Samstagern — BMW/MINI <a href="https://www.google.com/maps/search/?api=1&amp;query=Hedin%20Automotive%20Dielsdorf" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Stehli &amp; Fischer AG</b> — Ottenweg 11, 8008 Zürich (Seefeld) <a href="https://www.google.com/maps/search/?api=1&amp;query=Stehli%20Fischer%20Ottenweg%2011%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
         </ul>
-        <h4>Motorsport</h4>
+        <h4>VW · Audi · Škoda · SEAT · Cupra (AMAG)</h4>
         <ul>
-          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Sauber / Audi F1</b></a> — Formula One factory in Hinwil, ~35 min. Trainee race-team mechanic track for career-starters. See the Motorsport tab.</li>
-          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Ferrari 296 GT3 in DTM &amp; GTWC, Safenwil. Speculative application via the dealer group.</li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Autowelt</b></a> — Dübendorf — all brands <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Autowelt%20Z%C3%BCrich%20D%C3%BCbendorf" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Letzigrund</b></a> — Rautistr. 23, 8047 Zürich — Audi/SEAT/Cupra <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Letzigrund%20Rautistrasse%2023%208047%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Utoquai</b></a> — Utoquai 47/49, 8008 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Utoquai%2047%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Altstetten</b></a> — Vulkanstr. 120, 8048 Zürich — VW/Škoda <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Altstetten%20Vulkanstrasse%20120%208048%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
         </ul>
-        <p class="muted tiny">Public-fleet option: Kanton Zürich workshop, Urdorf (~12 min) — stable hours, posted on jobs.ch.</p>`,
+        <h4>Porsche</h4>
+        <ul>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>Porsche Zentrum Zürich</b></a> — Schlieren <a href="https://www.google.com/maps/search/?api=1&amp;query=Porsche%20Zentrum%20Z%C3%BCrich%20Schlieren" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>Porsche Center Seefeld</b></a> — Dufourstr., 8008 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Porsche%20Seefeld%20Dufourstrasse%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Toyota · Lexus</h4>
+        <ul>
+          <li><b>Allmend Automobile AG</b> — Zwirnerstr. 316, 8041 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Allmend%20Automobile%20Zwirnerstrasse%20316%208041%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Garage Illi AG</b> — Birmensdorf <a href="https://www.google.com/maps/search/?api=1&amp;query=Garage%20Illi%20Birmensdorf%20Toyota" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Toyota Garage Harlacher AG</b> — Winkel <a href="https://www.google.com/maps/search/?api=1&amp;query=Toyota%20Harlacher%20Winkel" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Ford</h4>
+        <ul>
+          <li><a href="https://thwilly.ch/karriere" target="_blank" rel="noopener"><b>Th. Willy AG</b></a> — Zürcherstr. 145, Schlieren — Ford/MG/Cupra <a href="https://www.google.com/maps/search/?api=1&amp;query=Th%20Willy%20Z%C3%BCrcherstrasse%20145%20Schlieren" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Ford Garage Zürich Nord</b> — 8050 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Ford%20Garage%20Z%C3%BCrich%20Nord%208050" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Volvo</h4>
+        <ul>
+          <li><b>Volvo Cars Zurich</b> — Husacherstr. 1, Wallisellen <a href="https://www.google.com/maps/search/?api=1&amp;query=Volvo%20Cars%20Zurich%20Husacherstrasse%201%20Wallisellen" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Kehlhof Garage</b> — Steinmaur <a href="https://www.google.com/maps/search/?api=1&amp;query=Kehlhof%20Garage%20Steinmaur%20Volvo" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Tesla</h4>
+        <ul>
+          <li><b>Tesla Center Schlieren</b> — Brandstr., Schlieren — service <a href="https://www.google.com/maps/search/?api=1&amp;query=Tesla%20Center%20Schlieren%20Brandstrasse" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Tesla Store Pelikanstrasse</b> — 8001 Zürich — sales only <a href="https://www.google.com/maps/search/?api=1&amp;query=Tesla%20Store%20Pelikanstrasse%208001%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Hyundai</h4>
+        <ul>
+          <li><b>Garage Stoop</b> — Schlieren <a href="https://www.google.com/maps/search/?api=1&amp;query=Garage%20Stoop%20Schlieren%20Hyundai" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Wallishauser AG</b> — Adlikon b. Regensdorf <a href="https://www.google.com/maps/search/?api=1&amp;query=Wallishauser%20Adlikon%20Regensdorf%20Hyundai" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Renault</h4>
+        <ul>
+          <li><b>Renault RRG Albisriederplatz</b> — Badenerstr. 330, 8004 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Renault%20RRG%20Badenerstrasse%20330%208004%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Renault RRG Glattpark</b> — Opfikon <a href="https://www.google.com/maps/search/?api=1&amp;query=Renault%20RRG%20Glattpark%20Opfikon" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Garage Ofner AG</b> — Mööslistr. 1, 8038 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Garage%20Ofner%20M%C3%B6%C3%B6slistrasse%201%208038%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Kia</h4>
+        <ul>
+          <li><a href="https://jobs.emilfrey.ch" target="_blank" rel="noopener"><b>Emil Frey Zürich Nord (Kia)</b></a> — Thurgauerstr. 35, 8050 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Emil%20Frey%20Z%C3%BCrich%20Nord%20Thurgauerstrasse%2035%208050" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Opel</h4>
+        <ul>
+          <li><b>Ernst Ruckstuhl Automobile AG</b> — Brunaustr. 89, 8002 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Ernst%20Ruckstuhl%20Brunaustrasse%2089%208002%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Peugeot</h4>
+        <ul>
+          <li><b>Rütli Garage AG</b> — Dietlikon <a href="https://www.google.com/maps/search/?api=1&amp;query=R%C3%BCtli%20Garage%20Dietlikon%20Peugeot" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Honda</h4>
+        <ul>
+          <li><b>Honda Automobile Zürich</b> — Letzigraben 77, 8003 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Honda%20Automobile%20Letzigraben%2077%208003%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Fiat</h4>
+        <ul>
+          <li><b>Häusermann Automobile AG</b> — Bernerstr. Nord 188, 8048 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=H%C3%A4usermann%20Automobile%20Bernerstrasse%20Nord%20188%208048%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Kalchbühl-Garage AG</b> — Thujastr. 4, 8038 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Kalchb%C3%BChl%20Garage%20Thujastrasse%204%208038%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Citroën</h4>
+        <ul>
+          <li><b>Auto Center Wiedikon</b> — Steinstr. 21, 8003 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Auto%20Center%20Wiedikon%20Steinstrasse%2021%208003%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>        <p class="muted tiny">Good to know: Thurgauerstr. 35 (Zürich-Nord) is the big Emil Frey campus — Kia, Opel &amp; Peugeot share it. The Schlieren strip clusters Mercedes, Porsche, Ford, Hyundai &amp; Tesla minutes apart. Public-fleet option: Kanton Zürich workshop, Urdorf (~12 min), on jobs.ch.</p>`,
       career_html: `
         <h4>Where this trade can take you</h4>
         <p>The Swiss system is built to climb in steps. Pay rises fastest in the first five years (20–30%), then flattens if you stay purely on the tools — which is where these routes come in.</p>
@@ -206,6 +275,15 @@
       known: "Your devices", none_known: "No devices yet. Add one above.",
       online: "connected", offline: "offline", forget: "Forget", save: "Save",
       code_self: "That's this device's own code.",
+      qr_hint: "On the other device: scan this QR, or open the shared link. On iPhone, open the app first and tap “Scan a code”.",
+      share_link: "🔗 Share link", copy_link: "Copy link",
+      link_copied: "Pairing link copied — open it on the other device.",
+      share_text: "Pair with my Pole Position job board",
+      scan_btn: "📷 Scan a code", scan_title: "Scan the other device",
+      scan_hint: "Point your camera at the QR code shown on the other device.",
+      cam_fail: "Couldn't open the camera. Type or paste the code below instead.", cancel: "Cancel",
+      pairing_in: "Pairing… connecting to the other device.",
+      pair_self: "That link is this device's own code.",
     },
     conn: { connected: "● Live: {name}", connected_n: "● {n} connected", disconnected: "Not connected", live: "Synced ✓" },
     toast: {
@@ -314,30 +392,99 @@
         <h4>Deine stärksten Hebel</h4>
         <p>AGVS + Mercedes HV/EV-Zertifizierung · Merbag-Referenz (grösste MB-Werkstatt der CH) · AMG-Erfahrung · DE + EN.</p>`,
       employers_html: `
-        <h4>Arbeitgeber im Blick (Zürich, ≤30 Min)</h4>
-        <p class="muted tiny">Tipp auf einen Arbeitgeber, um seine eigene Stellenseite zu öffnen — Inserate ändern schnell, die Karriereseite bleibt aktuell.</p>
-        <h4>Premium- &amp; Sportmarken — sein Ziel</h4>
+        <h4>★ Merbag — Mercedes-Benz / AMG · hier starten</h4>
+        <p>Wo er gelernt hat — der Weg mit der geringsten Reibung. Er kennt Werkstatt, Xentry &amp; WIS bereits. Frag <b>Herr Gut</b> nach offenen Stellen an anderen Merbag-Standorten: ein interner Wechsel schlägt eine Kaltbewerbung.</p>
         <ul>
-          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG</b></a> — Porsche, Audi, VW, Bentley. Porsche Academy → Certified Master Technician. Standorte 5–25 Min (Letzigrund, Altstetten, Wallisellen). <i>Sucht jetzt Porsche-Mechatroniker.</i></li>
-          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Porsche- &amp; Audi-Spezialist mit eigenen Motorsport- &amp; Classic-Abteilungen. Höri, ~20 Min. Die motorsportlichste Tageswerkstatt.</li>
+          <li><a href="https://jobs.merbag.com" target="_blank" rel="noopener"><b>Merbag Karriere</b></a> — alle CH-Standorte, Stellenboard mit Deep-Links (Mechatroniker, Diagnostiker, Fachmann).</li>
+          <li><b>Zürich-Nord</b> — Hagenholzstr. 111, 8050 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Merbag%20Hagenholzstrasse%20111%208050%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Zürich-Seefeld</b> — Färberstr. 6, 8008 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Merbag%20F%C3%A4rberstrasse%206%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Schlieren (PW-Zentrum)</b> — Schlieren <a href="https://www.google.com/maps/search/?api=1&amp;query=Mercedes-Benz%20Personenwagen-Zentrum%20Schlieren" target="_blank" rel="noopener">📍</a></li>
         </ul>
-        <h4>Grosse Händlergruppen — am meisten offene Stellen, strukturierte Ausbildung</h4>
+        <p class="muted tiny">Tipp auf einen Namen für die eigene Stellenseite der Garage; tipp auf 📍 für die Karte. Inserate ändern schnell — die Karriereseite bleibt aktuell.</p>
+        <h4>Seine Ziele zuerst — Premium &amp; Sport</h4>
         <ul>
-          <li><a href="https://jobs.emilfrey.ch" target="_blank" rel="noopener"><b>Emil Frey Gruppe</b></a> — Toyota, Lexus, Jaguar, Land Rover u.a. Multi-Brand-Academy; auch der Weg zu Emil Frey Racing.</li>
-          <li><a href="https://hedinautomotive.ch/stellen/" target="_blank" rel="noopener"><b>Hedin Automotive</b></a> — BMW &amp; MINI. Werks-Master-Technician-Ausbildung, Jahresarbeitszeit.</li>
-          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=binelli" target="_blank" rel="noopener"><b>Binelli Gruppe</b></a> — BMW, MINI, Maserati. Moderne, stark digitalisierte Werkstätten, ~12–15 Min.</li>
-          <li><a href="https://thwilly.ch/karriere" target="_blank" rel="noopener"><b>Th. Willy AG</b></a> — Ford (grösster der CH), MG, CUPRA. Grosse Familiengruppe, Schlieren ~10 Min.</li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG</b></a> — Porsche, Audi, VW, Bentley. Porsche Academy → Certified Master Technician. <i>Sucht jetzt Porsche-Mechatroniker.</i></li>
+          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Porsche- &amp; Audi-Spezialist mit eigenen Motorsport- &amp; Classic-Abteilungen. Höri, ~20 Min.</li>
+          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Sauber / Audi F1</b></a> — Formel-1-Fabrik, Hinwil. Trainee-Rennmechaniker-Track. Siehe Tab Motorsport.</li>
+          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Ferrari 296 GT3 (DTM &amp; GTWC), Safenwil. Spontanbewerbung.</li>
         </ul>
-        <h4>Bei Mercedes bleiben — geringste Reibung</h4>
+        <h4>Alle offiziellen Markengaragen in &amp; um Zürich</h4>
+        <p class="muted tiny">Tipp auf 📍 für den Standort. Wo die offizielle Vertretung AMAG oder Emil Frey ist, steht es dabei.</p>
+        <h4>BMW · MINI</h4>
         <ul>
-          <li><a href="https://www.jobs.ch/de/stellenangebote/?term=merbag" target="_blank" rel="noopener"><b>Merbag</b></a> — Mercedes-Benz / AMG. Interner Wechsel über Teams oder Standorte; er kennt Werkstatt und Tools (Xentry, WIS) bereits.</li>
+          <li><a href="https://jobs.binelli-group.ch" target="_blank" rel="noopener"><b>Binelli Automobile AG</b></a> — Badenerstr. 527, 8048 Zürich (+ Adliswil) <a href="https://www.google.com/maps/search/?api=1&amp;query=Binelli%20Automobile%20Badenerstrasse%20527%208048%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://hedinautomotive.ch/stellen/" target="_blank" rel="noopener"><b>Hedin Automotive</b></a> — Dielsdorf &amp; Samstagern — BMW/MINI <a href="https://www.google.com/maps/search/?api=1&amp;query=Hedin%20Automotive%20Dielsdorf" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Stehli &amp; Fischer AG</b> — Ottenweg 11, 8008 Zürich (Seefeld) <a href="https://www.google.com/maps/search/?api=1&amp;query=Stehli%20Fischer%20Ottenweg%2011%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
         </ul>
-        <h4>Motorsport</h4>
+        <h4>VW · Audi · Škoda · SEAT · Cupra (AMAG)</h4>
         <ul>
-          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Sauber / Audi F1</b></a> — Formel-1-Fabrik in Hinwil, ~35 Min. Trainee-Rennmechaniker-Track für Einsteiger. Siehe Tab Motorsport.</li>
-          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Ferrari 296 GT3 in DTM &amp; GTWC, Safenwil. Spontanbewerbung über die Händlergruppe.</li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Autowelt</b></a> — Dübendorf — alle Marken <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Autowelt%20Z%C3%BCrich%20D%C3%BCbendorf" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Letzigrund</b></a> — Rautistr. 23, 8047 Zürich — Audi/SEAT/Cupra <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Letzigrund%20Rautistrasse%2023%208047%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Utoquai</b></a> — Utoquai 47/49, 8008 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Utoquai%2047%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>AMAG Altstetten</b></a> — Vulkanstr. 120, 8048 Zürich — VW/Škoda <a href="https://www.google.com/maps/search/?api=1&amp;query=AMAG%20Altstetten%20Vulkanstrasse%20120%208048%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
         </ul>
-        <p class="muted tiny">Option öffentlicher Fuhrpark: Werkstatt Kanton Zürich, Urdorf (~12 Min) — geregelte Stunden, auf jobs.ch ausgeschrieben.</p>`,
+        <h4>Porsche</h4>
+        <ul>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>Porsche Zentrum Zürich</b></a> — Schlieren <a href="https://www.google.com/maps/search/?api=1&amp;query=Porsche%20Zentrum%20Z%C3%BCrich%20Schlieren" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://jobs.amag-group.ch" target="_blank" rel="noopener"><b>Porsche Center Seefeld</b></a> — Dufourstr., 8008 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Porsche%20Seefeld%20Dufourstrasse%208008%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Toyota · Lexus</h4>
+        <ul>
+          <li><b>Allmend Automobile AG</b> — Zwirnerstr. 316, 8041 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Allmend%20Automobile%20Zwirnerstrasse%20316%208041%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Garage Illi AG</b> — Birmensdorf <a href="https://www.google.com/maps/search/?api=1&amp;query=Garage%20Illi%20Birmensdorf%20Toyota" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Toyota Garage Harlacher AG</b> — Winkel <a href="https://www.google.com/maps/search/?api=1&amp;query=Toyota%20Harlacher%20Winkel" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Ford</h4>
+        <ul>
+          <li><a href="https://thwilly.ch/karriere" target="_blank" rel="noopener"><b>Th. Willy AG</b></a> — Zürcherstr. 145, Schlieren — Ford/MG/Cupra <a href="https://www.google.com/maps/search/?api=1&amp;query=Th%20Willy%20Z%C3%BCrcherstrasse%20145%20Schlieren" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Ford Garage Zürich Nord</b> — 8050 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Ford%20Garage%20Z%C3%BCrich%20Nord%208050" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Volvo</h4>
+        <ul>
+          <li><b>Volvo Cars Zurich</b> — Husacherstr. 1, Wallisellen <a href="https://www.google.com/maps/search/?api=1&amp;query=Volvo%20Cars%20Zurich%20Husacherstrasse%201%20Wallisellen" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Kehlhof Garage</b> — Steinmaur <a href="https://www.google.com/maps/search/?api=1&amp;query=Kehlhof%20Garage%20Steinmaur%20Volvo" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Tesla</h4>
+        <ul>
+          <li><b>Tesla Center Schlieren</b> — Brandstr., Schlieren — Service <a href="https://www.google.com/maps/search/?api=1&amp;query=Tesla%20Center%20Schlieren%20Brandstrasse" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Tesla Store Pelikanstrasse</b> — 8001 Zürich — nur Verkauf <a href="https://www.google.com/maps/search/?api=1&amp;query=Tesla%20Store%20Pelikanstrasse%208001%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Hyundai</h4>
+        <ul>
+          <li><b>Garage Stoop</b> — Schlieren <a href="https://www.google.com/maps/search/?api=1&amp;query=Garage%20Stoop%20Schlieren%20Hyundai" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Wallishauser AG</b> — Adlikon b. Regensdorf <a href="https://www.google.com/maps/search/?api=1&amp;query=Wallishauser%20Adlikon%20Regensdorf%20Hyundai" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Renault</h4>
+        <ul>
+          <li><b>Renault RRG Albisriederplatz</b> — Badenerstr. 330, 8004 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Renault%20RRG%20Badenerstrasse%20330%208004%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Renault RRG Glattpark</b> — Opfikon <a href="https://www.google.com/maps/search/?api=1&amp;query=Renault%20RRG%20Glattpark%20Opfikon" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Garage Ofner AG</b> — Mööslistr. 1, 8038 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Garage%20Ofner%20M%C3%B6%C3%B6slistrasse%201%208038%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Kia</h4>
+        <ul>
+          <li><a href="https://jobs.emilfrey.ch" target="_blank" rel="noopener"><b>Emil Frey Zürich Nord (Kia)</b></a> — Thurgauerstr. 35, 8050 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Emil%20Frey%20Z%C3%BCrich%20Nord%20Thurgauerstrasse%2035%208050" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Opel</h4>
+        <ul>
+          <li><b>Ernst Ruckstuhl Automobile AG</b> — Brunaustr. 89, 8002 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Ernst%20Ruckstuhl%20Brunaustrasse%2089%208002%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Peugeot</h4>
+        <ul>
+          <li><b>Rütli Garage AG</b> — Dietlikon <a href="https://www.google.com/maps/search/?api=1&amp;query=R%C3%BCtli%20Garage%20Dietlikon%20Peugeot" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Honda</h4>
+        <ul>
+          <li><b>Honda Automobile Zürich</b> — Letzigraben 77, 8003 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Honda%20Automobile%20Letzigraben%2077%208003%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Fiat</h4>
+        <ul>
+          <li><b>Häusermann Automobile AG</b> — Bernerstr. Nord 188, 8048 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=H%C3%A4usermann%20Automobile%20Bernerstrasse%20Nord%20188%208048%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Kalchbühl-Garage AG</b> — Thujastr. 4, 8038 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Kalchb%C3%BChl%20Garage%20Thujastrasse%204%208038%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <h4>Citroën</h4>
+        <ul>
+          <li><b>Auto Center Wiedikon</b> — Steinstr. 21, 8003 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Auto%20Center%20Wiedikon%20Steinstrasse%2021%208003%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
+        </ul>        <p class="muted tiny">Gut zu wissen: Thurgauerstr. 35 (Zürich-Nord) ist der grosse Emil-Frey-Campus — Kia, Opel &amp; Peugeot teilen ihn. Die Schlieren-Achse bündelt Mercedes, Porsche, Ford, Hyundai &amp; Tesla wenige Minuten auseinander. Option öffentlicher Fuhrpark: Werkstatt Kanton Zürich, Urdorf (~12 Min), auf jobs.ch.</p>`,
       career_html: `
         <h4>Wohin dich dieser Beruf bringen kann</h4>
         <p>Das Schweizer System ist auf Aufstieg in Etappen gebaut. Der Lohn steigt in den ersten fünf Jahren am schnellsten (20–30%), flacht dann ab, wenn du rein an den Tools bleibst — genau dafür gibt es diese Wege.</p>
@@ -435,6 +582,15 @@
       known: "Deine Geräte", none_known: "Noch keine Geräte. Oben hinzufügen.",
       online: "verbunden", offline: "offline", forget: "Entfernen", save: "Speichern",
       code_self: "Das ist der Code dieses Geräts.",
+      qr_hint: "Am anderen Gerät: diesen QR scannen oder den geteilten Link öffnen. Auf dem iPhone zuerst die App öffnen und auf „Code scannen“ tippen.",
+      share_link: "🔗 Link teilen", copy_link: "Link kopieren",
+      link_copied: "Kopplungs-Link kopiert — auf dem anderen Gerät öffnen.",
+      share_text: "Koppeln mit meinem Pole-Position-Jobboard",
+      scan_btn: "📷 Code scannen", scan_title: "Anderes Gerät scannen",
+      scan_hint: "Richte die Kamera auf den QR-Code des anderen Geräts.",
+      cam_fail: "Kamera liess sich nicht öffnen. Gib den Code unten ein oder füge ihn ein.", cancel: "Abbrechen",
+      pairing_in: "Koppeln… verbinde mit dem anderen Gerät.",
+      pair_self: "Dieser Link ist der Code dieses Geräts.",
     },
     conn: { connected: "● Live: {name}", connected_n: "● {n} verbunden", disconnected: "Nicht verbunden", live: "Synchronisiert ✓" },
     toast: {

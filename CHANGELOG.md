@@ -3,6 +3,28 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.11.0 — 2026-06-27
+
+Turns the Guide's **Employers** tab into a complete Zürich brand-garage directory, broadens the job
+search to every brand, and expands the seed board — plus the in-app QR pairing scanner.
+
+- **Guide → Employers = full official brand directory.** Rewritten (EN + DE) to lead with **Merbag**
+  (where Ben trained — start here, with its Zürich-Nord / Seefeld / Schlieren sites), then his premium
+  targets, then **every official brand garage in & around Zürich** (BMW·MINI, VW/Audi/Škoda/SEAT/Cupra,
+  Porsche, Toyota/Lexus, Ford, Volvo, Tesla, Hyundai, Renault, Kia, Opel, Peugeot, Honda, Fiat,
+  Citroën). Each location has a **📍 Google Maps link**; brand names link to the careers page.
+- **Eight new verified leads (links checked live 2026-06-27), Merbag first.** 4× Merbag (Zollikon
+  Fachmann/Mechatroniker — favourite; Schlieren Diagnostiker; Schlieren Nutzfahrzeuge; Zürich
+  Lastwagen), AMAG Kloten, Hedin Automotive Dielsdorf + Samstagern (BMW/MINI — now on the board), and
+  Th. Willy Schlieren (Ford). Synced into `jobs-feed.json` (feed⊆seed contract) and wired to the
+  Merbag / Herr Gut contacts. Board now seeds 21 leads.
+- **Job-search prompt broadened** (`prompt/job-search.md`): Merbag's own portal (`jobs.merbag.com`)
+  is now check-first, a full brand-garage directory (§3c) mirrors the Guide, and §3b runs a search
+  term per brand.
+- **In-app QR scanner overlay** for device pairing (the reliable path on an installed iPhone), and a
+  sync fix: `addDevice` now remembers the device synchronously so a pair isn't dropped when a peer is
+  already starting.
+
 ## v1.10.0 — 2026-06-27
 
 Moves the first-install starting data out of the app code, and adds Ben's Merbag campaign.
