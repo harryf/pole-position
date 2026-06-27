@@ -262,7 +262,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/seed-data.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.11.0";
+const APP_VERSION = "1.11.1";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -666,7 +666,10 @@ function addDevice(code){ code=(code||'').trim(); if(!code) return toast(t('sync
   // peer.on('open') connects every known device, so remembering first guarantees
   // the connection once the broker is up; connectTo now covers the already-open case.
   rememberDevice(code, code); toast(t('toast.device_added'));
-  startPeer(()=>connectTo(code)); connectTo(code);
+  // Connect exactly once: if the broker is already up, now; otherwise peer.on('open')
+  // connects every known device (we just remembered this one). Avoids the double
+  // DataConnection that startPeer-cb + trailing connectTo would open on the open path.
+  if(peer && peer.open) connectTo(code); else startPeer();
   setTimeout(()=>{ if($('#deviceList')) renderDeviceList(); },300); }
 function renderDeviceList(){
   const el=$('#deviceList'); if(!el) return; const k=state.settings.knownDevices||[];
@@ -715,15 +718,19 @@ function openSync(){
    reliable installed path is the in-app scanner: open the app, tap Scan, point
    at the other device's QR. jsQR (already vendored) decodes it in-app. */
 function pairUrl(id){ return location.origin+location.pathname+'?pair='+encodeURIComponent(id||state.settings.deviceId); }
-function extractPairId(s){ s=(s||'').trim(); const m=s.match(/[?&]pair=([^&\s]+)/);
-  if(m){ try{ return decodeURIComponent(m[1]); }catch(e){ return m[1]; } }
-  if(/^pp-[a-z0-9]+$/i.test(s)) return s; return null; }
+function extractPairId(s){ s=(s||'').trim(); let id=s; const m=s.match(/[?&]pair=([^&\s]+)/);
+  if(m){ try{ id=decodeURIComponent(m[1]); }catch(e){ id=m[1]; } }
+  // validate BOTH branches to the device-id shape so a crafted QR/link can't
+  // push a junk id into knownDevices.
+  return /^pp-[a-z0-9]+$/i.test(id) ? id : null; }
 async function sharePairLink(){ const url=pairUrl();
   if(navigator.share){ try{ await navigator.share({title:'Pole Position', text:t('sync.share_text'), url}); return; }catch(e){ if(e&&e.name==='AbortError') return; } }
   if(navigator.clipboard&&navigator.clipboard.writeText){ try{ await navigator.clipboard.writeText(url); toast(t('sync.link_copied')); return; }catch(e){} }
   try{ prompt(t('sync.copy_link'),url); }catch(e){} }
-let _scanStream=null, _scanRAF=0;
+let _scanStream=null, _scanRAF=0, _scanOpening=false;
 async function openScanner(){
+  if(_scanOpening) return;            // ignore rapid re-taps during camera setup
+  _scanOpening=true; closeScanner();  // tear down any prior scan first (double-tap safe)
   let ov=$('#scanOv');
   if(!ov){ ov=document.createElement('div'); ov.id='scanOv'; ov.className='scan';
     ov.innerHTML=`<div class="scanhd"><b>${t('sync.scan_title')}</b><button class="btn sm" id="scanX">${t('sync.cancel')}</button></div>
@@ -732,9 +739,12 @@ async function openScanner(){
     document.body.appendChild(ov); $('#scanX',ov).onclick=closeScanner; }
   ov.classList.add('on');
   const video=$('#scanVid',ov);
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ toast(t('sync.cam_fail')); closeScanner(); return; }
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ _scanOpening=false; toast(t('sync.cam_fail')); closeScanner(); return; }
   try{ _scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}}}); }
-  catch(e){ toast(t('sync.cam_fail')); closeScanner(); return; }
+  catch(e){ _scanOpening=false; toast(t('sync.cam_fail')); closeScanner(); return; }
+  _scanOpening=false;
+  // if the user cancelled while the camera was being acquired, stop the live tracks now
+  if(!ov.classList.contains('on')){ try{ _scanStream.getTracks().forEach(tr=>tr.stop()); }catch(e){} _scanStream=null; return; }
   video.srcObject=_scanStream; try{ await video.play(); }catch(e){}
   const canvas=document.createElement('canvas'), ctx=canvas.getContext('2d',{willReadFrequently:true});
   const tick=()=>{
@@ -754,6 +764,7 @@ async function openScanner(){
 function closeScanner(){ const ov=$('#scanOv'); if(ov) ov.classList.remove('on');
   if(_scanRAF){ cancelAnimationFrame(_scanRAF); _scanRAF=0; }
   if(_scanStream){ try{ _scanStream.getTracks().forEach(tr=>tr.stop()); }catch(e){} _scanStream=null; } }
+// note: _scanOpening is reset by openScanner's own resolve/catch paths
 // Boot: if opened via …/?pair=<id>, strip it from the URL and auto-connect.
 function handlePairParam(){
   let id=null; try{ id=new URLSearchParams(location.search).get('pair'); }catch(e){}

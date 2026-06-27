@@ -3,6 +3,19 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.11.1 — 2026-06-27
+
+Hardens the new QR/link device pairing (follow-up to v1.11.0, from a code review).
+
+- **No double connection:** when the broker was already up, adding/scanning a device opened **two**
+  WebRTC channels (callback + a redundant connect); now it connects exactly once.
+- **Camera never left running:** cancelling the scanner *while the camera was being granted*, or
+  double-tapping Scan, could leak a live camera track. The stream is now always stopped and a second
+  scan can't start mid-acquisition.
+- **Pairing code is validated:** a scanned QR / `?pair=` link must match the device-id shape
+  (`pp-…`) on both the URL and raw-id paths, so a crafted code can't push junk into your device list.
+- Pairing itself unchanged and re-verified live (two browsers still pair bidirectionally over WebRTC).
+
 ## v1.11.0 — 2026-06-27
 
 Turns the Guide's **Employers** tab into a complete Zürich brand-garage directory, broadens the job

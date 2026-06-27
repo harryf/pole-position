@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: complete
-progress: 136/136
+progress: 148/148
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -514,3 +514,49 @@ first-install-only and `migrate()` is untouched, Ben's existing phone install wi
 receive the 4 new tasks + Herr Gut contact. Options: (a) leave first-install-only and have Ben pull
 them another way; (b) add a one-shot stable-id backfill in `migrate()` (add-only-if-never-seen, so
 deletes still stick) so existing installs gain them once. Awaiting Harry's decision before deploy.
+
+### v1.11.0 Verification (QR/link device pairing + in-app scanner) — `node tests/run.mjs` → 66/66
+
+The pairing QR encoded the bare `deviceId`, so a phone camera read it as plain text → web search. Fixed:
+the QR + a share link now carry `…/?pair=<id>`; a boot handler auto-connects; an in-app jsQR scanner is
+the reliable path for an installed iPhone (iOS won't open an installed PWA from an external link).
+
+- **ISC-137** (reproduce): QR encoded `state.settings.deviceId` (raw `pp-…`) at the old `new QRCode(...)`
+  — camera offers a search, not a connect. ✓ (root cause from source.)
+- **ISC-138**: `pairUrl()` returns `origin+pathname+?pair=<id>` — live: `http://localhost:8742/?pair=<myId>`,
+  ends with the encoded id. ✓
+- **ISC-139**: QR now encodes the pair URL (180px, level M) — live: QR rendered in the sync sheet. ✓
+- **ISC-140**: `extractPairId` parses a `?pair=` URL → id, a raw `pp-…` id → itself, and garbage → null —
+  live: all three cases correct. ✓
+- **ISC-141**: `?pair=` boot handler strips the param (`history.replaceState`) and does not re-fire on
+  reload — live: `location.search==='' ` after open. ✓
+- **ISC-142**: Anti: self-pair guard — opening one's own pair link / scanning own QR does not connect
+  (toasts `pair_self`). ✓ (guard present in both paths.)
+- **ISC-143** (the headline): two devices pair LIVE via the link — tab B (origin :8743) opened
+  `…/?pair=<A-id>`; **both** ended `● 1 connected`, B remembers A and A remembers B, and state synced
+  (both reached 21 leads). Bidirectional WebRTC over the public broker. ✓
+- **ISC-144** (the fix): `addDevice` remembers the device synchronously (was inside `startPeer`'s open
+  callback, which is dropped when a peer is already starting — that race made the first ?pair attempt
+  leave `knownDevices` empty). After the fix the pair connects. ✓
+- **ISC-145**: In-app scanner — `jsQR` loaded, Scan button opens the overlay, and a denied/absent camera
+  falls back gracefully (toast "Couldn't open the camera… paste the code instead", overlay closes,
+  stream/rAF torn down). ✓ Live camera-decode of a real QR is **[DEFERRED-VERIFY]** — needs Ben's device
+  (no camera in this env). Follow-up: on-device pairing test (iPhone-PWA ↔ Windows).
+- **ISC-146**: Share/Copy link buttons present and wired (`navigator.share` → clipboard → prompt
+  fallback) + i18n keys in en + de (parity test green). ✓
+- **ISC-147**: APP_VERSION + SW VERSION shipped (pairing in v1.11.0; hardening below in v1.11.1). ✓
+- **ISC-148** (v1.11.1, post-review hardening — Forge): no double WebRTC connection on the broker-open
+  path (`addDevice` connects once); the camera stream is always stopped (cancel-mid-acquisition +
+  double-tap guarded); and a scanned/linked pair id is validated to the `pp-…` shape on both branches
+  so junk can't enter `knownDevices`. Pairing re-verified live (two browsers still pair bidirectionally).
+  ✓
+
+**Decision (v1.11.0):** *the in-app scanner is the load-bearing path for an installed iPhone; the link is
+a desktop/Android convenience.* iOS never routes an external `https://…` link to an installed home-screen
+PWA — it opens Safari, a separate storage partition — so a pair *link* can't reach the installed app's
+data. The vendored-but-unused `jsQR` is exactly the in-app decoder for it. **Known real-world caveats
+surfaced to Harry (advisor):** (1) **NAT/TURN** — PeerJS sync is STUN-only; the live test was two browsers
+on one machine, so a real iPhone-on-cellular ↔ Windows-behind-a-router pair may fail without a TURN relay
+(pre-existing transport limitation, not introduced here). (2) The pair id is the persistent device id (no
+TTL/single-use) — fine for a personal job board, but the QR/link is semi-private. Neither blocks this fix;
+both are follow-ups if cross-network pairing proves flaky on Ben's hardware.
