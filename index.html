@@ -63,6 +63,8 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
 .row{display:flex;gap:10px;align-items:center}
 .pill{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.hot{background:#ff3b30;border-color:#ff3b30;color:#fff;font-weight:700}
+.pill.warm{background:#ff9f0a;border-color:#ff9f0a;color:#1a1a1a;font-weight:700}
 .pill.help{border-color:rgba(31,224,200,.45);color:var(--accent)}
 .chkrow{display:flex;align-items:center;gap:9px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
 .chkrow:last-child{border-bottom:0}.chkrow input{width:auto;flex:0 0 auto;margin:0}
@@ -230,7 +232,7 @@ h2.sec{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing
 <script src="src/i18n.js"></script>
 <script>
 "use strict";
-const APP_VERSION = "1.7.0";
+const APP_VERSION = "1.8.0";
 const KEY = "pole_position_v1";
 const S = window.PP_SYNC, I = window.PP_I18N;
 const t = (k,v)=>I.t(k,v);
@@ -244,11 +246,49 @@ const XP = {task:10, advance:15, debrief:20, lead:5};
 
 let state = load();
 function load(){ try{ const raw=localStorage.getItem(KEY); if(raw) return migrate(JSON.parse(raw)); }catch(e){} return seed(); }
-function migrate(s){ s.settings=s.settings||{}; if(!s.settings.lang) s.settings.lang='en'; s.debriefs=s.debriefs||[]; s.contacts=s.contacts||[]; s.tasks=s.tasks||[]; (s.contacts||[]).forEach(c=>{ if(!Array.isArray(c.helpsWith)) c.helpsWith=[]; }); return s; }
+function migrate(s){ s.settings=s.settings||{}; if(!s.settings.lang) s.settings.lang='en'; s.debriefs=s.debriefs||[]; s.contacts=s.contacts||[]; s.tasks=s.tasks||[]; (s.contacts||[]).forEach(c=>{ if(!Array.isArray(c.helpsWith)) c.helpsWith=[]; }); (s.leads||[]).forEach(l=>{ if(!l.hotness) l.hotness=hotnessFor(l); }); return s; }
 function helpersForLead(id){ return S.live(state.contacts).filter(c=>(c.helpsWith||[]).includes(id)); }
 function helpCount(c){ return (c.helpsWith||[]).filter(id=>state.leads.some(l=>l.id===id&&!l.deleted)).length; }
 function save(){ state.settings.updatedAt=S.nowISO(); localStorage.setItem(KEY, JSON.stringify(state)); if(!_applyingRemote) broadcast(); }
 function touch(r){ r.updatedAt=S.nowISO(); return r; }
+
+// --- Hotness: F1/racing = hot, cool motor brands = medium, standard garage = normal ---
+const HOT_RANK={hot:3,medium:2,normal:1};
+function hotnessFor(l){
+  // Motorsport keywords may appear anywhere; brand keywords must be in the title (company/role),
+  // not in prose notes (e.g. "the old Porsche posting closed" must not make a standard role "warm").
+  const all=(((l&&l.company)||'')+' '+((l&&l.role)||'')+' '+((l&&l.notes)||'')+' '+((l&&l.source)||'')).toLowerCase();
+  if(/\bf1\b|formula|formel|sauber|motorsport|racing|rennmech|gt3|cup car|carrera cup|jenzer|fach auto tech/.test(all)) return 'hot';
+  const title=(((l&&l.company)||'')+' '+((l&&l.role)||'')).toLowerCase();
+  if(/porsche|mercedes|amg|maybach|\bbmw\b|\bmini\b|\baudi\b|ferrari|maserati|lamborghini|bentley|aston martin|toyota|lexus|gazoo|jaguar|land rover/.test(title)) return 'medium';
+  return 'normal';
+}
+function effectiveHotness(l){ return (l&&l.hotness) || hotnessFor(l); }
+
+// --- Remote jobs feed: pull NEW jobs by stable id (never duplicates), add to the board ---
+async function checkJobsFeed(manual){
+  let added=0;
+  try{
+    const res=await fetch('jobs-feed.json?cb='+Date.now(), {cache:'no-store'});
+    if(!res.ok) throw new Error('http '+res.status);
+    const data=await res.json();
+    const jobs=(data&&data.jobs)||[];
+    for(const j of jobs){
+      if(!j||!j.id) continue;
+      if(state.leads.some(l=>l.id===j.id)) continue; // already present (live or deleted) → skip
+      const lead=Object.assign({stage:'researching',priority:3,favourite:false,hotness:'',contacts:[],notes:'',link:'',location:'',salary:'',source:'feed',role:'',company:''}, j, {updatedAt:S.nowISO(),deleted:false});
+      if(!lead.hotness) lead.hotness=hotnessFor(lead);
+      state.leads.push(lead); added++;
+    }
+    state.settings.lastFeedCheck=S.nowISO();
+    if(added){ save(); render(); }
+    if(manual) toast(added? t('toast.feed_added',{n:added}) : t('toast.feed_none'));
+  }catch(e){
+    if(manual) toast(t('toast.feed_err'));
+    return -1;
+  }
+  return added;
+}
 
 function seed(){
   // STABLE deterministic ids: identical on every device, so a first-time sync merges
@@ -273,6 +313,9 @@ function seed(){
     mk('seed-lead-porsche-zug',{company:'Porsche Zentrum Zug (Risch AG)',role:'Automobil-Mechatroniker (m/w/d)',link:'https://dealer.porsche.com/ch/zug/de-CH/wir-ueber-uns/jobs-und-karriere/automobil-mechatroniker-mwd',location:'Rotkreuz, ZG — ~35 Min',salary:"CHF 5'000–6'650 / Mt",source:'Porsche Zug',favourite:false,priority:4,stage:'applied',nextAction:'Bewerbung warm halten — nachfassen',nextDue:isoIn(7),contacts:[],notes:'Bereits beworben. Hochmargiges Porsche-Zentrum. Hinweis: Einarbeitung in Rotkreuz, danach fixe Stelle in Kriens (LU) ab Q4 2026.'}),
     mk('seed-lead-emilfreyracing',{company:'Emil Frey Racing',role:'No. 2 Mechanic (Rennmechaniker) — Ferrari 296 GT3',link:'https://talents.studysmarter.de/companies/emil-frey-racing/no-2-mechanic-23022473/',location:'Safenwil, AG — ~45 Min',salary:'€42k–60k (CHF-äquiv.)',source:'emilfreyracing.com',favourite:false,priority:3,stage:'researching',nextAction:'Spontanbewerbung — AMG + Getriebe-Erfahrung betonen',nextDue:'',contacts:[],notes:'GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt.'}),
   ];
+  // Hotness: motorsport = hot, premium/cool brand = medium, standard garage = normal (rest auto-classified).
+  const HOT_OVERRIDE={'seed-lead-sauber-f1':'hot','seed-lead-sportec':'hot','seed-lead-emilfreyracing':'hot','seed-lead-amag-porsche-zh':'medium','seed-lead-porsche-zug':'medium'};
+  leads.forEach(l=>{ l.hotness=HOT_OVERRIDE[l.id]||hotnessFor(l); });
   return {
     leads,
     tasks:[
@@ -371,7 +414,7 @@ function dueInfo(due){ if(!due) return {cls:'',txt:''};
 }
 function renderBoard(){
   $('#board').innerHTML=STAGE_KEYS.map(k=>{
-    const col=stageColor(k), leads=S.live(state.leads).filter(l=>l.stage===k).sort((a,b)=>(b.favourite-a.favourite)||(b.priority||0)-(a.priority||0));
+    const col=stageColor(k), leads=S.live(state.leads).filter(l=>l.stage===k).sort((a,b)=>(HOT_RANK[effectiveHotness(b)]-HOT_RANK[effectiveHotness(a)])||(b.favourite-a.favourite)||(b.priority||0)-(a.priority||0));
     return `<div class="col" data-stage="${k}"><h3><span class="dot" style="background:${col}"></span>${t('stages.'+k+'.label')}<span class="ct">${leads.length}</span></h3>
       <div class="tip">${t('stages.'+k+'.tip')}</div>${leads.map(leadCard).join('')}</div>`;}).join('');
   wireBoard();
@@ -380,7 +423,7 @@ function leadCard(l){ const col=stageColor(l.stage);
   const opts=STAGE_KEYS.map(k=>`<option value="${k}" ${k===l.stage?'selected':''}>${t('stages.'+k+'.label')}</option>`).join('');
   return `<div class="lead ${l.favourite?'fav':''}" draggable="true" data-id="${l.id}" style="border-left-color:${col}">
     <div class="co">${l.favourite?'<span class="flagstar">★</span>':''}${esc(l.company)}</div><div class="ro">${esc(l.role||'')}</div>
-    <div class="lr"><span class="stg" style="background:${col}22;color:${col}">${t('stages.'+l.stage+'.label')}</span>${l.location?`<span class="pill">${esc(l.location)}</span>`:''}${(()=>{const n=helpersForLead(l.id).length;return n?`<span class="pill help" title="${esc(t('board.help',{n}))}">🤝 ${n}</span>`:'';})()}</div>
+    <div class="lr">${(()=>{const h=effectiveHotness(l);return h==='hot'?`<span class="pill hot">🔥 ${t('hot.hot')}</span>`:h==='medium'?`<span class="pill warm">${t('hot.medium')}</span>`:'';})()}<span class="stg" style="background:${col}22;color:${col}">${t('stages.'+l.stage+'.label')}</span>${l.location?`<span class="pill">${esc(l.location)}</span>`:''}${(()=>{const n=helpersForLead(l.id).length;return n?`<span class="pill help" title="${esc(t('board.help',{n}))}">🤝 ${n}</span>`:'';})()}</div>
     <div class="lr"><select class="mv" data-move="${l.id}">${opts}</select>${l.link?`<a class="btn sm lnk" href="${attr(l.link)}" target="_blank" rel="noopener" title="${attr(t('lead.view_posting'))}" draggable="false">↗</a>`:''}<button class="btn sm" data-open="${l.id}">${t('board.open')}</button></div></div>`;
 }
 function renderTasks(){
@@ -437,6 +480,7 @@ function openLead(id){
       <div><label class="fld">${t('lead.salary')}</label><input id="f_salary" value="${attr(l.salary)}"></div></div>
     <div class="grid2"><div><label class="fld">${t('lead.stage')}</label><select id="f_stage">${STAGE_KEYS.map(k=>`<option value="${k}" ${k===l.stage?'selected':''}>${t('stages.'+k+'.label')}</option>`).join('')}</select></div>
       <div><label class="fld">${t('lead.priority')}</label><input id="f_priority" type="number" min="1" max="5" value="${l.priority||3}"></div></div>
+    <label class="fld">${t('lead.hotness')}</label><select id="f_hotness">${['hot','medium','normal'].map(h=>`<option value="${h}" ${h===effectiveHotness(l)?'selected':''}>${t('hot.'+h)}</option>`).join('')}</select>
     <label class="fld"><input type="checkbox" id="f_fav" ${l.favourite?'checked':''} style="width:auto;margin-right:6px">${t('lead.fav')}</label>
     <div class="grid2"><div><label class="fld">${t('lead.next')}</label><input id="f_next" value="${attr(l.nextAction)}"></div>
       <div><label class="fld">${t('lead.due')}</label><input id="f_nextDue" type="date" value="${attr(l.nextDue)}"></div></div>
@@ -456,7 +500,7 @@ function openLead(id){
 function persistLead(l,awardNew){ const g=id=>$('#'+id); const existed=state.leads.some(x=>x.id===l.id);
   l.company=g('f_company').value.trim(); l.role=g('f_role').value.trim(); l.link=g('f_link').value.trim();
   l.location=g('f_location').value.trim(); l.salary=g('f_salary').value.trim(); l.stage=g('f_stage').value;
-  l.priority=+g('f_priority').value||3; l.favourite=g('f_fav').checked; l.nextAction=g('f_next').value.trim();
+  l.priority=+g('f_priority').value||3; l.favourite=g('f_fav').checked; l.hotness=g('f_hotness').value; l.nextAction=g('f_next').value.trim();
   l.nextDue=g('f_nextDue').value; l.notes=g('f_notes').value.trim(); touch(l);
   const hb=$('#l_helpers'); if(hb){ $$('.lhelp',hb).forEach(chk=>{ const c=state.contacts.find(x=>x.id===chk.dataset.cid); if(!c) return; c.helpsWith=c.helpsWith||[]; const has=c.helpsWith.includes(l.id); if(chk.checked&&!has){ c.helpsWith.push(l.id); touch(c); } else if(!chk.checked&&has){ c.helpsWith=c.helpsWith.filter(x=>x!==l.id); touch(c); } }); }
   if(!existed){ state.leads.push(l); if(awardNew) award('lead'); } save(); render();
@@ -527,7 +571,8 @@ function openMenu(){
       <button class="btn" id="m_export">${t('menu.export')}</button><button class="btn" id="m_import">${t('menu.import')}</button>
       <button class="btn go" id="m_sync">${t('menu.pair')}</button><button class="btn" id="m_cleanup">${t('menu.cleanup')}</button>${standalone?'':`<button class="btn" id="m_install">${t('menu.install')}</button>`}</div>
     <input type="file" id="m_file" accept="application/json" style="display:none">
-    <button class="btn" id="m_update" style="width:100%;margin-top:12px">${t('menu.check_updates')}</button>
+    <button class="btn go" id="m_feed" style="width:100%;margin-top:12px">${t('menu.check_jobs')}</button>
+    <button class="btn" id="m_update" style="width:100%;margin-top:8px">${t('menu.check_updates')}</button>
     <p class="muted tiny" style="margin-top:12px">${t('menu.footer',{v:APP_VERSION})}</p>`);
   $('#m_lang').onchange=e=>{ state.settings.lang=e.target.value; I.setLang(state.settings.lang); save(); render(); openMenu(); };
   $('#m_theme').onchange=e=>{ state.settings.theme=e.target.value; save(); render(); };
@@ -536,6 +581,7 @@ function openMenu(){
   $('#m_sync').onclick=openSync;
   $('#m_cleanup').onclick=()=>{ if(!confirm(t('confirm.cleanup'))) return; const n=cleanupDuplicates(); render(); toast(n?t('toast.cleaned',{n}):t('toast.cleaned_none')); };
   $('#m_update').onclick=()=>checkForUpdates(true);
+  $('#m_feed').onclick=()=>checkJobsFeed(true);
   if($('#m_install')) $('#m_install').onclick=()=>{ closeSheet(); showInstall(true); };
 }
 function exportJSON(){ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
@@ -711,6 +757,9 @@ render();
 setTimeout(()=>showInstall(false), 900);
 // auto-reconnect to remembered devices on open
 if(state.settings.knownDevices.length) setTimeout(()=>startPeer(), 400);
+// auto-check the jobs feed for new positions (throttled to ~once every 12h)
+(()=>{ const last=state.settings.lastFeedCheck; const stale=!last || (Date.now()-new Date(last).getTime())>12*3600e3;
+  if(stale) setTimeout(()=>checkJobsFeed(false), 1800); })();
 window.PP={state:()=>state, t, reset:()=>{localStorage.removeItem(KEY);location.reload();}, showInstall:()=>showInstall(true), cleanup:cleanupDuplicates};
 </script>
 </body>

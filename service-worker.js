@@ -6,7 +6,7 @@
    ========================================================================= */
 
 // Bump on every release. MUST match the in-app APP_VERSION constant in index.html.
-const VERSION = "1.7.0";
+const VERSION = "1.8.0";
 const CACHE = "pole-position-v" + VERSION;
 
 // Let the page force a waiting worker to activate ("Check for updates" button).
@@ -61,6 +61,8 @@ self.addEventListener("fetch", (event) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return; // sync brokers are reached by PeerJS, not fetch
+  // The jobs feed must always be fresh — never serve it from cache.
+  if (url.pathname.endsWith("jobs-feed.json")) { event.respondWith(fetch(req).catch(() => new Response("{}", { headers: { "Content-Type": "application/json" } }))); return; }
 
   event.respondWith(
     (async () => {

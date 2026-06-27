@@ -1,8 +1,9 @@
 // Test runner. Aggregates suites and exits non-zero on any failure (CI gate).
 import merge from "./merge.test.mjs";
 import i18n from "./i18n.test.mjs";
+import feed from "./feed.test.mjs";
 
-const suites = [{ name: "merge", ...merge }, { name: "i18n", ...i18n }];
+const suites = [{ name: "merge", ...merge }, { name: "i18n", ...i18n }, { name: "feed", ...feed }];
 let pass = 0,
   fail = 0;
 for (const s of suites) {

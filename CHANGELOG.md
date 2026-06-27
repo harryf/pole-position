@@ -3,6 +3,23 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.8.0 — 2026-06-27
+
+Two features: a remote **jobs feed** (incoming queue) and a **hotness** scale.
+
+- **Jobs feed:** the app pulls new positions from `jobs-feed.json` (hosted on GitHub Pages) — on open
+  (throttled to ~once every 12 h) and on demand via **Menu → 🔥 Check for new jobs**. Each job carries
+  a **stable `id`**; the app only adds ids it hasn't seen, so re-publishing the feed **never creates
+  duplicates** (and a job you deleted won't come back). New jobs sync onward to paired devices by the
+  same id, so there are no cross-device duplicates either. To push new jobs to Ben, just edit the feed
+  file (see `prompt/job-search.md` for how to find + format them). The feed is always fetched fresh
+  (the service worker never caches it).
+- **Hotness scale + auto-sort:** every job is rated **🔥 Hot** (Formula One / racing / motorsport),
+  **Warm** (cool motor brands — Porsche, Mercedes/AMG, BMW, Audi, Ferrari, Toyota…), or normal
+  (standard garage). The board shows the indicator on each card and **auto-sorts hottest-first** within
+  every stage (then favourites, then priority). Hotness is editable per lead; manually-added leads are
+  auto-classified from the company + role.
+
 ## v1.7.0 — 2026-06-27
 
 Every job link now opens the **actual posting**, not a portal homepage.

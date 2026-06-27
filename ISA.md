@@ -2,7 +2,7 @@
 project: ben-jobs
 effort: E3
 phase: verify
-progress: 106/106
+progress: 116/116
 mode: ALGORITHM
 started: 2026-06-27
 updated: 2026-06-27
@@ -428,3 +428,25 @@ employer's closest live posting AND correct the card (title/location) so the lin
 employer with nothing live (Kanton Zürich) is the sole exception — its official open-positions page,
 flagged as a "watch" item. Doctrine note: real browser extraction beats WebFetch for SPA job portals,
 which silently return homepages.
+
+### v1.8.0 Verification (remote jobs feed + hotness scale) — `node tests/run.mjs` → 42/42
+
+Two features. (1) A remote `jobs-feed.json` the app polls and imports by stable id (anti-duplicate
+incoming queue). (2) A hotness scale (hot/medium/normal) with a card indicator and hottest-first sort.
+
+- **ISC-107**: `jobs-feed.json` exists, `pole-position-feed@1`, 13 jobs, each with a unique stable id — `tests/feed.test.mjs` (9 checks incl. "job ids are unique"). ✓
+- **ISC-108**: App fetches the feed and adds only unseen ids — live: `checkJobsFeed()` returned **0** when all 13 ids already present (dedup), and **13** after emptying `state.leads` (add path). ✓
+- **ISC-109**: Anti: re-importing the feed never duplicates — existence check covers live AND tombstoned ids; same id merges across devices via LWW. ✓ (0-added path proves it.)
+- **ISC-110**: Feed is always fresh — SW serves `jobs-feed.json` network-only (never cached); app fetches with `cache:'no-store'`. ✓
+- **ISC-111**: `Menu → 🔥 Check for new jobs` wired (`#m_feed` → `checkJobsFeed(true)`) + throttled auto-check on open (~12 h). ✓
+- **ISC-112**: Every lead has a `hotness` (hot/medium/normal); seed sets it explicitly, `migrate()` backfills, manual leads auto-classify via `hotnessFor()`. ✓
+- **ISC-113**: Board shows the indicator (🔥 Hot red / Warm amber / none) and **auto-sorts hottest-first** then favourite then priority — live DOM + screenshot: Researching led by Sauber/Sportec (Hot), Porsche Zug shows Warm. ✓
+- **ISC-114**: hotnessFor restricts brand keywords to the title (not notes) so a re-pointed role whose notes mention the old brand stays normal — live: AMAG Dübendorf + Emil Frey Altendorf = normal (was wrongly Warm). ✓
+- **ISC-115**: `hot.*`, `lead.hotness`, `menu.check_jobs`, `toast.feed_*` present in en + de — i18n parity test green. ✓
+- **ISC-116**: APP_VERSION + SW VERSION "1.8.0", CHANGELOG; `prompt/job-search.md` documents the feed format + hotness. ✓ (Deploy/tag pending Harry's go.)
+
+**Decision (v1.8.0):** *feed is additive, keyed by stable id; the board is Ben's source of truth.* The
+feed only ADDS unseen jobs — it never overwrites Ben's stage moves, notes, or deletes. Harry pushes new
+jobs by appending objects with new ids. Seed jobs reuse `seed-lead-*` ids so a fresh install's first
+feed check finds them already present. Hotness: explicit on seed/feed, auto-classified (title-only brand
+match) as fallback.

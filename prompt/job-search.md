@@ -103,7 +103,8 @@ This maps 1:1 to the app's lead schema. Capture every field you can:
 | `salary` | Realistic target band, e.g. "CHF 5'500–6'500 / Mt (Ziel)" | Entry ≈ CHF 5'000–5'600/mo (~65–73k incl. 13th). GAV floor CHF 5'000×13. Premium pays 5–15% more. Leave blank if unknown rather than guess wildly. |
 | `source` | Where you found it, e.g. "AMAG careers", "jobs.ch" | |
 | `favourite` | `true` only for the 2–4 strongest | Premium/sport + close + great fit. |
-| `priority` | 1–5 (5 = top) | Drives board sort. |
+| `priority` | 1–5 (5 = top) | Secondary board sort. |
+| `hotness` | `hot` \| `medium` \| `normal` | **hot** = F1 / racing / motorsport; **medium** = cool motor brand (Porsche, Mercedes/AMG, BMW, Audi, Ferrari, Maserati, Toyota/Lexus…); **normal** = standard garage. The board auto-sorts **hottest-first**. If omitted, the app auto-classifies from company + role. |
 | `stage` | `researching` (default); `applied` if he already applied | Stages: researching, resume, cover, applied, contacted, interviewing, offer, closed. |
 | `nextAction` | The single next move, in German | e.g. "Dossier auf Porsche zuschneiden". |
 | `nextDue` | ISO date `YYYY-MM-DD` | Use real application **deadlines** when the posting states one. |
@@ -177,6 +178,22 @@ Menu → 🧹 dedupes by company+role). Shape:
 Field rules: `nextDue`/`due` are absolute `YYYY-MM-DD` (the import does not compute relative dates).
 Optional fields may be omitted. `priority` 1–5. `task.priority` ∈ {high, med, low}. `task.category`
 ∈ {setup, network, admin, …}. Keep the existing curated `import.example.json` as the canonical example.
+
+### 7b. The live jobs feed — `pole-position-feed@1` (preferred for ongoing updates)
+
+`jobs-feed.json` at the repo root is published to GitHub Pages and the app polls it (Menu → 🔥 Check
+for new jobs, and ~daily on open). It is the best way to push new jobs without Ben doing anything.
+
+- Shape: `{ "_format": "pole-position-feed@1", "updated": "YYYY-MM-DD", "jobs": [ … ] }`.
+- Each job is the same object as a lead (§5 / §7) **plus a required, stable, unique `id`**.
+- **The `id` is the anti-duplicate key.** The app adds a job only if it hasn't seen that `id` — so
+  editing and re-publishing the feed never duplicates, and a job Ben deleted won't reappear. **Never
+  reuse an id for a different job, and never change an id once published.** Use a descriptive slug,
+  e.g. `feed-2026-07-amag-porsche-wallisellen`.
+- Set `hotness` on each feed job. Initial seed jobs reuse the app's `seed-lead-*` ids so they aren't
+  double-added on a fresh install.
+- To add jobs: append new objects with new ids and bump `updated`. To retire a job, you can leave it
+  (the app already imported it) — the feed is additive, not authoritative over Ben's board.
 
 ## 8. How it reaches Ben
 

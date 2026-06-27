@@ -153,7 +153,7 @@
     },
     lead: {
       new: "New lead", edit: "Lead",
-      company: "Company", role: "Role", link: "Job link", link_ph: "https://…", view_posting: "View posting",
+      company: "Company", role: "Role", link: "Job link", link_ph: "https://…", view_posting: "View posting", hotness: "Hotness",
       location: "Location", salary: "Salary / target", stage: "Stage", priority: "Priority (1–5)",
       fav: "★ Dream employer (prioritise)", next: "Next step", due: "Due", notes: "Notes",
       debriefs_h: "Interview debriefs", add_debrief: "+ Debrief",
@@ -183,10 +183,11 @@
     menu: {
       title: "Menu", language: "Language", theme: "Theme", goal: "Daily goal (actions)",
       export: "⬇ Export (JSON)", import: "⬆ Import", pair: "⇄ Devices & sync", install: "📲 Install app",
-      cleanup: "🧹 Clean up duplicates", check_updates: "⟳ Check for updates",
+      cleanup: "🧹 Clean up duplicates", check_jobs: "🔥 Check for new jobs", check_updates: "⟳ Check for updates",
       footer: "v{v} · Your data stays on your devices. No server, no login.",
     },
     themes: { drift: "JDM / Drift", porsche: "Porsche", amg: "Mercedes-AMG", mblue: "BMW M" },
+    hot: { hot: "Hot", medium: "Warm", normal: "Standard" },
     sync: {
       title: "Pair devices",
       intro: "Both devices online → live sync. Otherwise use the file export/import below.",
@@ -214,6 +215,7 @@
       connected_to: "Connected to {name} ✓", synced: "Devices synced ✓",
       device_added: "Device added ✓", device_forgotten: "Device removed",
       cleaned: "{n} duplicates merged", cleaned_none: "No duplicates found",
+      feed_added: "{n} new job(s) added 🔥", feed_none: "No new jobs right now.", feed_err: "Couldn't reach the jobs feed.",
     },
     confirm: {
       delete_task: "Delete this task? This cannot be undone.",
@@ -380,7 +382,7 @@
     },
     lead: {
       new: "Neuer Lead", edit: "Lead",
-      company: "Firma", role: "Rolle", link: "Link zur Stelle", link_ph: "https://…", view_posting: "Stelle ansehen",
+      company: "Firma", role: "Rolle", link: "Link zur Stelle", link_ph: "https://…", view_posting: "Stelle ansehen", hotness: "Hotness",
       location: "Ort", salary: "Lohn / Ziel", stage: "Stage", priority: "Priorität (1–5)",
       fav: "★ Wunsch-Arbeitgeber (priorisieren)", next: "Nächster Schritt", due: "Fällig", notes: "Notizen",
       debriefs_h: "Interview-Debriefs", add_debrief: "+ Debrief",
@@ -410,10 +412,11 @@
     menu: {
       title: "Menü", language: "Sprache", theme: "Theme", goal: "Tagesziel (Aktionen)",
       export: "⬇ Export (JSON)", import: "⬆ Import", pair: "⇄ Geräte & Sync", install: "📲 App installieren",
-      cleanup: "🧹 Duplikate bereinigen", check_updates: "⟳ Nach Updates suchen",
+      cleanup: "🧹 Duplikate bereinigen", check_jobs: "🔥 Neue Jobs prüfen", check_updates: "⟳ Nach Updates suchen",
       footer: "v{v} · Deine Daten bleiben auf deinen Geräten. Kein Server, kein Login.",
     },
     themes: { drift: "JDM / Drift", porsche: "Porsche", amg: "Mercedes-AMG", mblue: "BMW M" },
+    hot: { hot: "Hot", medium: "Warm", normal: "Standard" },
     sync: {
       title: "Geräte koppeln",
       intro: "Beide Geräte online → Live-Sync. Sonst Export/Import als Datei unten.",
@@ -441,6 +444,7 @@
       connected_to: "Verbunden mit {name} ✓", synced: "Geräte synchronisiert ✓",
       device_added: "Gerät hinzugefügt ✓", device_forgotten: "Gerät entfernt",
       cleaned: "{n} Duplikate zusammengeführt", cleaned_none: "Keine Duplikate gefunden",
+      feed_added: "{n} neue(r) Job(s) hinzugefügt 🔥", feed_none: "Aktuell keine neuen Jobs.", feed_err: "Job-Feed nicht erreichbar.",
     },
     confirm: {
       delete_task: "Diese Aufgabe löschen? Kann nicht rückgängig gemacht werden.",
