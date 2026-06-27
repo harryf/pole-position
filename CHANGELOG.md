@@ -3,6 +3,15 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.11.2 — 2026-06-27
+
+Adds the motorsport employers to the Guide → Employers directory, with locations.
+
+- **Motorsport & race teams section** in the Employers tab (EN + DE): Audi F1 / Sauber (Hinwil),
+  Emil Frey Racing (Safenwil), Sportec (Höri), Jenzer Motorsport (Lyss) and FACH Auto Tech (Sattel)
+  — each with a **📍 Google Maps link**. The Motorsport tab stays the full overview; the Employers
+  tab now also shows every one of these teams and where they are.
+
 ## v1.11.1 — 2026-06-27
 
 Hardens the new QR/link device pairing (follow-up to v1.11.0, from a code review).

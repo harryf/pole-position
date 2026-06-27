@@ -177,7 +177,17 @@
         <h4>Citroën</h4>
         <ul>
           <li><b>Auto Center Wiedikon</b> — Steinstr. 21, 8003 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Auto%20Center%20Wiedikon%20Steinstrasse%2021%208003%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
-        </ul>        <p class="muted tiny">Good to know: Thurgauerstr. 35 (Zürich-Nord) is the big Emil Frey campus — Kia, Opel &amp; Peugeot share it. The Schlieren strip clusters Mercedes, Porsche, Ford, Hyundai &amp; Tesla minutes apart. Public-fleet option: Kanton Zürich workshop, Urdorf (~12 min), on jobs.ch.</p>`,
+        </ul>
+        <h4>Motorsport &amp; race teams</h4>
+        <p class="muted tiny">The full story is in the Motorsport tab — here's where they are.</p>
+        <ul>
+          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Audi F1 / Sauber</b></a> — Hinwil, ~35 min — F1 factory, trainee race-mechanic track <a href="https://www.google.com/maps/search/?api=1&amp;query=Sauber%20Motorsport%20Wildbachstrasse%209%208340%20Hinwil" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Safenwil, AG, ~45 min — Ferrari 296 GT3 (DTM &amp; GTWC) <a href="https://www.google.com/maps/search/?api=1&amp;query=Emil%20Frey%20Racing%20Safenwil" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Höri, ~20 min — Porsche GT &amp; classics, no global travel <a href="https://www.google.com/maps/search/?api=1&amp;query=Sportec%20AG%20H%C3%B6ri%20ZH" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Jenzer Motorsport</b> — Lyss, BE — F4 single-seaters (EU passport / travel) <a href="https://www.google.com/maps/search/?api=1&amp;query=Jenzer%20Motorsport%20Lyss" target="_blank" rel="noopener">📍</a></li>
+          <li><b>FACH Auto Tech</b> — Sattel, SZ — Porsche Cup cars (EU passport / travel) <a href="https://www.google.com/maps/search/?api=1&amp;query=FACH%20Auto%20Tech%20Sattel%20SZ" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <p class="muted tiny">Good to know: Thurgauerstr. 35 (Zürich-Nord) is the big Emil Frey campus — Kia, Opel &amp; Peugeot share it. The Schlieren strip clusters Mercedes, Porsche, Ford, Hyundai &amp; Tesla minutes apart. Public-fleet option: Kanton Zürich workshop, Urdorf (~12 min), on jobs.ch.</p>`,
       career_html: `
         <h4>Where this trade can take you</h4>
         <p>The Swiss system is built to climb in steps. Pay rises fastest in the first five years (20–30%), then flattens if you stay purely on the tools — which is where these routes come in.</p>
@@ -484,7 +494,17 @@
         <h4>Citroën</h4>
         <ul>
           <li><b>Auto Center Wiedikon</b> — Steinstr. 21, 8003 Zürich <a href="https://www.google.com/maps/search/?api=1&amp;query=Auto%20Center%20Wiedikon%20Steinstrasse%2021%208003%20Z%C3%BCrich" target="_blank" rel="noopener">📍</a></li>
-        </ul>        <p class="muted tiny">Gut zu wissen: Thurgauerstr. 35 (Zürich-Nord) ist der grosse Emil-Frey-Campus — Kia, Opel &amp; Peugeot teilen ihn. Die Schlieren-Achse bündelt Mercedes, Porsche, Ford, Hyundai &amp; Tesla wenige Minuten auseinander. Option öffentlicher Fuhrpark: Werkstatt Kanton Zürich, Urdorf (~12 Min), auf jobs.ch.</p>`,
+        </ul>
+        <h4>Motorsport &amp; Rennteams</h4>
+        <p class="muted tiny">Die ganze Story steht im Tab Motorsport — hier, wo sie sind.</p>
+        <ul>
+          <li><a href="https://sauber-group.com/corporate/jobs" target="_blank" rel="noopener"><b>Audi F1 / Sauber</b></a> — Hinwil, ~35 Min — F1-Fabrik, Trainee-Rennmechaniker-Track <a href="https://www.google.com/maps/search/?api=1&amp;query=Sauber%20Motorsport%20Wildbachstrasse%209%208340%20Hinwil" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://emilfreyracing.com" target="_blank" rel="noopener"><b>Emil Frey Racing</b></a> — Safenwil, AG, ~45 Min — Ferrari 296 GT3 (DTM &amp; GTWC) <a href="https://www.google.com/maps/search/?api=1&amp;query=Emil%20Frey%20Racing%20Safenwil" target="_blank" rel="noopener">📍</a></li>
+          <li><a href="https://sportec.ch/de/jobs" target="_blank" rel="noopener"><b>Sportec AG</b></a> — Höri, ~20 Min — Porsche GT &amp; Classics, keine Weltreisen <a href="https://www.google.com/maps/search/?api=1&amp;query=Sportec%20AG%20H%C3%B6ri%20ZH" target="_blank" rel="noopener">📍</a></li>
+          <li><b>Jenzer Motorsport</b> — Lyss, BE — F4-Monoposto (EU-Pass / Reisen) <a href="https://www.google.com/maps/search/?api=1&amp;query=Jenzer%20Motorsport%20Lyss" target="_blank" rel="noopener">📍</a></li>
+          <li><b>FACH Auto Tech</b> — Sattel, SZ — Porsche-Cup-Fahrzeuge (EU-Pass / Reisen) <a href="https://www.google.com/maps/search/?api=1&amp;query=FACH%20Auto%20Tech%20Sattel%20SZ" target="_blank" rel="noopener">📍</a></li>
+        </ul>
+        <p class="muted tiny">Gut zu wissen: Thurgauerstr. 35 (Zürich-Nord) ist der grosse Emil-Frey-Campus — Kia, Opel &amp; Peugeot teilen ihn. Die Schlieren-Achse bündelt Mercedes, Porsche, Ford, Hyundai &amp; Tesla wenige Minuten auseinander. Option öffentlicher Fuhrpark: Werkstatt Kanton Zürich, Urdorf (~12 Min), auf jobs.ch.</p>`,
       career_html: `
         <h4>Wohin dich dieser Beruf bringen kann</h4>
         <p>Das Schweizer System ist auf Aufstieg in Etappen gebaut. Der Lohn steigt in den ersten fünf Jahren am schnellsten (20–30%), flacht dann ab, wenn du rein an den Tools bleibst — genau dafür gibt es diese Wege.</p>
