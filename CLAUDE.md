@@ -7,7 +7,9 @@ dad). Car/JDM-drift themed, gamified, syncs phone↔laptop, all data client-side
 - **Live:** https://harryf.github.io/pole-position/
 - **Repo:** `github.com/harryf/pole-position` (public) — Harry's account, `gh` authed as `harryf`.
 - **Spec / source of truth:** `ISA.md` (every feature is a numbered ISC with verification evidence).
-- **Current version:** 1.10.0.
+- **Updating jobs** (add new / retire dead): process in `prompt/job-feed-maintenance.md`;
+  research + link-verification rules in `prompt/job-search.md`.
+- **Current version:** 1.11.4.
 
 ## Architecture (don't fight it)
 
