@@ -6,7 +6,7 @@
    ========================================================================= */
 
 // Bump on every release. MUST match the in-app APP_VERSION constant in index.html.
-const VERSION = "1.11.3";
+const VERSION = "1.11.4";
 const CACHE = "pole-position-v" + VERSION;
 
 // Let the page force a waiting worker to activate ("Check for updates" button).

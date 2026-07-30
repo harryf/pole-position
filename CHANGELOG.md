@@ -3,6 +3,22 @@
 All notable changes to Pole Position. Versions are git-tagged `v*`; a tag cuts a GitHub Release.
 The `VERSION` constant in `service-worker.js` and `APP_VERSION` in `index.html` must match the tag.
 
+## v1.11.4 — 2026-07-30
+
+Removes dead job leads from the first-install seed and repoints stale motorsport links.
+(Follows the 2026-07-30 feed refresh that added 22 new verified leads to `jobs-feed.json`.)
+
+- **Removed from seed + feed + import example** (postings closed, verified HTTP 410):
+  Merbag Zollikon (Fachmann/Mechatroniker) and Emil Frey Dübendorf (Fachmann/Mechatroniker).
+- **Repointed stale links** (ads dead, employer pages live): Sauber F1 → `audif1.com/en/careers`
+  (careers site moved; trainee programme closed, expected back for the 2027 intake) and
+  Emil Frey Racing → `emilfreyracing.com` (no open positions; speculative application remains
+  the route). Notes updated to say so.
+- **Existing installs are unaffected** by seed changes (seed runs only on first install) — Ben
+  should delete the two dead cards from his board by hand.
+- Test: the seed↔feed anti-duplicate contract now applies to `seed-*` ids only (feed-native
+  `feed-*` ids are additive by design).
+
 ## v1.11.3 — 2026-06-27
 
 Makes device pairing actually connect across real devices — and never fail silently.

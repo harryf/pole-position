@@ -48,16 +48,16 @@
       "id": "seed-lead-sauber-f1",
       "company": "Sauber / Audi F1 — Hinwil",
       "role": "Trainee / Future Race Team Mechanic (Car Assembly)",
-      "link": "https://talents.studysmarter.de/companies/sauber-motorsport-ag/trainee-future-race-team-mechanic-car-assembly-19710362/",
+      "link": "https://www.audif1.com/en/careers",
       "location": "Hinwil, ZH — ~35 Min",
       "salary": "CHF 5'000–5'500 / Mt (Einstieg)",
-      "source": "sauber-group.com",
+      "source": "audif1.com",
       "favourite": true,
       "priority": 5,
       "hotness": "hot",
       "stage": "researching",
-      "nextAction": "Diese Woche bewerben — F1 rekrutiert vor August",
-      "notes": "Formel 1 vor der Haustür, fast perfekter Fit für Einsteiger. Siehe Guide → Motorsport."
+      "nextAction": "audif1.com/en/careers periodisch prüfen (Trainee-Intake 2027)",
+      "notes": "Formel 1 vor der Haustür. Trainee-Programm aktuell zu (Stand 07/2026) — kommt erfahrungsgemäss für 2027 wieder. Karriereseite neu: audif1.com. Siehe Guide → Motorsport."
     },
     {
       "id": "seed-lead-sportec",
@@ -74,20 +74,6 @@
       "nextAction": "Bewerben VOR Frist 13. Juli 2026",
       "nextDue": "2026-07-12",
       "notes": "Porsche/Audi + eigene Motorsport- & Classic-Abteilung. Frist 13.07.2026!"
-    },
-    {
-      "id": "seed-lead-emilfrey-zh",
-      "company": "Emil Frey — Dübendorf",
-      "role": "Automobil-Fachmann/-frau / Automobil-Mechatroniker/-in",
-      "link": "https://jobs.emilfrey.ch/Automobil-Fachmann-frau-Automobil-Mechatroniker-in-de-j2050.html",
-      "location": "Dübendorf — ~12 Min",
-      "source": "Emil Frey careers",
-      "favourite": false,
-      "priority": 3,
-      "hotness": "normal",
-      "stage": "researching",
-      "nextAction": "Offene Stelle prüfen + bewerben",
-      "notes": "Multi-Brand. Aktuell offene Stelle."
     },
     {
       "id": "seed-lead-emilfrey-diag",
@@ -178,7 +164,7 @@
       "id": "seed-lead-emilfreyracing",
       "company": "Emil Frey Racing",
       "role": "No. 2 Mechanic (Rennmechaniker) — Ferrari 296 GT3",
-      "link": "https://talents.studysmarter.de/companies/emil-frey-racing/no-2-mechanic-23022473/",
+      "link": "https://emilfreyracing.com",
       "location": "Safenwil, AG — ~45 Min",
       "salary": "€42k–60k (CHF-äquiv.)",
       "source": "emilfreyracing.com",
@@ -187,22 +173,7 @@
       "hotness": "hot",
       "stage": "researching",
       "nextAction": "Spontanbewerbung — AMG + Getriebe-Erfahrung betonen",
-      "notes": "GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt."
-    },
-    {
-      "id": "seed-lead-merbag-zollikon",
-      "company": "Merbag — Zollikon",
-      "role": "Automobil-Fachmann/-Mechatroniker 100% (m/w)",
-      "link": "https://jobs.merbag.com/Automobil-Fachmann-Mechatroniker-100-mw-de-j843.html",
-      "location": "Zollikon, ZH — ~12 Min",
-      "salary": "CHF 5'300–5'800 / Mt (Ziel)",
-      "source": "Merbag careers",
-      "favourite": true,
-      "priority": 5,
-      "hotness": "medium",
-      "stage": "researching",
-      "nextAction": "Intern bewerben — mit Herr Gut, PW-Fokus + AMG/HV betonen",
-      "notes": "Heimmarke, geringste Reibung. Personenwagen — bester Fit. Hebel: AMG + HV/EV + Merbag-Referenz."
+      "notes": "GT3 in DTM & GTWC. AMG-Motoren + Handschaltgetriebe übertragen sich direkt. Aktuell keine offenen Positionen (Stand 07/2026) — Spontanbewerbung bleibt der Weg."
     },
     {
       "id": "seed-lead-merbag-diag-schlieren",
