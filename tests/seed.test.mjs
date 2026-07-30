@@ -61,7 +61,9 @@ ok("contact helpsWith only references real lead ids", contacts.every(c => (c.hel
 // --- extraction guard: seed lead ids still match the jobs-feed ids ---
 let feedIds = [];
 try { feedIds = (JSON.parse(readFileSync(join(root, "jobs-feed.json"), "utf8")).jobs || []).map(j => j.id); } catch {}
-ok("every jobs-feed id has a matching seed lead (anti-duplicate contract)", feedIds.length > 0 && feedIds.every(id => leadIds.has(id)));
+// Feed-native jobs (feed-* ids) are additive by design; only seed-* ids must line up.
+const seedFeedIds = feedIds.filter(id => typeof id === "string" && id.startsWith("seed-"));
+ok("every seed-* jobs-feed id has a matching seed lead (anti-duplicate contract)", seedFeedIds.length > 0 && seedFeedIds.every(id => leadIds.has(id)));
 
 console.log("seed:");
 for (const line of out) console.log(line);
