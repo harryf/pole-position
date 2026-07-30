@@ -60,7 +60,7 @@ Stay-with-Mercedes (lowest friction) — **CHECK FIRST**:
 - **Merbag** (current employer — internal move; where Ben trained) — own portal `https://jobs.merbag.com` (server-rendered, deep-link pattern `…-de-jNNN.html`; also `https://www.jobs.ch/de/stellenangebote/?term=merbag`). Filter to Zürich-area sites (Zürich-Nord, Zürich-Seefeld, Schlieren, Zollikon). Ask **Herr Gut** about internal openings — an internal move beats a cold application. Roles split PW / Nutzfahrzeuge / Lastwagen — prefer Personenwagen + Diagnostiker, but list all near sites.
 
 Motorsport:
-- **Sauber / Audi F1** (Formula One factory, Hinwil) — `https://sauber-group.com/corporate/jobs` — Trainee / Future Race Team Mechanic (Car Assembly / Sub-Assembly) is the career-starter track.
+- **Sauber / Audi F1** (Formula One factory, Hinwil) — `https://www.audif1.com/en/careers` (the old `sauber-group.com/jobs/*` URLs now 301 to audif1.com; the page is a Next.js SPA but the full Personio job list is inline in the HTML) — Trainee / Future Race Team Mechanic (Car Assembly / Sub-Assembly) is the career-starter track; closed as of 2026-07, expected to recur for the 2027 intake.
 - **Emil Frey Racing** (Ferrari 296 GT3, DTM/GTWC, Safenwil) — `https://emilfreyracing.com` — speculative/No.2 Mechanic.
 - (Also: FACH Auto Tech — Sattel SZ; Jenzer Motorsport — Lyss BE, F4.)
 
@@ -69,7 +69,8 @@ Independent garages within ~30 min:
 - **Seegarage Müller AG** — Horgen — `https://www.seegarage-jobs.ch/`.
 - **Karl Graf Automobile AG** — Mettmenstetten — `https://grafauto.ch/uber-uns/offene-stellen-jobs` (posts ads as PDFs).
 - **Kanton Zürich** vehicle fleet — Urdorf — `https://www.zh.ch/de/arbeiten-kanton-zuerich/offene-stellen.html` (public sector; intermittent).
-- Also worth a look: **Kessel AG** (Ferrari/Maserati, Volketswil).
+- Also worth a look: **Kessel Auto Zug AG** (Ferrari/Maserati — relocated 2026-07 from Volketswil to a new building in Sihlbrugg/Baar ZG; posts on jobs.ch).
+- **Schmohl AG** (Bentley/Bugatti/McLaren/Rimac/Rolls-Royce, Glattbrugg) — posts on jobs.ch; premium-sport dream tier.
 
 ### 3c. Official brand garages — full Zürich directory (check each brand)
 
@@ -167,6 +168,14 @@ search-results page is **NOT acceptable** (this was an explicit correction from 
 
 **Anti-goals:** never ship a portal homepage / search URL as a job link; never invent a URL; never
 machine-translate the German role title; never claim a posting is live without seeing it render.
+
+**Portal cheat-sheet (verified 2026-07-30, curl-friendly unless noted):** full job indexes live at
+`jobs.merbag.com/stellenangebote.html` (single page; `(m/w)` = CH, `(m/w/d)` = Luxembourg — always
+read the detail page's JSON-LD `jobLocation`), `jobs.emilfrey.ch/stellenangebote.html?start=0/25/50`,
+`jobs.amag-group.ch/stellenangebote.html?start=0/100` (list-page locations are offset by one row —
+trust only the detail page's JSON-LD; `validThrough` = application deadline). jobs.ch has a public
+JSON search API behind the normal search URLs. **403-blocked to curl/WebFetch (need a real
+browser):** tesla.com (+ its cua-api), jobagent.ch, auto-stellen.ch, mechaniker-jobs.ch.
 
 ## 7. Output format — `pole-position-import@1`
 
